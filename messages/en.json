@@ -1,0 +1,59 @@
+{
+  "Portfolio": {
+    "navWork": "Selected work",
+    "work": {
+      "title": "Real products, built from end to end.",
+      "body": "A selection of products I design and build end to end, from strategy and experience through technology and launch."
+    },
+    "intro": {
+      "title": "Software that grows\nwith your vision.",
+      "body": "End-to-end digital product workshop: from understanding the problem and refining the idea to designing, building and launching a solution that is ready to grow."
+    },
+    "openProject": "Open project",
+    "contactAction": "Get in touch",
+    "themeToggle": "Toggle theme",
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu",
+      "label": "Sections",
+      "home": "Home",
+      "work": "Work",
+      "about": "Studio",
+      "contact": "Contact"
+    },
+    "scrollbar": "Page position",
+    "about": {
+      "title": "From problem to product, guided by judgment.",
+      "paragraphOne": "I’m Bas Bravo, creator and development lead at Basezero, an independent digital product workshop. I work directly with you to understand the problem, refine the idea and turn it into a real solution. I cover the complete journey: strategy, concept, design, experience, technology and launch.",
+      "paragraphTwo": "AI runs through the entire process: it accelerates exploration, design, development, testing and evolution. But moving fast is not enough. My experience brings the judgment needed to decide what to build, what to leave out and how to create a foundation that can grow without oversizing the product.",
+      "paragraphThree": "I want to work with people who have a clear idea—or a specific problem—trust an open process and take part in the decisions. The goal is to reach a real, useful product early and keep it ready to evolve."
+    },
+    "farewell": {
+      "title": "Your next product can start here.",
+      "body": "If you have a defined challenge or an idea that needs direction, we can turn it into a useful, viable product that is ready to grow."
+    },
+    "processLabel": "Product process",
+    "processSteps": {
+      "understand": {
+        "title": "Define the challenge",
+        "body": "We clarify the objective, context, users and constraints to establish a shared framework for product decisions."
+      },
+      "shape": {
+        "title": "Design the direction",
+        "body": "I turn that framework into a product proposal: scope, architecture, experience and visual identity, with explicit priorities."
+      },
+      "launch": {
+        "title": "Build the product",
+        "body": "I design and develop a functional, integrated and deployed first version so decisions can be validated against a real product."
+      },
+      "learn": {
+        "title": "Validate with evidence",
+        "body": "We assess the solution with the business and its users. What we learn becomes concrete decisions and priorities for the next iteration."
+      },
+      "grow": {
+        "title": "Evolve with purpose",
+        "body": "We improve a solid foundation, applying design, technology and AI where they add value while avoiding unnecessary complexity."
+      }
+    }
+  }
+}

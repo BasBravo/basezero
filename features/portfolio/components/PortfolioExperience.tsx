@@ -1,0 +1,201 @@
+'use client';
+
+import { ArrowUpRight, Moon, Sun } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+import { BotanicalField } from './BotanicalField';
+import { ColumnMenuPanel, ColumnMenuToggle } from './ColumnMenu';
+import { FadeInTitle } from './FadeInTitle';
+import { GrowthNarrative } from './GrowthNarrative';
+import { PortfolioScrollbar } from './PortfolioScrollbar';
+import { TerminalAbout } from './TerminalAbout';
+import styles from './portfolio.module.css';
+
+export type PortfolioProject = {
+    id: string;
+    name: string;
+    description: string;
+    discipline: string;
+    year: string;
+    url: string;
+};
+
+export type PortfolioCopy = {
+    locale: string;
+    navWork: string;
+    workTitle: string;
+    workBody: string;
+    introTitle: string;
+    introBody: string;
+    openProject: string;
+    contactAction: string;
+    themeToggle: string;
+    menuOpen: string;
+    menuClose: string;
+    menuLabel: string;
+    menuHome: string;
+    menuWork: string;
+    menuAbout: string;
+    menuContact: string;
+    scrollbar: string;
+    aboutTitle: string;
+    aboutParagraphs: string[];
+    farewellTitle: string;
+    farewellBody: string;
+    processLabel: string;
+    processSteps: Array<{
+        number: string;
+        title: string;
+        body: string;
+    }>;
+};
+
+type PortfolioExperienceProps = {
+    copy: PortfolioCopy;
+    projects: PortfolioProject[];
+};
+
+export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps) {
+    const [activeProject, setActiveProject] = useState(-1);
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+        const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = nextTheme;
+        document.documentElement.style.colorScheme = nextTheme;
+        try {
+            window.localStorage.setItem('basezero-theme', nextTheme);
+        } catch {
+            // The visual preference still applies for the current session.
+        }
+    }
+
+    return (
+        <div className={styles.siteShell} data-menu-open={menuOpen ? 'true' : undefined}>
+            <a href="#content" className={styles.skipLink}>
+                {copy.locale === 'es' ? 'Saltar al contenido' : 'Skip to content'}
+            </a>
+
+            <PortfolioScrollbar label={copy.scrollbar} />
+
+            <aside className={styles.sidebar} aria-label="Basezero">
+                <header className={styles.sidebarHeader}>
+                    <a href={`/${copy.locale}#top`} className={styles.brand} aria-label="Basezero — Home">
+                        <Image
+                            className={styles.brandFull}
+                            src="/logotipo.svg"
+                            alt=""
+                            width={538}
+                            height={92}
+                            priority
+                        />
+                    </a>
+                    <div className={styles.sidebarActions}>
+                        <button
+                            className={styles.themeToggle}
+                            type="button"
+                            onClick={toggleTheme}
+                            aria-label={copy.themeToggle}
+                        >
+                            <Sun className={styles.themeIconLight} aria-hidden="true" strokeWidth={1.5} />
+                            <Moon className={styles.themeIconDark} aria-hidden="true" strokeWidth={1.5} />
+                        </button>
+                        <ColumnMenuToggle
+                            open={menuOpen}
+                            openLabel={copy.menuOpen}
+                            closeLabel={copy.menuClose}
+                            onToggle={() => setMenuOpen((current) => !current)}
+                        />
+                    </div>
+                </header>
+                <div className={styles.sidebarTop}>
+                    <ColumnMenuPanel
+                        open={menuOpen}
+                        label={copy.menuLabel}
+                        items={[
+                            { href: '#top', label: copy.menuHome },
+                            { href: '#work', label: copy.menuWork },
+                            { href: '#about', label: copy.menuAbout },
+                            { href: '#contact', label: copy.menuContact },
+                        ]}
+                        onNavigate={() => setMenuOpen(false)}
+                    />
+                </div>
+                <div className={styles.sidebarBottom}>
+                    <a
+                        className={styles.socialLink}
+                        href="https://x.com/basbravo_"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        @basbravo
+                    </a>
+                    <a className={styles.contactAction} href="mailto:hello@basezero.dev">
+                        <span>{copy.contactAction}</span>
+                        <ArrowUpRight aria-hidden="true" strokeWidth={1.5} />
+                    </a>
+                </div>
+            </aside>
+
+            <main id="content" className={styles.contentColumn}>
+                <section id="growth" className={styles.growthSection}>
+                    <GrowthNarrative
+                        introTitle={copy.introTitle}
+                        introBody={copy.introBody}
+                        processLabel={copy.processLabel}
+                        processSteps={copy.processSteps}
+                    />
+                    <BotanicalField activeProject={activeProject} />
+                    <div id="top" className={styles.stickyStage} />
+                </section>
+
+                <section id="work" className={styles.workSection}>
+                    <header className={styles.workIntro}>
+                        <FadeInTitle className={styles.projectsTitle}>{copy.workTitle}</FadeInTitle>
+                        <p className={styles.projectsBody}>{copy.workBody}</p>
+                    </header>
+                    <ol className={styles.projectList} aria-label={copy.navWork}>
+                        {projects.map((project, index) => (
+                            <li key={project.id}>
+                                <a
+                                    href={project.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className={styles.project}
+                                    aria-label={`${copy.openProject}: ${project.name}`}
+                                    onPointerEnter={() => setActiveProject(index)}
+                                    onPointerLeave={() => setActiveProject(-1)}
+                                    onFocus={() => setActiveProject(index)}
+                                    onBlur={() => setActiveProject(-1)}
+                                >
+                                    <span className={styles.projectNumber} aria-hidden="true">
+                                        {String(index + 1).padStart(2, '0')}
+                                    </span>
+                                    <span className={styles.projectName}>{project.name}</span>
+                                    <span className={styles.projectDescription}>{project.description}</span>
+                                    <span className={styles.projectMeta}>{project.discipline} · {project.year}</span>
+                                    <ArrowUpRight className={styles.projectArrow} aria-hidden="true" strokeWidth={1.5} />
+                                </a>
+                            </li>
+                        ))}
+                    </ol>
+
+                    <TerminalAbout
+                        title={copy.aboutTitle}
+                        paragraphs={copy.aboutParagraphs}
+                    />
+
+                    <section id="contact" className={styles.farewellSection}>
+                        <FadeInTitle className={styles.farewellTitle}>{copy.farewellTitle}</FadeInTitle>
+                        <p className={styles.farewellBody}>{copy.farewellBody}</p>
+                        <a className={styles.farewellAction} href="mailto:hello@basezero.dev">
+                            <span>{copy.contactAction}</span>
+                            <ArrowUpRight aria-hidden="true" strokeWidth={1.5} />
+                        </a>
+                    </section>
+                </section>
+            </main>
+        </div>
+    );
+}

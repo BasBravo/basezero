@@ -1,0 +1,59 @@
+{
+  "Portfolio": {
+    "navWork": "Proyectos",
+    "work": {
+      "title": "Productos reales, construidos de principio a fin.",
+      "body": "Una selección de productos que diseño y desarrollo de principio a fin, desde la estrategia y la experiencia hasta la tecnología y el lanzamiento."
+    },
+    "intro": {
+      "title": "Software que crece\ncon tu visión.",
+      "body": "Taller de productos digitales de principio a fin: desde entender el problema y ajustar la idea hasta diseñar, construir y poner en marcha una solución capaz de crecer."
+    },
+    "openProject": "Abrir proyecto",
+    "contactAction": "Solicitar contacto",
+    "themeToggle": "Cambiar tema",
+    "menu": {
+      "open": "Abrir menú",
+      "close": "Cerrar menú",
+      "label": "Secciones",
+      "home": "Inicio",
+      "work": "Proyectos",
+      "about": "Taller",
+      "contact": "Contacto"
+    },
+    "scrollbar": "Posición de la página",
+    "about": {
+      "title": "Del problema al producto, con criterio.",
+      "paragraphOne": "Soy Bas Bravo, creador y responsable de desarrollo de Basezero, un taller independiente de producto digital. Trabajo directamente contigo para entender el problema, afinar la idea y convertirla en una solución real. Me ocupo del recorrido completo: estrategia, concepto, diseño, experiencia, tecnología y puesta en marcha.",
+      "paragraphTwo": "La IA atraviesa todo el proceso: acelera la exploración, el diseño, el desarrollo, las pruebas y la evolución. Pero avanzar rápido no es suficiente. Mi experiencia aporta el criterio para decidir qué construir, qué dejar fuera y cómo crear una base capaz de crecer sin sobredimensionar el producto.",
+      "paragraphThree": "Me interesa trabajar con personas que tienen una idea clara —o un problema concreto—, confían en un proceso abierto y participan en las decisiones. El objetivo es llegar pronto a un producto real, útil y preparado para evolucionar."
+    },
+    "farewell": {
+      "title": "Tu próximo producto puede empezar aquí.",
+      "body": "Si tienes un reto definido o una idea que necesita dirección, podemos convertirla en un producto útil, viable y preparado para crecer."
+    },
+    "processLabel": "Proceso de producto",
+    "processSteps": {
+      "understand": {
+        "title": "Definir el reto",
+        "body": "Clarificamos el objetivo, el contexto, las personas usuarias y las restricciones para establecer un marco de decisión compartido."
+      },
+      "shape": {
+        "title": "Diseñar la dirección",
+        "body": "Convierto ese marco en una propuesta de producto: alcance, arquitectura, experiencia e identidad visual, con prioridades explícitas."
+      },
+      "launch": {
+        "title": "Construir el producto",
+        "body": "Diseño y desarrollo una primera versión funcional, integrada y desplegada para validar decisiones sobre un producto real."
+      },
+      "learn": {
+        "title": "Validar con evidencia",
+        "body": "Contrastamos la solución con negocio y usuarios. Lo aprendido se traduce en decisiones y prioridades concretas para la siguiente iteración."
+      },
+      "grow": {
+        "title": "Evolucionar con criterio",
+        "body": "Mejoramos sobre una base sólida, incorporando diseño, tecnología e IA donde aportan valor y evitando complejidad innecesaria."
+      }
+    }
+  }
+}

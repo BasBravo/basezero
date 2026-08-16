@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js / build
+.next/
+out/
+coverage/
+*.tsbuildinfo
+*.log
+.DS_Store
+
+# Los valores reales nunca se versionan.
+.env
+.env.*
+!.env.example
+
+# Firebase local cache and debug logs
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+ui-debug.log
+
+# Credentials and private keys
+*.pem
+*.key
+*.p12
+*serviceAccount*.json
+google-services.json
+GoogleService-Info.plist
+
+# Local design iterations (not source)
+artifacts/
+screenshots/
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
