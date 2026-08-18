@@ -38,6 +38,7 @@ export function GrowthNarrative({
 }: GrowthNarrativeProps) {
     const overlayRef = useRef<HTMLDivElement>(null);
     const introCtaRef = useRef<HTMLAnchorElement>(null);
+    const introBodyRef = useRef<HTMLParagraphElement>(null);
     const stageRefs = useRef<Array<HTMLLIElement | null>>([]);
     const bodyRefs = useRef<Array<HTMLSpanElement | null>>([]);
     const bodyRestRefs = useRef<Array<HTMLSpanElement | null>>([]);
@@ -140,6 +141,17 @@ export function GrowthNarrative({
                 if (isTyping) typingIsRunning = true;
             });
 
+            if (activeStage === 0) {
+                const introCta = introCtaRef.current;
+                const introBody = introBodyRef.current;
+                if (introCta && introBody) {
+                    const bodyRect = introBody.getBoundingClientRect();
+                    const gap = window.innerWidth <= 800 ? 18 : 22;
+                    introCta.style.top = `${Math.round(bodyRect.bottom + gap)}px`;
+                    introCta.style.left = `${Math.round(bodyRect.left)}px`;
+                }
+            }
+
             if (typingIsRunning || Math.abs(progress - targetProgress) > 0.001) queueFrame();
         }
 
@@ -169,7 +181,12 @@ export function GrowthNarrative({
                             <div className={styles.processStageTitle}>
                                 {item.title}
                             </div>
-                            <p className={styles.processStageBody}>
+                            <p
+                                ref={(node) => {
+                                    if (index === 0) introBodyRef.current = node;
+                                }}
+                                className={styles.processStageBody}
+                            >
                                 <span ref={(node) => { bodyRefs.current[index] = node; }} />
                                 <span
                                     ref={(node) => { bodyCursorRefs.current[index] = node; }}

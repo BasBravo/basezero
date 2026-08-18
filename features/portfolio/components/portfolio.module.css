@@ -156,8 +156,8 @@
 .introScrollCta {
     position: fixed;
     z-index: 5;
-    top: calc(50% + clamp(8.5rem, 10.5vw, 11rem));
-    left: var(--sidebar-pad-x);
+    top: 0;
+    left: 0;
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
@@ -291,8 +291,8 @@
     position: relative;
     z-index: 1;
     display: inline-flex;
-    width: 1.4rem;
-    height: 1.4rem;
+    width: 1.8rem;
+    height: 1.8rem;
     align-items: center;
     justify-content: center;
     padding: 0;
@@ -301,20 +301,6 @@
     color: var(--ink);
     cursor: pointer;
 }
-
-.languageSwitch {
-    display: inline-flex;
-    height: 1.4rem;
-    align-items: center;
-    color: var(--muted);
-    font-size: 0.62rem;
-    font-weight: 650;
-    letter-spacing: 0.08em;
-    line-height: 1;
-    text-decoration: none;
-}
-
-.languageSwitch:hover { color: var(--ink); }
 
 .sidebarActions {
     display: flex;
@@ -328,8 +314,8 @@
 
 .themeToggle svg,
 .menuToggle svg {
-    width: 0.95rem;
-    height: 0.95rem;
+    width: 1.1rem;
+    height: 1.1rem;
 }
 
 .themeIconLight { display: none; }
@@ -352,7 +338,6 @@
 
 .brand:focus-visible,
 .socialLink:focus-visible,
-.languageSwitch:focus-visible,
 .themeToggle:focus-visible,
 .menuToggle:focus-visible,
 .columnMenuLink:focus-visible,
@@ -973,9 +958,19 @@
     }
 
     .introScrollCta {
-        top: clamp(25rem, 55svh, 29rem);
-        left: var(--mobile-edge-x);
         font-size: 0.64rem;
+    }
+
+    .themeToggle,
+    .menuToggle {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .themeToggle svg,
+    .menuToggle svg {
+        width: 1.35rem;
+        height: 1.35rem;
     }
 
     .scrollbar {

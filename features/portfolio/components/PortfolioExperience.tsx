@@ -25,7 +25,6 @@ export type PortfolioCopy = {
     openProject: string;
     contactAction: string;
     themeToggle: string;
-    languageSwitch: string;
     menuOpen: string;
     menuClose: string;
     menuLabel: string;
@@ -69,7 +68,6 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
     const [activeProject, setActiveProject] = useState(-1);
     const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
-    const alternateLocale = copy.locale === 'es' ? 'en' : 'es';
 
     function toggleTheme() {
         const currentTheme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
@@ -104,18 +102,6 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                         />
                     </a>
                     <div className={styles.sidebarActions}>
-                        <a
-                            className={styles.languageSwitch}
-                            href={`/${alternateLocale}`}
-                            hrefLang={alternateLocale}
-                            lang={alternateLocale}
-                            aria-label={copy.languageSwitch}
-                            onClick={() => {
-                                document.cookie = `NEXT_LOCALE=${alternateLocale}; Max-Age=31536000; Path=/; SameSite=Lax`;
-                            }}
-                        >
-                            {alternateLocale.toUpperCase()}
-                        </a>
                         <button
                             className={styles.themeToggle}
                             type="button"

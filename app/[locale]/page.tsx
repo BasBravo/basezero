@@ -18,7 +18,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         openProject: t('openProject'),
         contactAction: t('contactAction'),
         themeToggle: t('themeToggle'),
-        languageSwitch: t('languageSwitch'),
         menuOpen: t('menu.open'),
         menuClose: t('menu.close'),
         menuLabel: t('menu.label'),
