@@ -3,15 +3,17 @@
     "navWork": "Selected work",
     "work": {
       "title": "Real products, built from end to end.",
-      "body": "A selection of products I design and build end to end, from strategy and experience through technology and launch."
+      "body": "A selection of products I have shaped, designed, built and taken to production. Open any project to learn about the challenge and my contribution."
     },
     "intro": {
-      "title": "Software that grows\nwith your vision.",
-      "body": "End-to-end digital product workshop: from understanding the problem and refining the idea to designing, building and launching a solution that is ready to grow."
+      "title": "From an idea or problem\nto a real digital product.",
+      "body": "I work directly with founders and teams to define, design and build MVPs, platforms and web tools from scratch, from strategy through launch.",
+      "viewWork": "View projects"
     },
-    "openProject": "Open project",
-    "contactAction": "Get in touch",
+    "openProject": "Explore project",
+    "contactAction": "Tell me about your project",
     "themeToggle": "Toggle theme",
+    "languageSwitch": "View site in Spanish",
     "menu": {
       "open": "Open menu",
       "close": "Close menu",
@@ -23,20 +25,45 @@
     },
     "scrollbar": "Page position",
     "about": {
-      "title": "From problem to product, guided by judgment.",
-      "paragraphOne": "I’m Bas Bravo, creator and development lead at Basezero, an independent digital product workshop. I work directly with you to understand the problem, refine the idea and turn it into a real solution. I cover the complete journey: strategy, concept, design, experience, technology and launch.",
-      "paragraphTwo": "AI runs through the entire process: it accelerates exploration, design, development, testing and evolution. But moving fast is not enough. My experience brings the judgment needed to decide what to build, what to leave out and how to create a foundation that can grow without oversizing the product.",
-      "paragraphThree": "I want to work with people who have a clear idea—or a specific problem—trust an open process and take part in the decisions. The goal is to reach a real, useful product early and keep it ready to evolve."
+      "title": "An independent studio. One owner from start to finish.",
+      "paragraphOne": "I’m Bas Bravo, a product designer and developer. Basezero is my independent studio: I work directly with you to understand the problem, refine the idea and turn it into a production-ready solution. I own the complete journey, from strategy and experience through technology and launch.",
+      "paragraphTwo": "I integrate AI throughout exploration, design, development, testing and product evolution. Moving fast is not enough: my experience brings the judgment needed to decide what to build, what to leave out and how to create a solid foundation without unnecessary complexity.",
+      "paragraphThree": "I work best with founders and teams who have a clear idea—or a specific problem—trust an open process and take part in the decisions. The goal is to put a useful first version in front of real people early and learn from it."
+    },
+    "services": {
+      "label": "How I can help",
+      "title": "When you need to turn direction into product.",
+      "body": "Engagements focused on creating a useful first version or evolving a foundation that has already proved its value.",
+      "launch": {
+        "title": "Launch a product from scratch",
+        "body": "We define the scope and I turn it into a functional, integrated MVP that is ready to validate."
+      },
+      "transform": {
+        "title": "Turn a process into a tool",
+        "body": "I design a platform or application that simplifies an operation and fits the team’s real workflow."
+      },
+      "evolve": {
+        "title": "Evolve an MVP",
+        "body": "I review product, experience and technology to prepare the next stage without rebuilding more than necessary."
+      }
     },
     "farewell": {
-      "title": "Your next product can start here.",
-      "body": "If you have a defined challenge or an idea that needs direction, we can turn it into a useful, viable product that is ready to grow."
+      "title": "Let’s talk about what you want to build.",
+      "body": "Tell me what you want to achieve, where the project stands and whether you have a target date. I’ll reply personally so we can decide if we are a good fit.",
+      "emailLabel": "Or email me directly at"
+    },
+    "projectDialog": {
+      "close": "Close project",
+      "challenge": "The challenge",
+      "solution": "The solution",
+      "contribution": "My contribution",
+      "visit": "Open live product"
     },
     "processLabel": "Product process",
     "processSteps": {
       "understand": {
         "title": "Define the challenge",
-        "body": "We clarify the objective, context, users and constraints to establish a shared framework for product decisions."
+        "body": "Together we define the objective, context, users and constraints to establish a shared framework for product decisions."
       },
       "shape": {
         "title": "Design the direction",
@@ -48,7 +75,7 @@
       },
       "learn": {
         "title": "Validate with evidence",
-        "body": "We assess the solution with the business and its users. What we learn becomes concrete decisions and priorities for the next iteration."
+        "body": "We validate the solution with the business and its users. What we learn becomes concrete decisions and priorities for the next iteration."
       },
       "grow": {
         "title": "Evolve with purpose",

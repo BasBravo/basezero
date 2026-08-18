@@ -7,7 +7,7 @@ import { ColumnMenuPanel, ColumnMenuToggle } from './ColumnMenu';
 const items = [
     { href: '#top', label: 'Inicio' },
     { href: '#work', label: 'Proyectos' },
-    { href: '#about', label: 'Taller' },
+    { href: '#about', label: 'Estudio' },
     { href: '#contact', label: 'Contacto' },
 ];
 
@@ -52,7 +52,7 @@ describe('ColumnMenu', () => {
         render(<MenuHarness />);
 
         await user.click(screen.getByRole('button', { name: 'Abrir menú' }));
-        await user.click(screen.getByRole('link', { name: 'Taller' }));
+        await user.click(screen.getByRole('link', { name: 'Estudio' }));
 
         expect(screen.getByRole('button', { name: 'Abrir menú' })).toHaveAttribute('aria-expanded', 'false');
         expect(screen.queryByRole('navigation', { name: 'Secciones' })).toBeNull();

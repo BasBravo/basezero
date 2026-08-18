@@ -3,40 +3,67 @@
     "navWork": "Proyectos",
     "work": {
       "title": "Productos reales, construidos de principio a fin.",
-      "body": "Una selección de productos que diseño y desarrollo de principio a fin, desde la estrategia y la experiencia hasta la tecnología y el lanzamiento."
+      "body": "Una selección de productos que he definido, diseñado, desarrollado y llevado a producción. Abre cada proyecto para conocer el reto y mi aportación."
     },
     "intro": {
-      "title": "Software que crece\ncon tu visión.",
-      "body": "Taller de productos digitales de principio a fin: desde entender el problema y ajustar la idea hasta diseñar, construir y poner en marcha una solución capaz de crecer."
+      "title": "De una idea o problema\na un producto digital real.",
+      "body": "Trabajo directamente con fundadores y equipos para definir, diseñar y desarrollar MVPs, plataformas y herramientas web desde cero, de la estrategia al lanzamiento.",
+      "viewWork": "Ver proyectos"
     },
-    "openProject": "Abrir proyecto",
-    "contactAction": "Solicitar contacto",
+    "openProject": "Conocer el proyecto",
+    "contactAction": "Cuéntame tu proyecto",
     "themeToggle": "Cambiar tema",
+    "languageSwitch": "Ver sitio en inglés",
     "menu": {
       "open": "Abrir menú",
       "close": "Cerrar menú",
       "label": "Secciones",
       "home": "Inicio",
       "work": "Proyectos",
-      "about": "Taller",
+      "about": "Estudio",
       "contact": "Contacto"
     },
     "scrollbar": "Posición de la página",
     "about": {
-      "title": "Del problema al producto, con criterio.",
-      "paragraphOne": "Soy Bas Bravo, creador y responsable de desarrollo de Basezero, un taller independiente de producto digital. Trabajo directamente contigo para entender el problema, afinar la idea y convertirla en una solución real. Me ocupo del recorrido completo: estrategia, concepto, diseño, experiencia, tecnología y puesta en marcha.",
-      "paragraphTwo": "La IA atraviesa todo el proceso: acelera la exploración, el diseño, el desarrollo, las pruebas y la evolución. Pero avanzar rápido no es suficiente. Mi experiencia aporta el criterio para decidir qué construir, qué dejar fuera y cómo crear una base capaz de crecer sin sobredimensionar el producto.",
-      "paragraphThree": "Me interesa trabajar con personas que tienen una idea clara —o un problema concreto—, confían en un proceso abierto y participan en las decisiones. El objetivo es llegar pronto a un producto real, útil y preparado para evolucionar."
+      "title": "Un estudio independiente. Un responsable de principio a fin.",
+      "paragraphOne": "Soy Bas Bravo, diseñador y desarrollador de producto. Basezero es mi estudio independiente: trabajo directamente contigo para entender el problema, afinar la idea y convertirla en una solución en producción. Me responsabilizo del recorrido completo, desde la estrategia y la experiencia hasta la tecnología y el lanzamiento.",
+      "paragraphTwo": "Integro la IA durante la exploración, el diseño, el desarrollo, las pruebas y la evolución del producto. Avanzar rápido no basta: mi experiencia aporta el criterio para decidir qué construir, qué dejar fuera y cómo crear una base sólida sin añadir complejidad innecesaria.",
+      "paragraphThree": "Trabajo mejor con fundadores y equipos que tienen una idea clara —o un problema concreto—, confían en un proceso abierto y participan en las decisiones. El objetivo es poner pronto una primera versión útil en manos de personas reales y aprender a partir de ella."
+    },
+    "services": {
+      "label": "En qué puedo ayudarte",
+      "title": "Cuando necesitas convertir una dirección en producto.",
+      "body": "Colaboraciones centradas en crear una primera versión útil o hacer evolucionar una base que ya ha demostrado su valor.",
+      "launch": {
+        "title": "Lanzar un producto desde cero",
+        "body": "Definimos el alcance y lo convierto en un MVP funcional, integrado y listo para validar."
+      },
+      "transform": {
+        "title": "Convertir un proceso en una herramienta",
+        "body": "Diseño una plataforma o aplicación que simplifica una operación y encaja en el trabajo real del equipo."
+      },
+      "evolve": {
+        "title": "Hacer evolucionar un MVP",
+        "body": "Reviso producto, experiencia y tecnología para preparar la siguiente etapa sin reconstruir más de lo necesario."
+      }
     },
     "farewell": {
-      "title": "Tu próximo producto puede empezar aquí.",
-      "body": "Si tienes un reto definido o una idea que necesita dirección, podemos convertirla en un producto útil, viable y preparado para crecer."
+      "title": "Hablemos de lo que quieres construir.",
+      "body": "Cuéntame qué quieres conseguir, en qué punto está el proyecto y si tienes una fecha objetivo. Te responderé personalmente para valorar si podemos construirlo juntos.",
+      "emailLabel": "O escríbeme directamente a"
+    },
+    "projectDialog": {
+      "close": "Cerrar proyecto",
+      "challenge": "El reto",
+      "solution": "La solución",
+      "contribution": "Mi aportación",
+      "visit": "Abrir producto real"
     },
     "processLabel": "Proceso de producto",
     "processSteps": {
       "understand": {
         "title": "Definir el reto",
-        "body": "Clarificamos el objetivo, el contexto, las personas usuarias y las restricciones para establecer un marco de decisión compartido."
+        "body": "Definimos juntos el objetivo, el contexto, las personas usuarias y las restricciones para establecer un marco de decisión compartido."
       },
       "shape": {
         "title": "Diseñar la dirección",
@@ -48,7 +75,7 @@
       },
       "learn": {
         "title": "Validar con evidencia",
-        "body": "Contrastamos la solución con negocio y usuarios. Lo aprendido se traduce en decisiones y prioridades concretas para la siguiente iteración."
+        "body": "Validamos la solución con negocio y usuarios. Lo aprendido se traduce en decisiones y prioridades concretas para la siguiente iteración."
       },
       "grow": {
         "title": "Evolucionar con criterio",

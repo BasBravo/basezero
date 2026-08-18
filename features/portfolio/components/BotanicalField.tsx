@@ -34,6 +34,9 @@ const ISOTYPE_CENTER_X = -0.015;
 const ISOTYPE_CENTER_Y = -0.79;
 const ISOTYPE_VISIBLE_PARTICLES = 650;
 const BLOOM_DENSITY_INCREASE = 0.35;
+const COMPACT_PARTICLE_RATIO = 0.48;
+const DEVICE_ROTATION_X_LIMIT = 0.11;
+const DEVICE_ROTATION_Y_LIMIT = 0.16;
 const DIGIT_CANVAS_FONT = "500 70px 'Space Grotesk Variable', sans-serif";
 const ISOTYPE_PATH = 'M237.726 62.4301C237.962 62.4539 238.194 62.4889 238.422 62.5354C238.876 62.6281 239.315 62.7639 239.732 62.9397C242.24 63.996 244 66.4687 244 69.3509V180.607H197.508C195.655 180.608 193.878 181.341 192.568 182.646L183.397 191.782C182.088 193.087 181.351 194.857 181.351 196.702V243H69.6363C69.1536 243 68.6825 242.95 68.2273 242.857C67.7731 242.765 67.3348 242.629 66.9173 242.453C64.4095 241.397 62.6497 238.924 62.6495 236.042V180.607H165.251C167.104 180.607 168.881 179.873 170.191 178.569L179.304 169.494C180.614 168.189 181.35 166.419 181.351 164.574V62.3927H237.013C237.254 62.3927 237.492 62.4064 237.726 62.4301ZM174.364 0C178.222 1.67984e-07 181.351 3.11529 181.351 6.95819V62.3927H78.7485C76.8959 62.393 75.1187 63.1266 73.8086 64.4313L64.6964 73.5061C63.3863 74.8108 62.6497 76.5807 62.6495 78.4258V180.607H6.98683C3.12818 180.607 0.000115232 177.492 0 173.649V62.3927H46.489C48.3417 62.3924 50.1189 61.6589 51.4289 60.3542L60.6026 51.2182C61.9125 49.9135 62.6491 48.1435 62.6495 46.2985V0H174.364Z';
 
@@ -697,6 +700,19 @@ function createBloomParticles() {
     return particles;
 }
 
+function createCompactBloomParticles(particles: NumericParticle[]) {
+    const random = createSeededRandom(20260819);
+    const compactCount = Math.round(particles.length * COMPACT_PARTICLE_RATIO);
+    const compactParticles: NumericParticle[] = [];
+
+    for (let index = 0; index < compactCount; index += 1) {
+        const sourceIndex = Math.floor(((index + random()) / compactCount) * particles.length);
+        compactParticles.push({ ...particles[sourceIndex], index });
+    }
+
+    return compactParticles;
+}
+
 function createIsotypeParticleData(particleCount: number, mask: IsotypeMask) {
     const random = createSeededRandom(20260816);
     const data = new Float32Array(particleCount * 4);
@@ -742,23 +758,30 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
         if (!gl) return;
         const surface: HTMLCanvasElement = canvas;
         const graphics: WebGL2RenderingContext = gl;
+        const compactViewport = window.matchMedia(
+            '(max-width: 800px), (max-height: 500px) and (pointer: coarse)',
+        ).matches;
+        const orientationEvent = window.DeviceOrientationEvent as (typeof DeviceOrientationEvent & {
+            requestPermission?: () => Promise<'granted' | 'denied'>;
+        }) | undefined;
+        const renderedParticles = compactViewport ? createCompactBloomParticles(particles) : particles;
         surface.dataset.renderer = 'webgl2-instanced';
-        surface.dataset.particles = String(particles.length);
+        surface.dataset.particles = String(renderedParticles.length);
 
         const program = createProgram(gl);
         const { texture, refresh: refreshDigitTexture } = createDigitTexture(gl);
         const isotypeMask = createIsotypeMask();
         const logoTexture = createMaskTexture(gl, isotypeMask.canvas);
-        const logoData = createIsotypeParticleData(particles.length, isotypeMask);
+        const logoData = createIsotypeParticleData(renderedParticles.length, isotypeMask);
         const vertexArray = gl.createVertexArray();
         const indexBuffer = gl.createBuffer();
         if (!vertexArray || !indexBuffer) return;
 
-        const targets = new Float32Array(particles.length * 3);
-        const origins = new Float32Array(particles.length * 3);
-        const visuals = new Float32Array(particles.length * 4);
-        const metadata = new Float32Array(particles.length * 3);
-        particles.forEach((particle, index) => {
+        const targets = new Float32Array(renderedParticles.length * 3);
+        const origins = new Float32Array(renderedParticles.length * 3);
+        const visuals = new Float32Array(renderedParticles.length * 4);
+        const metadata = new Float32Array(renderedParticles.length * 3);
+        renderedParticles.forEach((particle, index) => {
             targets.set([particle.x, particle.y, particle.z], index * 3);
             origins.set([particle.originX, particle.originY, particle.originZ], index * 3);
             visuals.set([particle.size, particle.alpha, particle.stage, particle.duration], index * 4);
@@ -829,6 +852,13 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
         let dragStartRotationY = 0;
         let activePointerId = -1;
         let isDragging = false;
+        let orientationBaseline: { beta: number; gamma: number } | null = null;
+        let orientationListening = false;
+        let orientationPermissionRequested = false;
+        let targetDeviceRotationX = 0;
+        let targetDeviceRotationY = 0;
+        let deviceRotationX = 0;
+        let deviceRotationY = 0;
         let darkMode = document.documentElement.dataset.theme === 'dark';
         let previousTimestamp = performance.now();
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -873,6 +903,77 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
             const fieldRect = field.getBoundingClientRect();
             pointerX = clamp01((event.clientX - fieldRect.left) / Math.max(fieldRect.width, 1));
             pointerY = clamp01((event.clientY - fieldRect.top) / Math.max(fieldRect.height, 1));
+            queueFrame();
+        }
+
+        function handleDeviceOrientation(event: DeviceOrientationEvent) {
+            if (event.beta === null || event.gamma === null) return;
+            if (!orientationBaseline) {
+                orientationBaseline = { beta: event.beta, gamma: event.gamma };
+                surface.dataset.deviceOrientation = 'active';
+                return;
+            }
+
+            const beta = event.beta - orientationBaseline.beta;
+            const gamma = event.gamma - orientationBaseline.gamma;
+            const legacyOrientation = (window as Window & { orientation?: number }).orientation;
+            const screenAngle = ((window.screen.orientation?.angle ?? legacyOrientation ?? 0) + 360) % 360;
+            let tiltX = beta;
+            let tiltY = gamma;
+
+            if (screenAngle === 90) {
+                tiltX = -gamma;
+                tiltY = beta;
+            } else if (screenAngle === 180) {
+                tiltX = -beta;
+                tiltY = -gamma;
+            } else if (screenAngle === 270) {
+                tiltX = gamma;
+                tiltY = -beta;
+            }
+
+            targetDeviceRotationX = Math.max(
+                -DEVICE_ROTATION_X_LIMIT,
+                Math.min(DEVICE_ROTATION_X_LIMIT, tiltX * -0.0035),
+            );
+            targetDeviceRotationY = Math.max(
+                -DEVICE_ROTATION_Y_LIMIT,
+                Math.min(DEVICE_ROTATION_Y_LIMIT, tiltY * 0.0048),
+            );
+            queueFrame();
+        }
+
+        function startDeviceOrientation() {
+            if (orientationListening || disposed) return;
+            orientationListening = true;
+            surface.dataset.deviceOrientation = 'listening';
+            window.addEventListener('deviceorientation', handleDeviceOrientation, { passive: true });
+        }
+
+        async function requestDeviceOrientation() {
+            if (!compactViewport || reducedMotion || orientationPermissionRequested) return;
+            if (!orientationEvent) return;
+            orientationPermissionRequested = true;
+            window.removeEventListener('click', requestDeviceOrientation, true);
+            window.removeEventListener('touchend', requestDeviceOrientation, true);
+
+            try {
+                if (!orientationEvent.requestPermission) {
+                    startDeviceOrientation();
+                    return;
+                }
+                const permission = await orientationEvent.requestPermission();
+                if (permission === 'granted') startDeviceOrientation();
+            } catch {
+                orientationPermissionRequested = false;
+                // Motion support is optional; pointer and ambient motion remain available.
+            }
+        }
+
+        function resetDeviceOrientation() {
+            orientationBaseline = null;
+            targetDeviceRotationX = 0;
+            targetDeviceRotationY = 0;
             queueFrame();
         }
 
@@ -922,25 +1023,27 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
             previousTimestamp = timestamp;
             const easing = reducedMotion ? 1 : 1 - Math.exp(-13 * delta);
             progress += (targetProgress - progress) * easing;
+            deviceRotationX += (targetDeviceRotationX - deviceRotationX) * easing;
+            deviceRotationY += (targetDeviceRotationY - deviceRotationY) * easing;
 
-            const mobile = width < 640;
+            const mobile = width <= 800;
             const growthPresence = smoothCurve(clamp01(progress / 0.66));
             const centerX = width * 0.5 * dpr;
             const centerStart = mobile ? 0.62 : 0.46;
-            const centerEnd = mobile ? 0.61 : 0.55;
+            const centerEnd = mobile ? 0.66 : 0.55;
             const centerY = height * (centerStart + (centerEnd - centerStart) * growthPresence) * dpr;
             const finalWorldScale = mobile
-                ? Math.min(width * 0.98, height * 0.56)
+                ? Math.min(width * 0.72, height * 0.44)
                 : Math.min(width * 0.82, height * 0.78);
             const scalePresence = 0.68 + growthPresence * 0.32;
             const worldScale = finalWorldScale * scalePresence;
-            const horizontalScale = mobile ? width * 0.9 * scalePresence : worldScale;
+            const horizontalScale = worldScale;
             const elapsed = reducedMotion ? 0 : timestamp * 0.001;
             const activePulse = activeProjectRef.current >= 0
                 ? Math.sin(elapsed * 2.2 + activeProjectRef.current) * 0.018
                 : 0;
-            const rotationY = dragRotationY + (pointerX - 0.5) * 0.34 + Math.sin(elapsed * 0.22) * 0.025 + activePulse;
-            const rotationX = (pointerY - 0.5) * -0.12 + Math.sin(elapsed * 0.17) * 0.014;
+            const rotationY = dragRotationY + (pointerX - 0.5) * 0.34 + deviceRotationY + Math.sin(elapsed * 0.22) * 0.025 + activePulse;
+            const rotationX = (pointerY - 0.5) * -0.12 + deviceRotationX + Math.sin(elapsed * 0.17) * 0.014;
             surface.dataset.dragRotation = dragRotationY.toFixed(3);
             graphics.clear(graphics.COLOR_BUFFER_BIT);
             graphics.useProgram(program);
@@ -955,16 +1058,29 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
             graphics.uniform1f(uniforms.dpr, dpr);
             if (uniforms.compact) graphics.uniform1f(uniforms.compact, mobile ? 1 : 0);
             graphics.uniform1f(uniforms.dark, darkMode ? 1 : 0);
-            graphics.drawElementsInstanced(graphics.TRIANGLES, 6, graphics.UNSIGNED_SHORT, 0, particles.length);
+            graphics.drawElementsInstanced(graphics.TRIANGLES, 6, graphics.UNSIGNED_SHORT, 0, renderedParticles.length);
 
             const needsAmbientMotion = sceneVisibility > 0.001 && progress < 0.995;
-            if (needsAmbientMotion || Math.abs(progress - targetProgress) > 0.001) queueFrame();
+            const needsDeviceMotion =
+                Math.abs(deviceRotationX - targetDeviceRotationX) > 0.0005 ||
+                Math.abs(deviceRotationY - targetDeviceRotationY) > 0.0005;
+            if (needsAmbientMotion || needsDeviceMotion || Math.abs(progress - targetProgress) > 0.001) queueFrame();
         }
 
         resize();
         updateProgress();
+        if (compactViewport && !reducedMotion && orientationEvent) {
+            if (orientationEvent.requestPermission) {
+                surface.dataset.deviceOrientation = 'permission-needed';
+                window.addEventListener('click', requestDeviceOrientation, { capture: true });
+                window.addEventListener('touchend', requestDeviceOrientation, { capture: true, passive: true });
+            } else {
+                startDeviceOrientation();
+            }
+        }
         window.addEventListener('resize', resize, { passive: true });
         window.addEventListener('scroll', updateProgress, { passive: true });
+        window.addEventListener('orientationchange', resetDeviceOrientation, { passive: true });
         window.addEventListener('pointermove', updatePointer, { passive: true });
         surface.addEventListener('pointerdown', startDrag);
         surface.addEventListener('pointermove', dragFlower);
@@ -978,6 +1094,10 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
             if (frame) window.cancelAnimationFrame(frame);
             window.removeEventListener('resize', resize);
             window.removeEventListener('scroll', updateProgress);
+            window.removeEventListener('orientationchange', resetDeviceOrientation);
+            window.removeEventListener('click', requestDeviceOrientation, true);
+            window.removeEventListener('touchend', requestDeviceOrientation, true);
+            if (orientationListening) window.removeEventListener('deviceorientation', handleDeviceOrientation);
             window.removeEventListener('pointermove', updatePointer);
             surface.removeEventListener('pointerdown', startDrag);
             surface.removeEventListener('pointermove', dragFlower);

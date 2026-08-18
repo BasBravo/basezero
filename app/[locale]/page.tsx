@@ -1,67 +1,12 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import {
-    PortfolioExperience,
-    type PortfolioCopy,
-    type PortfolioProject,
-} from '@/features/portfolio/components/PortfolioExperience';
+import { getPortfolioProjects } from '@/content/portfolio-projects';
+import { PortfolioExperience, type PortfolioCopy } from '@/features/portfolio/components/PortfolioExperience';
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     setRequestLocale(locale);
     const t = await getTranslations('Portfolio');
-    const isSpanish = locale === 'es';
-    const projects: PortfolioProject[] = [
-        {
-            id: 'signado',
-            name: 'Signado',
-            description: isSpanish
-                ? 'Vídeo interactivo accesible que escucha, pregunta y se adapta a cada persona.'
-                : 'Accessible interactive video that listens, asks and adapts to each person.',
-            discipline: 'Product · Full-stack',
-            year: '2026',
-            url: 'https://signado.es/',
-        },
-        {
-            id: 'weform',
-            name: 'WeForm',
-            description: isSpanish
-                ? 'Una plataforma completa para crear experiencias de vídeo interactivas.'
-                : 'A complete platform for building interactive video experiences.',
-            discipline: 'Platform · AI-first',
-            year: '2026',
-            url: 'https://weform.app/',
-        },
-        {
-            id: 'mappic',
-            name: 'Mappic',
-            description: isSpanish
-                ? 'Mapas generativos convertidos en piezas gráficas personales.'
-                : 'Generative maps transformed into personal graphic pieces.',
-            discipline: 'Product · Generative',
-            year: '2025',
-            url: 'https://mappic.app/',
-        },
-        {
-            id: 'mergeo',
-            name: 'Mergeo',
-            description: isSpanish
-                ? 'Portfolios visuales construidos directamente desde la actividad de GitHub.'
-                : 'Visual portfolios built directly from GitHub activity.',
-            discipline: 'Product · Development',
-            year: '2025',
-            url: 'https://mergeo.dev/',
-        },
-        {
-            id: 'typos',
-            name: 'typos',
-            description: isSpanish
-                ? 'Un estudio de tipografía vectorial para convertir palabras en sistemas editables.'
-                : 'A vector type studio for turning words into editable typographic systems.',
-            discipline: 'Tool · Typography',
-            year: '2026',
-            url: 'https://typos.basezero.dev',
-        },
-    ];
+    const projects = getPortfolioProjects(locale);
     const copy: PortfolioCopy = {
         locale,
         navWork: t('navWork'),
@@ -69,9 +14,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         workBody: t('work.body'),
         introTitle: t('intro.title'),
         introBody: t('intro.body'),
+        introViewWork: t('intro.viewWork'),
         openProject: t('openProject'),
         contactAction: t('contactAction'),
         themeToggle: t('themeToggle'),
+        languageSwitch: t('languageSwitch'),
         menuOpen: t('menu.open'),
         menuClose: t('menu.close'),
         menuLabel: t('menu.label'),
@@ -82,8 +29,22 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         scrollbar: t('scrollbar'),
         aboutTitle: t('about.title'),
         aboutParagraphs: [t('about.paragraphOne'), t('about.paragraphTwo'), t('about.paragraphThree')],
+        servicesLabel: t('services.label'),
+        servicesTitle: t('services.title'),
+        servicesBody: t('services.body'),
+        services: [
+            { number: '01', title: t('services.launch.title'), body: t('services.launch.body') },
+            { number: '02', title: t('services.transform.title'), body: t('services.transform.body') },
+            { number: '03', title: t('services.evolve.title'), body: t('services.evolve.body') },
+        ],
         farewellTitle: t('farewell.title'),
         farewellBody: t('farewell.body'),
+        farewellEmailLabel: t('farewell.emailLabel'),
+        projectDialogClose: t('projectDialog.close'),
+        projectDialogChallenge: t('projectDialog.challenge'),
+        projectDialogSolution: t('projectDialog.solution'),
+        projectDialogContribution: t('projectDialog.contribution'),
+        projectDialogVisit: t('projectDialog.visit'),
         processLabel: t('processLabel'),
         processSteps: [
             { number: '01', title: t('processSteps.understand.title'), body: t('processSteps.understand.body') },

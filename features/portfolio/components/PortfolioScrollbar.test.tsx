@@ -72,11 +72,39 @@ describe('PortfolioScrollbar', () => {
         fireEvent.pointerDown(slider, { button: 0, clientY: 100 });
         expect(document.documentElement.scrollTop).toBe(1000);
 
-        fireEvent.pointerMove(slider, { clientY: 200 });
+        fireEvent.pointerMove(window, { clientY: 200 });
         expect(document.documentElement.scrollTop).toBe(2000);
         expect(slider).toHaveAttribute('data-dragging', 'true');
 
-        fireEvent.pointerUp(slider);
+        fireEvent.pointerUp(window);
+        expect(slider).not.toHaveAttribute('data-dragging');
+    });
+
+    it('arrastra el scroll con eventos táctiles nativos', () => {
+        vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+            x: 0,
+            y: 0,
+            top: 0,
+            left: 0,
+            bottom: 400,
+            right: 40,
+            width: 40,
+            height: 400,
+            toJSON: () => ({}),
+        });
+
+        render(<PortfolioScrollbar label="Posición de la página" />);
+        const slider = screen.getByRole('slider', { name: 'Posición de la página' });
+        const firstTouch = { identifier: 7, clientY: 100 };
+        const movedTouch = { identifier: 7, clientY: 300 };
+
+        fireEvent.touchStart(slider, { changedTouches: [firstTouch], touches: [firstTouch] });
+        expect(document.documentElement.scrollTop).toBe(1000);
+
+        fireEvent.touchMove(window, { changedTouches: [movedTouch], touches: [movedTouch] });
+        expect(document.documentElement.scrollTop).toBe(3000);
+
+        fireEvent.touchEnd(window, { changedTouches: [movedTouch], touches: [] });
         expect(slider).not.toHaveAttribute('data-dragging');
     });
 });

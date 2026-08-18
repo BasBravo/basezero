@@ -3,14 +3,7 @@
         {
             "site": "zero-18081",
             "public": "out",
-            "cleanUrls": true,
-            "redirects": [
-                {
-                    "source": "/",
-                    "destination": "/es",
-                    "type": 301
-                }
-            ]
+            "cleanUrls": true
         }
     ]
 }

@@ -12,6 +12,7 @@ type NarrativeStep = {
 type GrowthNarrativeProps = {
     introTitle: string;
     introBody: string;
+    introViewWork: string;
     processLabel: string;
     processSteps: NarrativeStep[];
 };
@@ -31,10 +32,12 @@ const smoothCurve = (value: number) => value * value * (3 - 2 * value);
 export function GrowthNarrative({
     introTitle,
     introBody,
+    introViewWork,
     processLabel,
     processSteps,
 }: GrowthNarrativeProps) {
     const overlayRef = useRef<HTMLDivElement>(null);
+    const introCtaRef = useRef<HTMLAnchorElement>(null);
     const stageRefs = useRef<Array<HTMLLIElement | null>>([]);
     const bodyRefs = useRef<Array<HTMLSpanElement | null>>([]);
     const bodyRestRefs = useRef<Array<HTMLSpanElement | null>>([]);
@@ -94,6 +97,13 @@ export function GrowthNarrative({
                 activeStage = nextActiveStage;
                 typingStartedAt = timestamp;
                 narrativeOverlay.dataset.activeStage = activeStage >= 0 ? String(activeStage) : '';
+                const introCta = introCtaRef.current;
+                if (introCta) {
+                    const isVisible = activeStage === 0;
+                    introCta.dataset.visible = isVisible ? 'true' : '';
+                    introCta.setAttribute('aria-hidden', String(!isVisible));
+                    introCta.tabIndex = isVisible ? 0 : -1;
+                }
             }
 
             let typingIsRunning = false;
@@ -177,6 +187,17 @@ export function GrowthNarrative({
                     ))}
                 </ol>
             </div>
+
+            <a
+                ref={introCtaRef}
+                className={styles.introScrollCta}
+                href="#projects"
+                aria-hidden="true"
+                tabIndex={-1}
+            >
+                <span>{introViewWork}</span>
+                <span aria-hidden="true">↓</span>
+            </a>
 
             <div className={styles.visuallyHidden}>
                 <h1>{introTitle}</h1>

@@ -21,6 +21,8 @@ export function PortfolioScrollbar({ label }: PortfolioScrollbarProps) {
     const ticksRef = useRef<HTMLDivElement>(null);
     const controlRef = useRef<HTMLDivElement>(null);
     const draggingRef = useRef(false);
+    const activePointerIdRef = useRef<number | null>(null);
+    const activeTouchIdRef = useRef<number | null>(null);
     const [tickCount, setTickCount] = useState(MIN_TICK_COUNT);
     const { readProgress, writeProgress } = useDocumentScrollProgress();
 
@@ -92,25 +94,103 @@ export function PortfolioScrollbar({ label }: PortfolioScrollbarProps) {
         };
     }, [paint, readProgress, tickCount]);
 
-    function stopDragging() {
+    const stopDragging = useCallback(() => {
         if (!draggingRef.current) return;
         draggingRef.current = false;
+        activePointerIdRef.current = null;
+        activeTouchIdRef.current = null;
         controlRef.current?.removeAttribute('data-dragging');
-    }
+    }, []);
+
+    useEffect(() => {
+        const control = controlRef.current;
+        if (!control) return;
+        const activeControl = control;
+
+        function handlePointerMove(event: PointerEvent) {
+            if (
+                !draggingRef.current ||
+                activeTouchIdRef.current !== null ||
+                event.pointerId !== activePointerIdRef.current
+            ) return;
+            event.preventDefault();
+            seekToClientY(event.clientY);
+        }
+
+        function handlePointerEnd(event: PointerEvent) {
+            if (!draggingRef.current || event.pointerId !== activePointerIdRef.current) return;
+            stopDragging();
+        }
+
+        function findTouch(touches: TouchList, identifier: number) {
+            for (let index = 0; index < touches.length; index += 1) {
+                const touch = touches[index];
+                if (touch?.identifier === identifier) return touch;
+            }
+            return null;
+        }
+
+        function handleTouchStart(event: TouchEvent) {
+            if (activeTouchIdRef.current !== null) return;
+            const touch = event.changedTouches[0];
+            if (!touch) return;
+
+            activePointerIdRef.current = null;
+            activeTouchIdRef.current = touch.identifier;
+            draggingRef.current = true;
+            activeControl.setAttribute('data-dragging', 'true');
+            seekToClientY(touch.clientY);
+            event.preventDefault();
+        }
+
+        function handleTouchMove(event: TouchEvent) {
+            const touchId = activeTouchIdRef.current;
+            if (!draggingRef.current || touchId === null) return;
+            const touch = findTouch(event.touches, touchId) ?? findTouch(event.changedTouches, touchId);
+            if (!touch) return;
+
+            event.preventDefault();
+            seekToClientY(touch.clientY);
+        }
+
+        function handleTouchEnd(event: TouchEvent) {
+            const touchId = activeTouchIdRef.current;
+            if (touchId === null || !findTouch(event.changedTouches, touchId)) return;
+            stopDragging();
+        }
+
+        window.addEventListener('pointermove', handlePointerMove, { passive: false });
+        window.addEventListener('pointerup', handlePointerEnd);
+        window.addEventListener('pointercancel', handlePointerEnd);
+        activeControl.addEventListener('touchstart', handleTouchStart, { passive: false });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        window.addEventListener('touchend', handleTouchEnd);
+        window.addEventListener('touchcancel', handleTouchEnd);
+        return () => {
+            window.removeEventListener('pointermove', handlePointerMove);
+            window.removeEventListener('pointerup', handlePointerEnd);
+            window.removeEventListener('pointercancel', handlePointerEnd);
+            activeControl.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
+            window.removeEventListener('touchcancel', handleTouchEnd);
+        };
+    }, [seekToClientY, stopDragging]);
 
     function handlePointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+        if (event.pointerType === 'touch' && 'ontouchstart' in window) return;
         if (event.button !== 0) return;
 
         draggingRef.current = true;
+        activePointerIdRef.current = event.pointerId;
         controlRef.current?.setAttribute('data-dragging', 'true');
-        controlRef.current?.setPointerCapture?.(event.pointerId);
+        try {
+            controlRef.current?.setPointerCapture?.(event.pointerId);
+        } catch {
+            // Global pointer listeners keep the drag working if capture is unavailable.
+        }
         seekToClientY(event.clientY);
         event.preventDefault();
-    }
-
-    function handlePointerMove(event: ReactPointerEvent<HTMLDivElement>) {
-        if (!draggingRef.current) return;
-        seekToClientY(event.clientY);
     }
 
     function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
@@ -147,7 +227,6 @@ export function PortfolioScrollbar({ label }: PortfolioScrollbarProps) {
                 aria-valuenow={0}
                 tabIndex={0}
                 onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
                 onPointerUp={stopDragging}
                 onPointerCancel={stopDragging}
                 onLostPointerCapture={stopDragging}

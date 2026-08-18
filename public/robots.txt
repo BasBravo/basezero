@@ -1,2 +1,3 @@
 User-Agent: *
 Disallow:
+Sitemap: https://basezero.dev/sitemap.xml

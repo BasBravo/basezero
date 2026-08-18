@@ -1,24 +1,18 @@
 'use client';
 
-import { ArrowUpRight, Moon, Sun } from 'lucide-react';
+import { ArrowUpRight, Moon, Plus, Sun } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
+import type { PortfolioProject } from '@/content/portfolio-projects';
 import { BotanicalField } from './BotanicalField';
 import { ColumnMenuPanel, ColumnMenuToggle } from './ColumnMenu';
 import { FadeInTitle } from './FadeInTitle';
 import { GrowthNarrative } from './GrowthNarrative';
 import { PortfolioScrollbar } from './PortfolioScrollbar';
+import { ProjectDialog } from './ProjectDialog';
+import { ServicesFit } from './ServicesFit';
 import { TerminalAbout } from './TerminalAbout';
 import styles from './portfolio.module.css';
-
-export type PortfolioProject = {
-    id: string;
-    name: string;
-    description: string;
-    discipline: string;
-    year: string;
-    url: string;
-};
 
 export type PortfolioCopy = {
     locale: string;
@@ -27,9 +21,11 @@ export type PortfolioCopy = {
     workBody: string;
     introTitle: string;
     introBody: string;
+    introViewWork: string;
     openProject: string;
     contactAction: string;
     themeToggle: string;
+    languageSwitch: string;
     menuOpen: string;
     menuClose: string;
     menuLabel: string;
@@ -40,8 +36,22 @@ export type PortfolioCopy = {
     scrollbar: string;
     aboutTitle: string;
     aboutParagraphs: string[];
+    servicesLabel: string;
+    servicesTitle: string;
+    servicesBody: string;
+    services: Array<{
+        number: string;
+        title: string;
+        body: string;
+    }>;
     farewellTitle: string;
     farewellBody: string;
+    farewellEmailLabel: string;
+    projectDialogClose: string;
+    projectDialogChallenge: string;
+    projectDialogSolution: string;
+    projectDialogContribution: string;
+    projectDialogVisit: string;
     processLabel: string;
     processSteps: Array<{
         number: string;
@@ -57,7 +67,9 @@ type PortfolioExperienceProps = {
 
 export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps) {
     const [activeProject, setActiveProject] = useState(-1);
+    const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
+    const alternateLocale = copy.locale === 'es' ? 'en' : 'es';
 
     function toggleTheme() {
         const currentTheme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
@@ -92,6 +104,18 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                         />
                     </a>
                     <div className={styles.sidebarActions}>
+                        <a
+                            className={styles.languageSwitch}
+                            href={`/${alternateLocale}`}
+                            hrefLang={alternateLocale}
+                            lang={alternateLocale}
+                            aria-label={copy.languageSwitch}
+                            onClick={() => {
+                                document.cookie = `NEXT_LOCALE=${alternateLocale}; Max-Age=31536000; Path=/; SameSite=Lax`;
+                            }}
+                        >
+                            {alternateLocale.toUpperCase()}
+                        </a>
                         <button
                             className={styles.themeToggle}
                             type="button"
@@ -115,7 +139,7 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                         label={copy.menuLabel}
                         items={[
                             { href: '#top', label: copy.menuHome },
-                            { href: '#work', label: copy.menuWork },
+                            { href: '#projects', label: copy.menuWork },
                             { href: '#about', label: copy.menuAbout },
                             { href: '#contact', label: copy.menuContact },
                         ]}
@@ -143,6 +167,7 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                     <GrowthNarrative
                         introTitle={copy.introTitle}
                         introBody={copy.introBody}
+                        introViewWork={copy.introViewWork}
                         processLabel={copy.processLabel}
                         processSteps={copy.processSteps}
                     />
@@ -155,15 +180,15 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                         <FadeInTitle className={styles.projectsTitle}>{copy.workTitle}</FadeInTitle>
                         <p className={styles.projectsBody}>{copy.workBody}</p>
                     </header>
-                    <ol className={styles.projectList} aria-label={copy.navWork}>
+                    <ol id="projects" className={styles.projectList} aria-label={copy.navWork}>
                         {projects.map((project, index) => (
                             <li key={project.id}>
-                                <a
-                                    href={project.url}
-                                    target="_blank"
-                                    rel="noreferrer"
+                                <button
+                                    type="button"
                                     className={styles.project}
                                     aria-label={`${copy.openProject}: ${project.name}`}
+                                    aria-haspopup="dialog"
+                                    onClick={() => setSelectedProject(project)}
                                     onPointerEnter={() => setActiveProject(index)}
                                     onPointerLeave={() => setActiveProject(-1)}
                                     onFocus={() => setActiveProject(index)}
@@ -175,11 +200,18 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                                     <span className={styles.projectName}>{project.name}</span>
                                     <span className={styles.projectDescription}>{project.description}</span>
                                     <span className={styles.projectMeta}>{project.discipline} · {project.year}</span>
-                                    <ArrowUpRight className={styles.projectArrow} aria-hidden="true" strokeWidth={1.5} />
-                                </a>
+                                    <Plus className={styles.projectArrow} aria-hidden="true" strokeWidth={1.5} />
+                                </button>
                             </li>
                         ))}
                     </ol>
+
+                    <ServicesFit
+                        label={copy.servicesLabel}
+                        title={copy.servicesTitle}
+                        body={copy.servicesBody}
+                        services={copy.services}
+                    />
 
                     <TerminalAbout
                         title={copy.aboutTitle}
@@ -193,9 +225,27 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                             <span>{copy.contactAction}</span>
                             <ArrowUpRight aria-hidden="true" strokeWidth={1.5} />
                         </a>
+                        <p className={styles.farewellEmail}>
+                            {copy.farewellEmailLabel}{' '}
+                            <a href="mailto:hello@basezero.dev">hello@basezero.dev</a>
+                        </p>
                     </section>
                 </section>
             </main>
+
+            {selectedProject ? (
+                <ProjectDialog
+                    project={selectedProject}
+                    copy={{
+                        close: copy.projectDialogClose,
+                        challenge: copy.projectDialogChallenge,
+                        solution: copy.projectDialogSolution,
+                        contribution: copy.projectDialogContribution,
+                        visit: copy.projectDialogVisit,
+                    }}
+                    onClose={() => setSelectedProject(null)}
+                />
+            ) : null}
         </div>
     );
 }

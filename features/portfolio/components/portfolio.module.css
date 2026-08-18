@@ -153,6 +153,35 @@
     transform: translate3d(0, 0, 0);
 }
 
+.introScrollCta {
+    position: fixed;
+    z-index: 5;
+    top: calc(50% + clamp(8.5rem, 10.5vw, 11rem));
+    left: var(--sidebar-pad-x);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--ink);
+    font-size: clamp(0.64rem, 0.72vw, 0.76rem);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    opacity: 0;
+    pointer-events: none;
+    text-decoration: none;
+    text-transform: uppercase;
+    transform: translate3d(0, 0.5rem, 0);
+    transition: color 160ms ease, opacity 280ms ease, transform 280ms ease;
+}
+
+.introScrollCta[data-visible='true'] {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate3d(0, 0, 0);
+}
+
+.introScrollCta:hover { color: var(--muted); }
+.introScrollCta:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+
 :is(.processStageBody, .projectsBody, .aboutParagraph, .farewellBody) {
     width: 100%;
     max-width: none;
@@ -273,6 +302,20 @@
     cursor: pointer;
 }
 
+.languageSwitch {
+    display: inline-flex;
+    height: 1.4rem;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.languageSwitch:hover { color: var(--ink); }
+
 .sidebarActions {
     display: flex;
     flex: 0 0 auto;
@@ -309,6 +352,7 @@
 
 .brand:focus-visible,
 .socialLink:focus-visible,
+.languageSwitch:focus-visible,
 .themeToggle:focus-visible,
 .menuToggle:focus-visible,
 .columnMenuLink:focus-visible,
@@ -471,6 +515,7 @@
 }
 
 .projectList {
+    scroll-margin-top: clamp(2rem, 5vw, 4rem);
     margin: 0;
     padding: 0;
     border-top: 1px solid var(--line);
@@ -482,12 +527,18 @@
 
 .project {
     display: grid;
+    width: 100%;
     grid-template-columns: 2rem minmax(0, 1fr) auto;
     align-items: center;
     row-gap: 0.45rem;
     column-gap: 0.85rem;
     padding: 1.2rem 0;
+    border: 0;
+    background: transparent;
     color: inherit;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
     text-decoration: none;
     transition: opacity 180ms ease;
 }
@@ -541,7 +592,89 @@
 
 .project:hover .projectArrow {
     color: var(--ink);
-    transform: translate(0.12rem, -0.12rem);
+    transform: rotate(90deg);
+}
+
+.servicesSection {
+    margin-top: clamp(7rem, 12vw, 11rem);
+    padding-top: clamp(1.5rem, 3vw, 2.75rem);
+    border-top: 1px solid var(--line);
+}
+
+.servicesLabel,
+.servicesBody,
+.serviceItem p,
+.farewellEmail {
+    color: var(--muted);
+}
+
+.servicesLabel {
+    margin: 0 0 1.35rem;
+    font-size: 0.62rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.servicesIntro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: end;
+}
+
+.servicesTitle {
+    margin: 0;
+    font-size: clamp(1.85rem, 2.65vw, 2.8rem);
+    font-weight: 380;
+    letter-spacing: -0.05em;
+    line-height: 1.08;
+    text-wrap: balance;
+}
+
+.servicesBody {
+    margin: 0;
+    font-size: clamp(0.78rem, 0.92vw, 0.92rem);
+    line-height: 1.5;
+}
+
+.servicesList {
+    margin: clamp(2.5rem, 4vw, 4rem) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    list-style: none;
+}
+
+.serviceItem {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 0.85rem;
+    align-items: baseline;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.serviceNumber {
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+}
+
+.serviceItem h3,
+.serviceItem p {
+    margin: 0;
+}
+
+.serviceItem h3 {
+    font-size: 0.86rem;
+    font-weight: 520;
+    letter-spacing: -0.015em;
+}
+
+.serviceItem p {
+    font-size: 0.76rem;
+    line-height: 1.45;
 }
 
 .aboutSection {
@@ -609,28 +742,222 @@
 .farewellAction:hover { color: var(--muted); }
 .farewellAction:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
 
+.farewellEmail {
+    margin: 1rem 0 0;
+    font-size: 0.72rem;
+    line-height: 1.5;
+}
+
+.farewellEmail a {
+    color: inherit;
+    text-underline-offset: 0.2em;
+}
+
+.farewellEmail a:hover { color: var(--ink); }
+
+.projectDialog {
+    width: min(58rem, calc(100vw - 4rem));
+    max-width: none;
+    max-height: calc(100dvh - 4rem);
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+    border: 1px solid var(--line-strong);
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 1.5rem 6rem rgba(0, 0, 0, 0.3);
+}
+
+.projectDialog::backdrop {
+    background: rgba(0, 0, 0, 0.68);
+    backdrop-filter: blur(0.35rem);
+}
+
+.projectDialogPanel {
+    position: relative;
+    min-height: min(42rem, calc(100dvh - 4rem - 2px));
+    padding: clamp(1.5rem, 3vw, 3rem);
+}
+
+.projectDialogHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.projectDialogMeta,
+.projectDialogDetail h3 {
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 650;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.projectDialogClose {
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.projectDialogClose:hover { background: var(--paper-deep); }
+.projectDialogClose:focus-visible,
+.projectDialogVisit:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+.projectDialogClose svg { width: 1rem; height: 1rem; }
+
+.projectDialogIntro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.8fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: end;
+    padding: clamp(3rem, 6vw, 6rem) 0 clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.projectDialogTitle {
+    margin: 0;
+    font-size: clamp(3.4rem, 8vw, 7.4rem);
+    font-weight: 380;
+    letter-spacing: -0.075em;
+    line-height: 0.88;
+}
+
+.projectDialogSummary {
+    margin: 0;
+    font-size: clamp(1rem, 1.4vw, 1.25rem);
+    line-height: 1.42;
+}
+
+.projectDialogDetails {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.projectDialogDetail {
+    padding: 1.5rem clamp(1rem, 2vw, 2rem) 1.5rem 0;
+}
+
+.projectDialogDetail + .projectDialogDetail {
+    padding-left: clamp(1rem, 2vw, 2rem);
+    border-left: 1px solid var(--line);
+}
+
+.projectDialogDetail h3 { margin: 0 0 1rem; }
+
+.projectDialogDetail p,
+.projectDialogDetail ul {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.52;
+}
+
+.projectDialogDetail ul {
+    padding: 0;
+    list-style: none;
+}
+
+.projectDialogDetail li + li { margin-top: 0.35rem; }
+
+.projectDialogVisit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1.5rem;
+    color: inherit;
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.projectDialogVisit:hover { color: var(--muted); }
+.projectDialogVisit svg { width: 0.95rem; height: 0.95rem; }
+
 @media (max-width: 800px) {
     .siteShell {
-        --sidebar-pad-x: 1rem;
-        --sidebar-header-inset: 1.5rem;
+        --mobile-edge-x: clamp(1.25rem, 5.6vw, 1.75rem);
+        --mobile-content-end: clamp(3rem, 12vw, 4.25rem);
+        --sidebar-pad-x: var(--mobile-edge-x);
+        --sidebar-header-inset: var(--mobile-edge-x);
     }
 
     .processOverlay { width: 100%; }
 
     .sidebar {
-        position: relative;
+        position: fixed;
+        z-index: 80;
         width: 100%;
-        min-height: 100svh;
-        padding: 1.25rem 1rem 1.5rem;
+        height: 100dvh;
+        min-height: 0;
+        padding:
+            max(1.25rem, env(safe-area-inset-top))
+            max(var(--mobile-edge-x), env(safe-area-inset-right))
+            max(1.35rem, env(safe-area-inset-bottom))
+            max(var(--mobile-edge-x), env(safe-area-inset-left));
         border-right: 0;
-        border-bottom: 1px solid var(--line);
+        border-bottom: 0;
     }
 
-    .contentColumn { margin-left: 0; }
+    .sidebar::before,
+    .sidebar::after {
+        position: absolute;
+        z-index: 0;
+        right: 0;
+        left: 0;
+        content: '';
+        pointer-events: none;
+    }
 
-    .contentColumn { width: 100%; }
+    .sidebar::before {
+        top: 0;
+        height: 5.25rem;
+        background: linear-gradient(to bottom, var(--paper) 52%, transparent);
+    }
+
+    .sidebar::after {
+        bottom: 0;
+        height: 5.5rem;
+        background: linear-gradient(to top, var(--paper) 48%, transparent);
+    }
+
+    .sidebarHeader {
+        position: relative;
+        z-index: 2;
+        align-items: center;
+        margin: 0;
+        transform: translateZ(0);
+    }
+
+    .sidebarTop { z-index: 1; }
+
+    .sidebarBottom {
+        position: relative;
+        z-index: 2;
+        transform: translateZ(0);
+    }
+
+    .contentColumn {
+        width: 100%;
+        margin-left: 0;
+    }
 
     .field { left: 0; }
+
+    .numericCanvas { mix-blend-mode: normal; }
 
     .sidebarBottom { margin-top: auto; }
     .brand { width: 6.25rem; }
@@ -645,15 +972,30 @@
         font-size: clamp(3rem, 14vw, 3.75rem);
     }
 
-    .scrollbar {
-        top: 4.35rem;
-        left: auto;
-        right: 0.35rem;
-        bottom: 6.35rem;
-        width: 2.7rem;
+    .introScrollCta {
+        top: clamp(25rem, 55svh, 29rem);
+        left: var(--mobile-edge-x);
+        font-size: 0.64rem;
     }
 
-    .workSection { padding-inline: 1rem; }
+    .scrollbar {
+        z-index: 90;
+        top: max(4.6rem, calc(env(safe-area-inset-top) + 3.35rem));
+        left: auto;
+        right: 0.6rem;
+        bottom: max(4.75rem, calc(env(safe-area-inset-bottom) + 3.5rem));
+        width: 2.3rem;
+    }
+
+    .scrollbarControl {
+        width: 2.75rem;
+        flex-shrink: 0;
+    }
+
+    .workSection {
+        padding-right: var(--mobile-content-end);
+        padding-left: var(--mobile-edge-x);
+    }
 
     .project { grid-template-columns: 1.75rem minmax(0, 1fr) auto; }
 
@@ -664,20 +1006,69 @@
 
     .projectMeta { font-size: 0.58rem; }
 
+    .servicesIntro { display: block; }
+    .servicesBody { margin-top: 1rem; }
+
+    .serviceItem {
+        grid-template-columns: 1.75rem minmax(0, 1fr);
+    }
+
+    .serviceItem p {
+        grid-column: 2;
+        margin-top: 0.15rem;
+    }
+
     .aboutSection { margin-top: 8rem; }
+
+    .aboutSection,
+    .farewellSection { scroll-margin-top: 5rem; }
 
     .processStage {
         --stage-center-offset: 0%;
-        top: 5.75rem;
-        right: var(--sidebar-pad-x);
-        left: var(--sidebar-pad-x);
+        top: clamp(5.75rem, 10.5svh, 7.25rem);
+        right: var(--mobile-content-end);
+        left: var(--mobile-edge-x);
         width: auto;
     }
 
     :is(.processStageBody, .projectsBody, .aboutParagraph, .farewellBody) {
         margin-top: 1rem;
         font-size: 0.89rem;
+        line-height: 1.48;
     }
+
+    .socialLink,
+    .contactAction { font-size: 0.6rem; }
+
+    .projectDialog {
+        width: 100%;
+        height: 100dvh;
+        max-height: none;
+        border: 0;
+    }
+
+    .projectDialogPanel {
+        min-height: 100dvh;
+        padding: max(1.25rem, env(safe-area-inset-top)) var(--mobile-edge-x) max(1.5rem, env(safe-area-inset-bottom));
+    }
+
+    .projectDialogIntro {
+        display: block;
+        padding: 3.5rem 0 2.75rem;
+    }
+
+    .projectDialogSummary { margin-top: 1.5rem; }
+
+    .projectDialogDetails { display: block; }
+
+    .projectDialogDetail,
+    .projectDialogDetail + .projectDialogDetail {
+        padding: 1.35rem 0;
+        border-left: 0;
+        border-top: 1px solid var(--line);
+    }
+
+    .projectDialogDetail:first-child { border-top: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -685,5 +1076,6 @@
     .typingCursor { animation: none; }
     .processStageTitle,
     .fadeInTitle,
-    .columnMenu { transition: none; }
+    .columnMenu,
+    .introScrollCta { transition: none; }
 }
