@@ -86,7 +86,23 @@ export function ColumnMenuPanel({ open, label, items, onNavigate }: ColumnMenuPa
             <ul className={styles.columnMenuList}>
                 {items.map((item) => (
                     <li className={styles.columnMenuItem} key={item.href}>
-                        <a className={styles.columnMenuLink} href={item.href} onClick={onNavigate}>
+                        <a
+                            className={styles.columnMenuLink}
+                            href={item.href}
+                            onClick={(event) => {
+                                if (item.href === '#top') {
+                                    event.preventDefault();
+                                    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                                    window.history.replaceState(null, '', '#top');
+                                    window.scrollTo({
+                                        top: 0,
+                                        left: 0,
+                                        behavior: reducedMotion ? 'auto' : 'smooth',
+                                    });
+                                }
+                                onNavigate();
+                            }}
+                        >
                             {item.label}
                         </a>
                     </li>

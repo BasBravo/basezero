@@ -3,7 +3,7 @@
     "navWork": "Proyectos",
     "work": {
       "title": "Productos reales, construidos de principio a fin.",
-      "body": "Una selección de productos que he definido, diseñado, desarrollado y llevado a producción. Abre cada proyecto para conocer el reto y mi aportación."
+      "body": "Una selección de productos que he definido, diseñado, desarrollado y llevado a producción. Cada uno cuenta una forma distinta de convertir una idea en algo real."
     },
     "intro": {
       "title": "De una idea\na un producto digital real.",
@@ -31,8 +31,7 @@
       "paragraphThree": "Trabajo mejor con fundadores y equipos que tienen una idea clara —o un problema concreto—, confían en un proceso abierto y participan en las decisiones. El objetivo es poner pronto una primera versión útil en manos de personas reales y aprender a partir de ella."
     },
     "services": {
-      "label": "En qué puedo ayudarte",
-      "title": "Cuando necesitas convertir una dirección en producto.",
+      "title": "Cuando necesitas convertir una idea en producto.",
       "body": "Colaboraciones centradas en crear una primera versión útil o hacer evolucionar una base que ya ha demostrado su valor.",
       "launch": {
         "title": "Lanzar un producto desde cero",
@@ -50,13 +49,11 @@
     "farewell": {
       "title": "Hablemos de lo que quieres construir.",
       "body": "Cuéntame qué quieres conseguir, en qué punto está el proyecto y si tienes una fecha objetivo. Te responderé personalmente para valorar si podemos construirlo juntos.",
-      "emailLabel": "O escríbeme directamente a"
+      "copyEmail": "Copiar correo electrónico",
+      "emailCopied": "Correo copiado"
     },
     "projectDialog": {
       "close": "Cerrar proyecto",
-      "challenge": "El reto",
-      "solution": "La solución",
-      "contribution": "Mi aportación",
       "visit": "Abrir producto real"
     },
     "processLabel": "Proceso de producto",

@@ -28,7 +28,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         scrollbar: t('scrollbar'),
         aboutTitle: t('about.title'),
         aboutParagraphs: [t('about.paragraphOne'), t('about.paragraphTwo'), t('about.paragraphThree')],
-        servicesLabel: t('services.label'),
         servicesTitle: t('services.title'),
         servicesBody: t('services.body'),
         services: [
@@ -38,11 +37,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         ],
         farewellTitle: t('farewell.title'),
         farewellBody: t('farewell.body'),
-        farewellEmailLabel: t('farewell.emailLabel'),
+        copyEmail: t('farewell.copyEmail'),
+        emailCopied: t('farewell.emailCopied'),
         projectDialogClose: t('projectDialog.close'),
-        projectDialogChallenge: t('projectDialog.challenge'),
-        projectDialogSolution: t('projectDialog.solution'),
-        projectDialogContribution: t('projectDialog.contribution'),
         projectDialogVisit: t('projectDialog.visit'),
         processLabel: t('processLabel'),
         processSteps: [

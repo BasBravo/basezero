@@ -7,16 +7,14 @@ type ServiceItem = {
 };
 
 type ServicesFitProps = {
-    label: string;
     title: string;
     body: string;
     services: ServiceItem[];
 };
 
-export function ServicesFit({ label, title, body, services }: ServicesFitProps) {
+export function ServicesFit({ title, body, services }: ServicesFitProps) {
     return (
         <section className={styles.servicesSection} aria-labelledby="services-title">
-            <p className={styles.servicesLabel}>{label}</p>
             <div className={styles.servicesIntro}>
                 <h2 id="services-title" className={styles.servicesTitle}>{title}</h2>
                 <p className={styles.servicesBody}>{body}</p>

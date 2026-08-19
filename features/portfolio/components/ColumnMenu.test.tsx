@@ -58,6 +58,21 @@ describe('ColumnMenu', () => {
         expect(screen.queryByRole('navigation', { name: 'Secciones' })).toBeNull();
     });
 
+    it('lleva Inicio al origen real del documento', async () => {
+        const user = userEvent.setup();
+        const scrollTo = vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined);
+        Object.defineProperty(window, 'matchMedia', {
+            configurable: true,
+            value: vi.fn().mockReturnValue({ matches: true }),
+        });
+        render(<MenuHarness />);
+
+        await user.click(screen.getByRole('button', { name: 'Abrir menú' }));
+        await user.click(screen.getByRole('link', { name: 'Inicio' }));
+
+        expect(scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'auto' });
+    });
+
     it('cierra el menú tras un scroll breve', () => {
         vi.useFakeTimers();
         render(<MenuHarness />);

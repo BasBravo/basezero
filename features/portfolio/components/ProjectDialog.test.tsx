@@ -8,19 +8,17 @@ const project: PortfolioProject = {
     id: 'test',
     name: 'Test product',
     description: 'A concise product description.',
-    discipline: 'Product · Full-stack',
+    facets: ['SaaS platform', 'AI'],
     year: '2026',
     url: 'https://example.com/',
-    challenge: 'A meaningful challenge.',
-    solution: 'A focused solution.',
-    contribution: ['Product strategy', 'Design and development'],
+    story: [
+        'A meaningful editorial opening.',
+        'A focused continuation of the product story.',
+    ],
 };
 
 const copy = {
     close: 'Close project',
-    challenge: 'The challenge',
-    solution: 'The solution',
-    contribution: 'My contribution',
     visit: 'Open live product',
 };
 
@@ -50,8 +48,9 @@ describe('ProjectDialog', () => {
 
         expect(screen.getByRole('dialog')).toHaveAttribute('open');
         expect(screen.getByRole('heading', { name: 'Test product' })).toBeVisible();
-        expect(screen.getByRole('heading', { name: 'The challenge' })).toBeVisible();
-        expect(screen.getByText('Design and development')).toBeVisible();
+        expect(screen.getByText('A meaningful editorial opening.')).toBeVisible();
+        expect(screen.getByText('SaaS platform · AI · 2026')).toBeVisible();
+        expect(screen.queryByRole('heading', { name: 'The challenge' })).toBeNull();
         expect(screen.getByRole('link', { name: 'Open live product' })).toHaveAttribute(
             'href',
             'https://example.com/',

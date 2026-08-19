@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpRight, Moon, Plus, Sun } from 'lucide-react';
+import { ArrowUpRight, Check, Copy, Moon, Plus, Sun } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import type { PortfolioProject } from '@/content/portfolio-projects';
@@ -35,7 +35,6 @@ export type PortfolioCopy = {
     scrollbar: string;
     aboutTitle: string;
     aboutParagraphs: string[];
-    servicesLabel: string;
     servicesTitle: string;
     servicesBody: string;
     services: Array<{
@@ -45,11 +44,9 @@ export type PortfolioCopy = {
     }>;
     farewellTitle: string;
     farewellBody: string;
-    farewellEmailLabel: string;
+    copyEmail: string;
+    emailCopied: string;
     projectDialogClose: string;
-    projectDialogChallenge: string;
-    projectDialogSolution: string;
-    projectDialogContribution: string;
     projectDialogVisit: string;
     processLabel: string;
     processSteps: Array<{
@@ -68,6 +65,7 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
     const [activeProject, setActiveProject] = useState(-1);
     const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [emailCopied, setEmailCopied] = useState(false);
 
     function toggleTheme() {
         const currentTheme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
@@ -81,8 +79,14 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
         }
     }
 
+    async function copyEmailAddress() {
+        await navigator.clipboard.writeText('hello@basezero.dev');
+        setEmailCopied(true);
+        window.setTimeout(() => setEmailCopied(false), 1800);
+    }
+
     return (
-        <div className={styles.siteShell} data-menu-open={menuOpen ? 'true' : undefined}>
+        <div id="top" className={styles.siteShell} data-menu-open={menuOpen ? 'true' : undefined}>
             <a href="#content" className={styles.skipLink}>
                 {copy.locale === 'es' ? 'Saltar al contenido' : 'Skip to content'}
             </a>
@@ -158,7 +162,7 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                         processSteps={copy.processSteps}
                     />
                     <BotanicalField activeProject={activeProject} />
-                    <div id="top" className={styles.stickyStage} />
+                    <div className={styles.stickyStage} />
                 </section>
 
                 <section id="work" className={styles.workSection}>
@@ -166,7 +170,7 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                         <FadeInTitle className={styles.projectsTitle}>{copy.workTitle}</FadeInTitle>
                         <p className={styles.projectsBody}>{copy.workBody}</p>
                     </header>
-                    <ol id="projects" className={styles.projectList} aria-label={copy.navWork}>
+                    <ul id="projects" className={styles.projectList} aria-label={copy.navWork}>
                         {projects.map((project, index) => (
                             <li key={project.id}>
                                 <button
@@ -180,20 +184,18 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                                     onFocus={() => setActiveProject(index)}
                                     onBlur={() => setActiveProject(-1)}
                                 >
-                                    <span className={styles.projectNumber} aria-hidden="true">
-                                        {String(index + 1).padStart(2, '0')}
-                                    </span>
                                     <span className={styles.projectName}>{project.name}</span>
                                     <span className={styles.projectDescription}>{project.description}</span>
-                                    <span className={styles.projectMeta}>{project.discipline} · {project.year}</span>
+                                    <span className={styles.projectMeta}>
+                                        {project.facets.join(' · ')} · {project.year}
+                                    </span>
                                     <Plus className={styles.projectArrow} aria-hidden="true" strokeWidth={1.5} />
                                 </button>
                             </li>
                         ))}
-                    </ol>
+                    </ul>
 
                     <ServicesFit
-                        label={copy.servicesLabel}
                         title={copy.servicesTitle}
                         body={copy.servicesBody}
                         services={copy.services}
@@ -207,14 +209,23 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                     <section id="contact" className={styles.farewellSection}>
                         <FadeInTitle className={styles.farewellTitle}>{copy.farewellTitle}</FadeInTitle>
                         <p className={styles.farewellBody}>{copy.farewellBody}</p>
-                        <a className={styles.farewellAction} href="mailto:hello@basezero.dev">
-                            <span>{copy.contactAction}</span>
-                            <ArrowUpRight aria-hidden="true" strokeWidth={1.5} />
-                        </a>
-                        <p className={styles.farewellEmail}>
-                            {copy.farewellEmailLabel}{' '}
-                            <a href="mailto:hello@basezero.dev">hello@basezero.dev</a>
-                        </p>
+                        <div className={styles.farewellActions}>
+                            <a className={styles.farewellAction} href="mailto:hello@basezero.dev">
+                                <span>{copy.contactAction}</span>
+                                <ArrowUpRight aria-hidden="true" strokeWidth={1.5} />
+                            </a>
+                            <button
+                                className={styles.copyEmailAction}
+                                type="button"
+                                aria-label={emailCopied ? copy.emailCopied : copy.copyEmail}
+                                title={emailCopied ? copy.emailCopied : copy.copyEmail}
+                                onClick={() => void copyEmailAddress()}
+                            >
+                                {emailCopied
+                                    ? <Check aria-hidden="true" strokeWidth={1.5} />
+                                    : <Copy aria-hidden="true" strokeWidth={1.5} />}
+                            </button>
+                        </div>
                     </section>
                 </section>
             </main>
@@ -224,9 +235,6 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                     project={selectedProject}
                     copy={{
                         close: copy.projectDialogClose,
-                        challenge: copy.projectDialogChallenge,
-                        solution: copy.projectDialogSolution,
-                        contribution: copy.projectDialogContribution,
                         visit: copy.projectDialogVisit,
                     }}
                     onClose={() => setSelectedProject(null)}

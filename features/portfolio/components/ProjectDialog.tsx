@@ -7,9 +7,6 @@ import styles from './portfolio.module.css';
 
 type ProjectDialogCopy = {
     close: string;
-    challenge: string;
-    solution: string;
-    contribution: string;
     visit: string;
 };
 
@@ -71,7 +68,9 @@ export function ProjectDialog({ project, copy, onClose }: ProjectDialogProps) {
         >
             <article className={styles.projectDialogPanel}>
                 <header className={styles.projectDialogHeader}>
-                    <span className={styles.projectDialogMeta}>{project.discipline} · {project.year}</span>
+                    <span className={styles.projectDialogMeta}>
+                        {project.facets.join(' · ')} · {project.year}
+                    </span>
                     <button
                         className={styles.projectDialogClose}
                         type="button"
@@ -87,32 +86,18 @@ export function ProjectDialog({ project, copy, onClose }: ProjectDialogProps) {
                     <p id={descriptionId} className={styles.projectDialogSummary}>{project.description}</p>
                 </div>
 
-                <div className={styles.projectDialogDetails}>
-                    <section className={styles.projectDialogDetail}>
-                        <h3>{copy.challenge}</h3>
-                        <p>{project.challenge}</p>
-                    </section>
-                    <section className={styles.projectDialogDetail}>
-                        <h3>{copy.solution}</h3>
-                        <p>{project.solution}</p>
-                    </section>
-                    <section className={styles.projectDialogDetail}>
-                        <h3>{copy.contribution}</h3>
-                        <ul>
-                            {project.contribution.map((item) => <li key={item}>{item}</li>)}
-                        </ul>
-                    </section>
+                <div className={styles.projectDialogStory}>
+                    {project.story.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                    <a
+                        className={styles.projectDialogVisit}
+                        href={project.url}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <span>{copy.visit}</span>
+                        <ArrowUpRight aria-hidden="true" strokeWidth={1.4} />
+                    </a>
                 </div>
-
-                <a
-                    className={styles.projectDialogVisit}
-                    href={project.url}
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <span>{copy.visit}</span>
-                    <ArrowUpRight aria-hidden="true" strokeWidth={1.4} />
-                </a>
             </article>
         </dialog>
     );

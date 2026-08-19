@@ -3,7 +3,7 @@
     "navWork": "Selected work",
     "work": {
       "title": "Real products, built from end to end.",
-      "body": "A selection of products I have shaped, designed, built and taken to production. Open any project to learn about the challenge and my contribution."
+      "body": "A selection of products I have shaped, designed, built and taken to production. Each one tells a different story of turning an idea into something real."
     },
     "intro": {
       "title": "From an idea\nto a real digital product.",
@@ -31,8 +31,7 @@
       "paragraphThree": "I work best with founders and teams who have a clear idea—or a specific problem—trust an open process and take part in the decisions. The goal is to put a useful first version in front of real people early and learn from it."
     },
     "services": {
-      "label": "How I can help",
-      "title": "When you need to turn direction into product.",
+      "title": "When you need to turn an idea into a product.",
       "body": "Engagements focused on creating a useful first version or evolving a foundation that has already proved its value.",
       "launch": {
         "title": "Launch a product from scratch",
@@ -50,13 +49,11 @@
     "farewell": {
       "title": "Let’s talk about what you want to build.",
       "body": "Tell me what you want to achieve, where the project stands and whether you have a target date. I’ll reply personally so we can decide if we are a good fit.",
-      "emailLabel": "Or email me directly at"
+      "copyEmail": "Copy email address",
+      "emailCopied": "Email copied"
     },
     "projectDialog": {
       "close": "Close project",
-      "challenge": "The challenge",
-      "solution": "The solution",
-      "contribution": "My contribution",
       "visit": "Open live product"
     },
     "processLabel": "Product process",
