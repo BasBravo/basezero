@@ -1,12 +1,19 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getPortfolioProjects } from '@/content/portfolio-projects';
+import { getArticleSummaries } from '@/features/articles/lib/articles';
 import { PortfolioExperience, type PortfolioCopy } from '@/features/portfolio/components/PortfolioExperience';
+import { routing } from '@/i18n/routing';
+
+export function generateStaticParams() {
+    return routing.locales.map(locale => ({ locale }));
+}
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     setRequestLocale(locale);
     const t = await getTranslations('Portfolio');
     const projects = getPortfolioProjects(locale);
+    const articles = getArticleSummaries(locale);
     const copy: PortfolioCopy = {
         locale,
         navWork: t('navWork'),
@@ -24,10 +31,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         menuHome: t('menu.home'),
         menuWork: t('menu.work'),
         menuAbout: t('menu.about'),
+        menuArticles: t('menu.articles'),
         menuContact: t('menu.contact'),
         scrollbar: t('scrollbar'),
         aboutTitle: t('about.title'),
         aboutParagraphs: [t('about.paragraphOne'), t('about.paragraphTwo'), t('about.paragraphThree')],
+        articlesTitle: t('articles.title'),
+        articlesBody: t('articles.body'),
+        readArticle: t('articles.read'),
         servicesTitle: t('services.title'),
         servicesBody: t('services.body'),
         services: [
@@ -51,5 +62,5 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         ],
     };
 
-    return <PortfolioExperience copy={copy} projects={projects} />;
+    return <PortfolioExperience copy={copy} projects={projects} articles={articles} />;
 }

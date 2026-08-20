@@ -34,8 +34,8 @@ export function ColumnMenuToggle({ open, openLabel, closeLabel, onToggle }: Colu
             onClick={onToggle}
         >
             {open
-                ? <X aria-hidden="true" strokeWidth={1.5} />
-                : <Menu aria-hidden="true" strokeWidth={1.5} />}
+                ? <X aria-hidden="true" strokeWidth={2.25} />
+                : <Menu aria-hidden="true" strokeWidth={2.25} />}
         </button>
     );
 }

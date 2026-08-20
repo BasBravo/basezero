@@ -2,6 +2,8 @@
     --sidebar-width: 30vw;
     --sidebar-pad-x: clamp(1.5rem, 3vw, 3.5rem);
     --sidebar-header-inset: 1.7rem;
+    --header-scrim-fade: 8rem;
+    --header-scrim-solid: 50%;
     --paper: #f2f2ef;
     --paper-deep: #e9e9e5;
     --ink: #111210;
@@ -122,7 +124,7 @@
     will-change: opacity, transform;
 }
 
-:is(.processStageTitle, .projectsTitle, .aboutTitle, .farewellTitle) {
+:is(.processStageTitle, .projectsTitle, .servicesTitle, .aboutTitle, .articlesTitle, .farewellTitle, .projectDialogTitle) {
     max-width: none;
     margin: 0;
     color: var(--ink);
@@ -182,7 +184,7 @@
 .introScrollCta:hover { color: var(--muted); }
 .introScrollCta:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
 
-:is(.processStageBody, .projectsBody, .aboutParagraph, .farewellBody) {
+:is(.processStageBody, .projectsBody, .servicesBody, .aboutParagraph, .articlesBody, .farewellBody) {
     width: 100%;
     max-width: none;
     margin: clamp(1rem, 1.5vw, 1.35rem) 0 0;
@@ -246,12 +248,84 @@
 }
 
 .sidebarHeader {
+    position: relative;
+    z-index: 2;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: clamp(1rem, 2vw, 2rem);
-    margin: calc(var(--sidebar-header-inset) - clamp(1.5rem, 3vw, 3.25rem)) calc(var(--sidebar-header-inset) - var(--sidebar-pad-x)) 0;
+    margin:
+        calc(var(--sidebar-header-inset) - clamp(1.5rem, 3vw, 3.25rem))
+        0
+        0;
     pointer-events: auto;
+}
+
+.headerScrim {
+    pointer-events: none;
+}
+
+.headerScrimLayer,
+.headerScrimTint {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: var(--header-scrim-fade);
+    pointer-events: none;
+}
+
+.headerScrimLayer {
+    z-index: 25;
+    top: calc(var(--header-scrim-fade) * 0.5);
+    height: calc(var(--header-scrim-fade) * 0.5);
+    background: color-mix(in srgb, var(--paper) 1%, transparent);
+}
+
+.headerScrimLayer:nth-child(1) {
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+}
+
+.headerScrimLayer:nth-child(2) {
+    height: calc(var(--header-scrim-fade) * 0.42);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.headerScrimLayer:nth-child(3) {
+    height: calc(var(--header-scrim-fade) * 0.34);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.headerScrimLayer:nth-child(4) {
+    height: calc(var(--header-scrim-fade) * 0.26);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.headerScrimLayer:nth-child(5) {
+    height: calc(var(--header-scrim-fade) * 0.18);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.headerScrimLayer:nth-child(6) {
+    height: calc(var(--header-scrim-fade) * 0.12);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+}
+
+.headerScrimLayer:nth-child(7) {
+    height: calc(var(--header-scrim-fade) * 0.07);
+    backdrop-filter: blur(48px);
+    -webkit-backdrop-filter: blur(48px);
+}
+
+.headerScrimTint {
+    z-index: 26;
+    background: linear-gradient(to bottom, var(--paper) 0%, var(--paper) var(--header-scrim-solid), transparent 100%);
 }
 
 .sidebarTop {
@@ -278,6 +352,8 @@
 }
 
 .brand {
+    position: relative;
+    z-index: 1;
     display: block;
     width: clamp(6rem, 8vw, 7.5rem);
     flex: 0 0 auto;
@@ -303,10 +379,13 @@
 }
 
 .sidebarActions {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex: 0 0 auto;
     align-items: center;
     gap: 0.15rem;
+    margin-right: -10px;
 }
 
 .themeToggle:hover,
@@ -314,8 +393,8 @@
 
 .themeToggle svg,
 .menuToggle svg {
-    width: 1.1rem;
-    height: 1.1rem;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .themeIconLight { display: none; }
@@ -558,7 +637,12 @@
     white-space: nowrap;
 }
 
-.projectArrow {
+.project:not(:has(.projectDescription)) .projectMeta {
+    grid-row: 2;
+}
+
+.projectArrow,
+.articleArrow {
     grid-column: 2;
     grid-row: 1;
     width: 0.95rem;
@@ -567,9 +651,17 @@
     transition: transform 180ms ease, color 180ms ease;
 }
 
-.project:hover .projectArrow {
+.project:hover .projectArrow,
+.project:hover .articleArrow {
     color: var(--ink);
+}
+
+.project:hover .projectArrow {
     transform: rotate(90deg);
+}
+
+.project:hover .articleArrow {
+    transform: translate3d(0.12rem, -0.12rem, 0);
 }
 
 .servicesSection {
@@ -578,32 +670,8 @@
     border-top: 1px solid var(--line);
 }
 
-.servicesBody,
-.serviceItem p,
-.projectDialogMeta {
+.serviceItem p {
     color: var(--muted);
-}
-
-.servicesIntro {
-    display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    gap: clamp(1.5rem, 3vw, 3rem);
-    align-items: end;
-}
-
-.servicesTitle {
-    margin: 0;
-    font-size: clamp(1.85rem, 2.65vw, 2.8rem);
-    font-weight: 380;
-    letter-spacing: -0.05em;
-    line-height: 1.08;
-    text-wrap: balance;
-}
-
-.servicesBody {
-    margin: 0;
-    font-size: clamp(0.78rem, 0.92vw, 0.92rem);
-    line-height: 1.5;
 }
 
 .servicesList {
@@ -676,6 +744,13 @@
 .aboutCopy { max-width: 100%; }
 
 .aboutParagraph + .aboutParagraph { margin-top: 0.9rem; }
+
+.articlesSection {
+    scroll-margin-top: clamp(2rem, 5vw, 4rem);
+    margin-top: clamp(7rem, 12vw, 11rem);
+}
+
+.articlesIntro { margin-bottom: clamp(3rem, 5vw, 4.5rem); }
 
 .fadeInTitle {
     opacity: 0;
@@ -765,6 +840,8 @@
 }
 
 .projectDialogMeta {
+    display: block;
+    color: var(--ink);
     font-size: 0.62rem;
     font-weight: 650;
     letter-spacing: 0.09em;
@@ -773,10 +850,12 @@
 
 .projectDialogClose {
     display: inline-flex;
-    width: 2rem;
-    height: 2rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
     align-items: center;
     justify-content: center;
+    margin: -0.4rem -0.55rem 0 0;
     padding: 0;
     border: 0;
     background: transparent;
@@ -787,41 +866,27 @@
 .projectDialogClose:hover { color: var(--muted); }
 .projectDialogClose:focus-visible,
 .projectDialogVisit:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
-.projectDialogClose svg { width: 1rem; height: 1rem; }
+.projectDialogClose svg { width: 1.65rem; height: 1.65rem; }
 
 .projectDialogIntro {
-    padding: clamp(4.5rem, 9vw, 7rem) 0 clamp(2.75rem, 5vw, 4rem);
-}
-
-.projectDialogTitle {
-    margin: 0;
-    font-size: clamp(3.4rem, 8vw, 7.4rem);
-    font-weight: 380;
-    letter-spacing: -0.075em;
-    line-height: 0.9;
-    text-wrap: balance;
-}
-
-.projectDialogSummary {
-    max-width: 34rem;
-    margin: clamp(1.75rem, 3vw, 2.5rem) 0 0;
-    font-size: clamp(1rem, 1.4vw, 1.25rem);
-    line-height: 1.42;
-    text-wrap: balance;
+    padding: clamp(4.5rem, 9vw, 7rem) 0 clamp(1.75rem, 3vw, 2.5rem);
 }
 
 .projectDialogStory {
-    max-width: 34rem;
-    margin-left: auto;
     padding-bottom: 1rem;
 }
 
 .projectDialogStory p {
     margin: 0;
-    color: var(--muted);
-    font-size: clamp(0.88rem, 1.05vw, 1rem);
-    line-height: 1.62;
+    width: 100%;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: clamp(0.9rem, 1.05vw, 1.08rem);
+    font-weight: 360;
+    letter-spacing: -0.012em;
+    line-height: 1.5;
     text-wrap: pretty;
+    text-shadow: none;
 }
 
 .projectDialogStory p + p { margin-top: 1.15rem; }
@@ -835,12 +900,22 @@
     font-size: 0.68rem;
     font-weight: 650;
     letter-spacing: 0.08em;
+    opacity: 0;
+    pointer-events: none;
     text-decoration: none;
     text-transform: uppercase;
+    transition: opacity 160ms ease;
 }
+
+.projectDialogVisit[data-visible='true'] { opacity: 1; pointer-events: auto; }
 
 .projectDialogVisit:hover { color: var(--muted); }
 .projectDialogVisit svg { width: 0.95rem; height: 0.95rem; }
+
+.projectDialogVisitText {
+    display: inline-block;
+    min-width: 10rem;
+}
 
 @media (max-width: 800px) {
     .siteShell {
@@ -848,10 +923,12 @@
         --mobile-content-end: clamp(3rem, 12vw, 4.25rem);
         --mobile-controls-right: 0.4rem;
         --sidebar-pad-x: var(--mobile-edge-x);
-        --sidebar-header-inset: var(--mobile-edge-x);
     }
 
     .processOverlay { width: 100%; }
+
+    .headerScrimLayer,
+    .headerScrimTint { width: 100%; }
 
     .sidebar {
         position: fixed;
@@ -868,35 +945,25 @@
         border-bottom: 0;
     }
 
-    .sidebar::before,
     .sidebar::after {
         position: absolute;
         z-index: 0;
         right: 0;
+        bottom: 0;
         left: 0;
+        height: 5.5rem;
         content: '';
         pointer-events: none;
-    }
-
-    .sidebar::before {
-        top: 0;
-        height: 5.25rem;
-        background: linear-gradient(to bottom, var(--paper) 52%, transparent);
-    }
-
-    .sidebar::after {
-        bottom: 0;
-        height: 5.5rem;
         background: linear-gradient(to top, var(--paper) 48%, transparent);
     }
 
     .sidebarHeader {
-        position: relative;
-        z-index: 2;
         align-items: center;
         margin: 0;
         transform: translateZ(0);
     }
+
+    .sidebarActions { margin-right: 0; }
 
     .sidebarTop { z-index: 1; }
 
@@ -920,7 +987,7 @@
     .brandFull { display: block; }
     .growthSection { height: 560svh; }
 
-    :is(.processStageTitle, .projectsTitle, .aboutTitle, .farewellTitle, .columnMenuLink) {
+    :is(.processStageTitle, .projectsTitle, .servicesTitle, .aboutTitle, .articlesTitle, .farewellTitle, .columnMenuLink, .projectDialogTitle) {
         font-size: clamp(2.35rem, 11vw, 3.15rem);
     }
 
@@ -941,8 +1008,8 @@
 
     .themeToggle svg,
     .menuToggle svg {
-        width: 1.35rem;
-        height: 1.35rem;
+        width: 1.5rem;
+        height: 1.5rem;
     }
 
     .scrollbar {
@@ -967,13 +1034,11 @@
     .project { grid-template-columns: minmax(0, 1fr) auto; }
 
     .projectName { grid-column: 1; grid-row: 1; }
-    .projectArrow { grid-column: 2; grid-row: 1; }
+    .projectArrow,
+    .articleArrow { grid-column: 2; grid-row: 1; }
     .projectDescription { font-size: 0.75rem; }
 
     .projectMeta { font-size: 0.58rem; }
-
-    .servicesIntro { display: block; }
-    .servicesBody { margin-top: 1rem; }
 
     .serviceItem {
         grid-template-columns: 1.75rem minmax(0, 1fr);
@@ -987,6 +1052,7 @@
     .aboutSection { margin-top: 8rem; }
 
     .aboutSection,
+    .articlesSection,
     .farewellSection { scroll-margin-top: 5rem; }
 
     .processStage {
@@ -997,7 +1063,7 @@
         width: auto;
     }
 
-    :is(.processStageBody, .projectsBody, .aboutParagraph, .farewellBody) {
+    :is(.processStageBody, .projectsBody, .servicesBody, .aboutParagraph, .articlesBody, .farewellBody) {
         margin-top: 1rem;
         font-size: 0.89rem;
         line-height: 1.48;
@@ -1019,18 +1085,19 @@
     }
 
     .projectDialogIntro {
-        padding: 4.5rem 0 2.5rem;
+        padding: 4.5rem 0 1.75rem;
     }
 
-    .projectDialogTitle { font-size: clamp(3rem, 14vw, 4rem); }
+    .projectDialogStory p {
+        font-size: 0.89rem;
+        line-height: 1.48;
+    }
 
-    .projectDialogSummary { margin-top: 1.5rem; }
-
-    .projectDialogStory { margin-left: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .projectArrow { animation: none; transition: none; }
+    .projectArrow,
+    .articleArrow { animation: none; transition: none; }
     .typingCursor { animation: none; }
     .processStageTitle,
     .fadeInTitle,

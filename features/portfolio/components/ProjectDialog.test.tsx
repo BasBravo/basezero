@@ -24,6 +24,10 @@ const copy = {
 
 describe('ProjectDialog', () => {
     beforeEach(() => {
+        Object.defineProperty(window, 'matchMedia', {
+            configurable: true,
+            value: vi.fn().mockReturnValue({ matches: true }),
+        });
         Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
             configurable: true,
             value() {
@@ -48,8 +52,10 @@ describe('ProjectDialog', () => {
 
         expect(screen.getByRole('dialog')).toHaveAttribute('open');
         expect(screen.getByRole('heading', { name: 'Test product' })).toBeVisible();
-        expect(screen.getByText('A meaningful editorial opening.')).toBeVisible();
-        expect(screen.getByText('SaaS platform · AI · 2026')).toBeVisible();
+        expect(screen.getByRole('heading', { name: 'Test product' })).toHaveAttribute('data-visible', 'true');
+        expect(screen.getAllByText('A meaningful editorial opening.')).toHaveLength(2);
+        expect(screen.queryByText('A concise product description.')).toBeNull();
+        expect(screen.getAllByText('SaaS platform · AI · 2026')).toHaveLength(2);
         expect(screen.queryByRole('heading', { name: 'The challenge' })).toBeNull();
         expect(screen.getByRole('link', { name: 'Open live product' })).toHaveAttribute(
             'href',

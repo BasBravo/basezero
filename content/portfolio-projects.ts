@@ -18,7 +18,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2026',
             url: 'https://signado.es/',
             story: [
-                'Signado explora cómo el vídeo puede dejar de ser un recorrido cerrado para convertirse en una conversación. En lugar de ofrecer el mismo contenido a todo el mundo, escucha respuestas y abre caminos distintos para cada persona.',
+                'Signado es un vídeo interactivo accesible que escucha, pregunta y se adapta a cada persona. En lugar de un recorrido cerrado, convierte el vídeo en una conversación y abre caminos distintos según las respuestas.',
                 'El producto reúne vídeo, preguntas y lógica adaptativa en una experiencia diseñada desde la accesibilidad. El resultado es una forma más cercana de acompañar, explicar y descubrir qué necesita cada usuario.',
             ],
         },
@@ -30,7 +30,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2026',
             url: 'https://weform.app/',
             story: [
-                'WeForm nació para que crear experiencias de vídeo no lineales no exigiera encadenar herramientas ni sostener un proceso técnico difícil de mantener.',
+                'WeForm es una plataforma completa para crear experiencias de vídeo interactivas. Nació para que construir recorridos no lineales no exigiera encadenar herramientas ni sostener un proceso técnico difícil de mantener.',
                 'Desde un único entorno se puede diseñar la estructura, configurar cada recorrido y publicar la experiencia. La IA se integra como parte del flujo de creación para hacer el proceso más ágil sin restarle control a quien crea.',
             ],
         },
@@ -42,7 +42,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2025',
             url: 'https://mappic.app/',
             story: [
-                'Mappic convierte un lugar importante en una pieza gráfica personal. La ciudad donde vives, un viaje o una coordenada concreta se transforman en una composición que conserva el vínculo con ese territorio.',
+                'Mappic convierte mapas generativos en piezas gráficas personales. Un lugar importante —la ciudad donde vives, un viaje o una coordenada concreta— se transforma en una composición que conserva el vínculo con ese territorio.',
                 'A partir de datos geográficos, el sistema genera mapas configurables y listos para convertirse en una pieza física. Tecnología y diseño trabajan juntos para que cada resultado sea reconocible y, al mismo tiempo, único.',
             ],
         },
@@ -54,7 +54,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2025',
             url: 'https://mergeo.dev/',
             story: [
-                'Mergeo parte de una idea sencilla: la actividad de GitHub ya contiene buena parte de la historia profesional de una persona, aunque un perfil técnico no siempre consiga contarla con claridad.',
+                'Mergeo construye portfolios visuales directamente desde la actividad de GitHub. Parte de una idea sencilla: esa actividad ya contiene buena parte de la historia profesional de una persona, aunque un perfil técnico no siempre consiga contarla con claridad.',
                 'La herramienta interpreta la información pública y la convierte en un portfolio visual listo para compartir. Los datos siguen siendo la materia prima, pero se ordenan para dar protagonismo al trabajo y a la trayectoria.',
             ],
         },
@@ -66,7 +66,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2026',
             url: 'https://typos.basezero.dev',
             story: [
-                'typos lleva la experimentación tipográfica a un espacio inmediato y accesible. Una palabra deja de ser texto estático y se convierte en una materia visual que se puede deformar, ordenar y explorar.',
+                'typos es un estudio de tipografía vectorial para convertir palabras en sistemas editables. Lleva la experimentación tipográfica a un espacio inmediato y accesible: una palabra deja de ser texto estático y se convierte en una materia visual que se puede deformar, ordenar y explorar.',
                 'Desde el navegador, cada composición se construye como un sistema vectorial editable. La herramienta reduce la distancia entre probar una idea y encontrar una forma con carácter propio.',
             ],
         },
@@ -80,7 +80,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2026',
             url: 'https://signado.es/',
             story: [
-                'Signado explores how video can move beyond a closed, linear format and become a conversation. Instead of giving everyone the same content, it listens to responses and opens different paths for each person.',
+                'Signado is accessible interactive video that listens, asks and adapts to each person. Instead of a closed, linear path, it turns video into a conversation and opens different routes according to the answers.',
                 'The product brings together video, questions and adaptive logic in an experience designed around accessibility. The result is a more human way to guide, explain and understand what each user needs.',
             ],
         },
@@ -92,7 +92,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2026',
             url: 'https://weform.app/',
             story: [
-                'WeForm was created so building non-linear video experiences would no longer mean stitching together separate tools or maintaining a fragile technical process.',
+                'WeForm is a complete platform for building interactive video experiences. It was created so constructing non-linear paths would no longer mean stitching together separate tools or maintaining a fragile technical process.',
                 'One environment holds the structure, every path and the publishing flow. AI is woven into the creative process to make it faster while keeping the creator firmly in control.',
             ],
         },
@@ -104,7 +104,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2025',
             url: 'https://mappic.app/',
             story: [
-                'Mappic turns a meaningful place into a personal graphic piece. A hometown, a journey or a precise coordinate becomes a composition that keeps its connection to that territory.',
+                'Mappic turns generative maps into personal graphic pieces. A meaningful place — a hometown, a journey or a precise coordinate — becomes a composition that keeps its connection to that territory.',
                 'Built from geographic data, the system generates configurable maps ready to become physical objects. Technology and design work together so every result feels recognisable and, at the same time, unique.',
             ],
         },
@@ -116,7 +116,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2025',
             url: 'https://mergeo.dev/',
             story: [
-                'Mergeo begins with a simple idea: GitHub activity already contains much of a developer’s professional story, even if a technical profile does not always tell it clearly.',
+                'Mergeo builds visual portfolios directly from GitHub activity. It begins with a simple idea: that activity already contains much of a developer’s professional story, even if a technical profile does not always tell it clearly.',
                 'The tool interprets public information and turns it into a visual portfolio that is ready to share. Data remains the raw material, but it is shaped to bring the work and the journey to the foreground.',
             ],
         },
@@ -128,7 +128,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             year: '2026',
             url: 'https://typos.basezero.dev',
             story: [
-                'typos brings typographic experimentation into an immediate, accessible space. A word stops being static text and becomes visual material that can be distorted, arranged and explored.',
+                'typos is a vector type studio for turning words into editable typographic systems. It brings typographic experimentation into an immediate, accessible space: a word stops being static text and becomes visual material that can be distorted, arranged and explored.',
                 'In the browser, every composition is built as an editable vector system. The tool shortens the distance between trying an idea and finding a form with a character of its own.',
             ],
         },

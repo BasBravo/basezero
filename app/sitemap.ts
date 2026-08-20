@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { getArticleSummaries } from '@/features/articles/lib/articles';
 
 export const dynamic = 'force-static';
 
@@ -10,7 +11,7 @@ const languages = {
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    return [
+    const landingPages: MetadataRoute.Sitemap = [
         {
             url: `${siteUrl}/es`,
             changeFrequency: 'monthly',
@@ -24,4 +25,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
             alternates: { languages },
         },
     ];
+
+    const articlePages: MetadataRoute.Sitemap = ['es', 'en'].flatMap(locale =>
+        getArticleSummaries(locale).map(article => ({
+            url: `${siteUrl}${article.href}`,
+            lastModified: article.date,
+            changeFrequency: 'yearly' as const,
+            priority: 0.7,
+        })),
+    );
+
+    return [...landingPages, ...articlePages];
 }

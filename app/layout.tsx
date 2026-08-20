@@ -12,7 +12,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
     return (
-        <html lang={routing.defaultLocale} data-theme="dark" suppressHydrationWarning>
+        <html
+            lang={routing.defaultLocale}
+            data-theme="dark"
+            data-scroll-behavior="smooth"
+            suppressHydrationWarning
+        >
             <head>
                 <script
                     dangerouslySetInnerHTML={{

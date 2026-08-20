@@ -1,4 +1,17 @@
 {
+  "Article": {
+    "skip": "Saltar al artículo",
+    "homeLabel": "Basezero — Inicio",
+    "backToStudio": "Volver al estudio",
+    "themeToggle": "Cambiar tema",
+    "articleIndex": "Artículo 01",
+    "readingTime": "{minutes} min de lectura",
+    "authorLabel": "Autor",
+    "writtenBy": "Escrito por",
+    "sourcesLabel": "Fuentes y notas",
+    "footnoteBack": "Volver al contenido",
+    "backToBasezero": "Volver a Basezero"
+  },
   "Portfolio": {
     "navWork": "Proyectos",
     "work": {
@@ -21,6 +34,7 @@
       "home": "Inicio",
       "work": "Proyectos",
       "about": "Estudio",
+      "articles": "Artículos",
       "contact": "Contacto"
     },
     "scrollbar": "Posición de la página",
@@ -30,8 +44,14 @@
       "paragraphTwo": "Integro la IA durante la exploración, el diseño, el desarrollo, las pruebas y la evolución del producto. Avanzar rápido no basta: mi experiencia aporta el criterio para decidir qué construir, qué dejar fuera y cómo crear una base sólida sin añadir complejidad innecesaria.",
       "paragraphThree": "Trabajo mejor con fundadores y equipos que tienen una idea clara —o un problema concreto—, confían en un proceso abierto y participan en las decisiones. El objetivo es poner pronto una primera versión útil en manos de personas reales y aprender a partir de ella."
     },
+    "articles": {
+      "title": "Artículos",
+      "body": "Decisiones, métodos y aprendizajes sobre cómo convertir una idea en un producto útil sin añadir complejidad innecesaria.",
+      "read": "Leer artículo",
+      "readingTime": "{minutes} min de lectura"
+    },
     "services": {
-      "title": "Cuando necesitas convertir una idea en producto.",
+      "title": "Convertir una idea en producto.",
       "body": "Colaboraciones centradas en crear una primera versión útil o hacer evolucionar una base que ya ha demostrado su valor.",
       "launch": {
         "title": "Lanzar un producto desde cero",

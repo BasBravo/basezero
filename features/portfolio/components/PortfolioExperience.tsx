@@ -2,7 +2,9 @@
 
 import { ArrowUpRight, Check, Copy, Moon, Plus, Sun } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
+import type { ArticleSummary } from '@/features/articles/types';
 import type { PortfolioProject } from '@/content/portfolio-projects';
 import { BotanicalField } from './BotanicalField';
 import { ColumnMenuPanel, ColumnMenuToggle } from './ColumnMenu';
@@ -31,10 +33,14 @@ export type PortfolioCopy = {
     menuHome: string;
     menuWork: string;
     menuAbout: string;
+    menuArticles: string;
     menuContact: string;
     scrollbar: string;
     aboutTitle: string;
     aboutParagraphs: string[];
+    articlesTitle: string;
+    articlesBody: string;
+    readArticle: string;
     servicesTitle: string;
     servicesBody: string;
     services: Array<{
@@ -59,9 +65,19 @@ export type PortfolioCopy = {
 type PortfolioExperienceProps = {
     copy: PortfolioCopy;
     projects: PortfolioProject[];
+    articles: ArticleSummary[];
 };
 
-export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps) {
+function formatArticleDate(date: string, locale: string) {
+    return new Intl.DateTimeFormat(locale === 'es' ? 'es-ES' : 'en-US', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        timeZone: 'UTC',
+    }).format(new Date(`${date}T00:00:00Z`));
+}
+
+export function PortfolioExperience({ copy, projects, articles }: PortfolioExperienceProps) {
     const [activeProject, setActiveProject] = useState(-1);
     const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -112,8 +128,8 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                             onClick={toggleTheme}
                             aria-label={copy.themeToggle}
                         >
-                            <Sun className={styles.themeIconLight} aria-hidden="true" strokeWidth={1.5} />
-                            <Moon className={styles.themeIconDark} aria-hidden="true" strokeWidth={1.5} />
+                            <Sun className={styles.themeIconLight} aria-hidden="true" strokeWidth={2.25} />
+                            <Moon className={styles.themeIconDark} aria-hidden="true" strokeWidth={2.25} />
                         </button>
                         <ColumnMenuToggle
                             open={menuOpen}
@@ -130,6 +146,7 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                         items={[
                             { href: '#top', label: copy.menuHome },
                             { href: '#projects', label: copy.menuWork },
+                            ...(articles.length > 0 ? [{ href: '#articles', label: copy.menuArticles }] : []),
                             { href: '#about', label: copy.menuAbout },
                             { href: '#contact', label: copy.menuContact },
                         ]}
@@ -151,6 +168,17 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                     </a>
                 </div>
             </aside>
+
+            <div className={styles.headerScrim} aria-hidden="true">
+                <span className={styles.headerScrimLayer} />
+                <span className={styles.headerScrimLayer} />
+                <span className={styles.headerScrimLayer} />
+                <span className={styles.headerScrimLayer} />
+                <span className={styles.headerScrimLayer} />
+                <span className={styles.headerScrimLayer} />
+                <span className={styles.headerScrimLayer} />
+                <span className={styles.headerScrimTint} />
+            </div>
 
             <main id="content" className={styles.contentColumn}>
                 <section id="growth" className={styles.growthSection}>
@@ -194,6 +222,32 @@ export function PortfolioExperience({ copy, projects }: PortfolioExperienceProps
                             </li>
                         ))}
                     </ul>
+
+                    {articles.length > 0 ? (
+                        <section id="articles" className={styles.articlesSection}>
+                            <header className={styles.articlesIntro}>
+                                <FadeInTitle className={styles.articlesTitle}>{copy.articlesTitle}</FadeInTitle>
+                                <p className={styles.articlesBody}>{copy.articlesBody}</p>
+                            </header>
+                            <ul className={styles.projectList} aria-label={copy.menuArticles}>
+                                {articles.map((article) => (
+                                    <li key={article.slug}>
+                                        <Link
+                                            className={styles.project}
+                                            href={article.href}
+                                            aria-label={`${copy.readArticle}: ${article.title}`}
+                                        >
+                                            <span className={styles.projectName}>{article.title}</span>
+                                            <span className={styles.projectMeta}>
+                                                {article.category} · {formatArticleDate(article.date, copy.locale)}
+                                            </span>
+                                            <ArrowUpRight className={styles.articleArrow} aria-hidden="true" strokeWidth={1.5} />
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    ) : null}
 
                     <ServicesFit
                         title={copy.servicesTitle}

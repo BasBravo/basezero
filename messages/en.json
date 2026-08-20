@@ -1,4 +1,17 @@
 {
+  "Article": {
+    "skip": "Skip to article",
+    "homeLabel": "Basezero — Home",
+    "backToStudio": "Back to the studio",
+    "themeToggle": "Toggle theme",
+    "articleIndex": "Article 01",
+    "readingTime": "{minutes} min read",
+    "authorLabel": "Author",
+    "writtenBy": "Written by",
+    "sourcesLabel": "Sources and notes",
+    "footnoteBack": "Back to content",
+    "backToBasezero": "Back to Basezero"
+  },
   "Portfolio": {
     "navWork": "Selected work",
     "work": {
@@ -21,6 +34,7 @@
       "home": "Home",
       "work": "Work",
       "about": "Studio",
+      "articles": "Articles",
       "contact": "Contact"
     },
     "scrollbar": "Page position",
@@ -30,8 +44,14 @@
       "paragraphTwo": "I integrate AI throughout exploration, design, development, testing and product evolution. Moving fast is not enough: my experience brings the judgment needed to decide what to build, what to leave out and how to create a solid foundation without unnecessary complexity.",
       "paragraphThree": "I work best with founders and teams who have a clear idea—or a specific problem—trust an open process and take part in the decisions. The goal is to put a useful first version in front of real people early and learn from it."
     },
+    "articles": {
+      "title": "Articles",
+      "body": "Decisions, methods and lessons on turning an idea into a useful product without adding unnecessary complexity.",
+      "read": "Read article",
+      "readingTime": "{minutes} min read"
+    },
     "services": {
-      "title": "When you need to turn an idea into a product.",
+      "title": "Turn an idea into a product.",
       "body": "Engagements focused on creating a useful first version or evolving a foundation that has already proved its value.",
       "launch": {
         "title": "Launch a product from scratch",
