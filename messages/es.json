@@ -56,22 +56,6 @@
       "read": "Leer artículo",
       "readingTime": "{minutes} min de lectura"
     },
-    "services": {
-      "title": "Convertir una idea en producto.",
-      "body": "Colaboraciones centradas en crear una primera versión útil o hacer evolucionar una base que ya ha demostrado su valor.",
-      "launch": {
-        "title": "Lanzar un producto desde cero",
-        "body": "Definimos el alcance y lo convierto en un MVP funcional, integrado y listo para validar."
-      },
-      "transform": {
-        "title": "Convertir un proceso en una herramienta",
-        "body": "Diseño una plataforma o aplicación que simplifica una operación y encaja en el trabajo real del equipo."
-      },
-      "evolve": {
-        "title": "Hacer evolucionar un MVP",
-        "body": "Reviso producto, experiencia y tecnología para preparar la siguiente etapa sin reconstruir más de lo necesario."
-      }
-    },
     "farewell": {
       "title": "Hablemos de lo que quieres construir.",
       "body": "Cuéntame qué quieres conseguir, en qué punto está el proyecto y si tienes una fecha objetivo. Te responderé personalmente para valorar si podemos construirlo juntos.",

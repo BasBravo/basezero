@@ -56,22 +56,6 @@
       "read": "Read article",
       "readingTime": "{minutes} min read"
     },
-    "services": {
-      "title": "Turn an idea into a product.",
-      "body": "Engagements focused on creating a useful first version or evolving a foundation that has already proved its value.",
-      "launch": {
-        "title": "Launch a product from scratch",
-        "body": "We define the scope and I turn it into a functional, integrated MVP that is ready to validate."
-      },
-      "transform": {
-        "title": "Turn a process into a tool",
-        "body": "I design a platform or application that simplifies an operation and fits the team’s real workflow."
-      },
-      "evolve": {
-        "title": "Evolve an MVP",
-        "body": "I review product, experience and technology to prepare the next stage without rebuilding more than necessary."
-      }
-    },
     "farewell": {
       "title": "Let’s talk about what you want to build.",
       "body": "Tell me what you want to achieve, where the project stands and whether you have a target date. I’ll reply personally so we can decide if we are a good fit.",

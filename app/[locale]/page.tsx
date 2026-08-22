@@ -39,13 +39,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         articlesTitle: t('articles.title'),
         articlesBody: t('articles.body'),
         readArticle: t('articles.read'),
-        servicesTitle: t('services.title'),
-        servicesBody: t('services.body'),
-        services: [
-            { number: '01', title: t('services.launch.title'), body: t('services.launch.body') },
-            { number: '02', title: t('services.transform.title'), body: t('services.transform.body') },
-            { number: '03', title: t('services.evolve.title'), body: t('services.evolve.body') },
-        ],
         farewellTitle: t('farewell.title'),
         farewellBody: t('farewell.body'),
         copyEmail: t('farewell.copyEmail'),

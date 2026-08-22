@@ -128,7 +128,7 @@
     will-change: opacity, transform;
 }
 
-:is(.processStageTitle, .projectsTitle, .servicesTitle, .aboutTitle, .articlesTitle, .farewellTitle, .projectDialogTitle) {
+:is(.processStageTitle, .projectsTitle, .aboutTitle, .articlesTitle, .farewellTitle, .projectDialogTitle) {
     max-width: none;
     margin: 0;
     color: var(--ink);
@@ -187,7 +187,7 @@
 
 .introScrollCta:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
 
-:is(.processStageBody, .projectsBody, .servicesBody, .aboutParagraph, .articlesBody, .farewellBody) {
+:is(.processStageBody, .projectsBody, .aboutParagraph, .articlesBody, .farewellBody) {
     width: 100%;
     max-width: none;
     margin: clamp(1rem, 1.5vw, 1.35rem) 0 0;
@@ -647,55 +647,6 @@
     transition: transform 180ms ease, color 180ms ease;
 }
 
-.servicesSection {
-    margin-top: clamp(7rem, 12vw, 11rem);
-    padding-top: clamp(1.5rem, 3vw, 2.75rem);
-    border-top: 1px solid var(--line);
-}
-
-.serviceItem p {
-    color: var(--muted);
-}
-
-.servicesList {
-    margin: clamp(2.5rem, 4vw, 4rem) 0 0;
-    padding: 0;
-    border-top: 1px solid var(--line);
-    list-style: none;
-}
-
-.serviceItem {
-    display: grid;
-    grid-template-columns: 2rem minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: 0.85rem;
-    align-items: baseline;
-    padding: 1.15rem 0;
-    border-bottom: 1px solid var(--line);
-}
-
-.serviceNumber {
-    color: var(--muted);
-    font-size: 0.62rem;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.08em;
-}
-
-.serviceItem h3,
-.serviceItem p {
-    margin: 0;
-}
-
-.serviceItem h3 {
-    font-size: 0.86rem;
-    font-weight: 520;
-    letter-spacing: -0.015em;
-}
-
-.serviceItem p {
-    font-size: 0.76rem;
-    line-height: 1.45;
-}
-
 .aboutSection {
     margin-top: clamp(7rem, 12vw, 11rem);
     padding-top: clamp(1.5rem, 3vw, 2.75rem);
@@ -926,6 +877,12 @@
         --mobile-content-end: clamp(3rem, 12vw, 4.25rem);
         --mobile-controls-right: 0.4rem;
         --sidebar-pad-x: var(--mobile-edge-x);
+        --header-scrim-fade: 5rem;
+        --header-scrim-solid: 42%;
+        --header-scrim-blur: 0.8rem;
+        --footer-scrim-fade: 4.5rem;
+        --footer-scrim-solid: 42%;
+        --footer-scrim-blur: 0.75rem;
     }
 
     .processOverlay { width: 100%; }
@@ -940,9 +897,9 @@
         height: 100dvh;
         min-height: 0;
         padding:
-            max(1.25rem, env(safe-area-inset-top))
+            max(0.625rem, env(safe-area-inset-top))
             max(var(--mobile-controls-right), env(safe-area-inset-right))
-            max(1.35rem, env(safe-area-inset-bottom))
+            max(0.625rem, env(safe-area-inset-bottom))
             max(var(--mobile-edge-x), env(safe-area-inset-left));
         border-right: 0;
         border-bottom: 0;
@@ -956,12 +913,15 @@
         transform: translateZ(0);
     }
 
-    .brand { order: 1; }
+    .brand { order: 2; }
 
-    .menuToggle { order: 2; }
+    .menuToggle {
+        order: 1;
+        margin-left: -0.625rem;
+    }
 
     .themeToggle {
-        top: max(1.25rem, env(safe-area-inset-top));
+        top: max(0.625rem, env(safe-area-inset-top));
         right: max(var(--mobile-controls-right), env(safe-area-inset-right));
     }
 
@@ -987,7 +947,7 @@
     .brandFull { display: block; }
     .growthSection { height: 560svh; }
 
-    :is(.processStageTitle, .projectsTitle, .servicesTitle, .aboutTitle, .articlesTitle, .farewellTitle, .columnMenuLink, .projectDialogTitle) {
+    :is(.processStageTitle, .projectsTitle, .aboutTitle, .articlesTitle, .farewellTitle, .columnMenuLink, .projectDialogTitle) {
         font-size: clamp(2.35rem, 11vw, 3.15rem);
     }
 
@@ -1015,16 +975,17 @@
 
     .scrollbar {
         z-index: 90;
-        top: max(4.6rem, calc(env(safe-area-inset-top) + 3.35rem));
+        top: max(4rem, calc(env(safe-area-inset-top) + 3.1rem));
         left: auto;
-        right: 0.6rem;
-        bottom: max(4.75rem, calc(env(safe-area-inset-bottom) + 3.5rem));
-        width: 2.3rem;
+        right: 0;
+        bottom: max(3.8rem, calc(env(safe-area-inset-bottom) + 3rem));
+        width: 2.75rem;
     }
 
     .scrollbarControl {
         width: 2.75rem;
         flex-shrink: 0;
+        padding-right: 0;
     }
 
     .workSection {
@@ -1041,15 +1002,6 @@
 
     .projectMeta { font-size: 0.58rem; }
 
-    .serviceItem {
-        grid-template-columns: 1.75rem minmax(0, 1fr);
-    }
-
-    .serviceItem p {
-        grid-column: 2;
-        margin-top: 0.15rem;
-    }
-
     .aboutSection { margin-top: 8rem; }
 
     .aboutSection,
@@ -1064,7 +1016,7 @@
         width: auto;
     }
 
-    :is(.processStageBody, .projectsBody, .servicesBody, .aboutParagraph, .articlesBody, .farewellBody) {
+    :is(.processStageBody, .projectsBody, .aboutParagraph, .articlesBody, .farewellBody) {
         margin-top: 1rem;
         font-size: 0.89rem;
         line-height: 1.48;

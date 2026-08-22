@@ -12,7 +12,6 @@ import { FadeInTitle } from './FadeInTitle';
 import { GrowthNarrative } from './GrowthNarrative';
 import { PortfolioScrollbar } from './PortfolioScrollbar';
 import { ProjectDialog } from './ProjectDialog';
-import { ServicesFit } from './ServicesFit';
 import { TerminalAbout } from './TerminalAbout';
 import styles from './portfolio.module.css';
 
@@ -41,13 +40,6 @@ export type PortfolioCopy = {
     articlesTitle: string;
     articlesBody: string;
     readArticle: string;
-    servicesTitle: string;
-    servicesBody: string;
-    services: Array<{
-        number: string;
-        title: string;
-        body: string;
-    }>;
     farewellTitle: string;
     farewellBody: string;
     copyEmail: string;
@@ -249,12 +241,6 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                             </ul>
                         </section>
                     ) : null}
-
-                    <ServicesFit
-                        title={copy.servicesTitle}
-                        body={copy.servicesBody}
-                        services={copy.services}
-                    />
 
                     <TerminalAbout
                         title={copy.aboutTitle}
