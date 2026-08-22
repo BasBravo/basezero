@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { ArticlePage } from '@/features/articles/components/ArticlePage';
-import { getArticle, getArticleSlugs } from '@/features/articles/lib/articles';
+import { getArticle, getArticleSlugs, getArticleSummaries } from '@/features/articles/lib/articles';
 import { routing } from '@/i18n/routing';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://basezero.dev';
@@ -53,7 +53,11 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
     setRequestLocale(locale);
     const article = getArticle(locale, slug);
     if (!article) notFound();
-    const t = await getTranslations({ locale, namespace: 'Article' });
+    const [t, portfolioT] = await Promise.all([
+        getTranslations({ locale, namespace: 'Article' }),
+        getTranslations({ locale, namespace: 'Portfolio' }),
+    ]);
+    const otherArticles = getArticleSummaries(locale).filter(candidate => candidate.slug !== article.slug);
 
     const structuredData = {
         '@context': 'https://schema.org',
@@ -86,6 +90,7 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
             />
             <ArticlePage
                 article={article}
+                otherArticles={otherArticles}
                 copy={{
                     skip: t('skip'),
                     homeLabel: t('homeLabel'),
@@ -98,6 +103,21 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
                     sourcesLabel: t('sourcesLabel'),
                     footnoteBack: t('footnoteBack'),
                     backToBasezero: t('backToBasezero'),
+                    scrollbar: portfolioT('scrollbar'),
+                    detailsLabel: t('detailsLabel'),
+                    publishedLabel: t('publishedLabel'),
+                    readingLabel: t('readingLabel'),
+                    categoryLabel: t('categoryLabel'),
+                    otherArticles: t('otherArticles'),
+                    noOtherArticles: t('noOtherArticles'),
+                    menuOpen: portfolioT('menu.open'),
+                    menuClose: portfolioT('menu.close'),
+                    menuLabel: portfolioT('menu.label'),
+                    menuHome: portfolioT('menu.home'),
+                    menuWork: portfolioT('menu.work'),
+                    menuArticles: portfolioT('menu.articles'),
+                    menuAbout: portfolioT('menu.about'),
+                    menuContact: portfolioT('menu.contact'),
                 }}
             />
         </>

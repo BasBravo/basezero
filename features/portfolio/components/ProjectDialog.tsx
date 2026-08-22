@@ -1,7 +1,7 @@
 'use client';
 
-import { ArrowUpRight, X } from 'lucide-react';
 import { useEffect, useId, useMemo, useRef } from 'react';
+import { Icon } from '@/components/ui/icon';
 import type { PortfolioProject } from '@/content/portfolio-projects';
 import styles from './portfolio.module.css';
 
@@ -195,7 +195,7 @@ export function ProjectDialog({ project, copy, onClose }: ProjectDialogProps) {
                         aria-label={copy.close}
                         onClick={closeDialog}
                     >
-                        <X aria-hidden="true" strokeWidth={1.6} />
+                        <Icon name="close" />
                     </button>
                 </header>
 
@@ -225,7 +225,7 @@ export function ProjectDialog({ project, copy, onClose }: ProjectDialogProps) {
                         <span className={`${styles.projectDialogVisitText} ${styles.terminalLine}`}>
                             {terminalLine(copy.visit, project.story.length + 1)}
                         </span>
-                        <ArrowUpRight aria-hidden="true" strokeWidth={1.4} />
+                        <Icon name="arrow_outward" />
                     </a>
                 </div>
             </article>

@@ -1,9 +1,13 @@
 .siteShell {
     --sidebar-width: 30vw;
     --sidebar-pad-x: clamp(1.5rem, 3vw, 3.5rem);
-    --sidebar-header-inset: 1.7rem;
+    --sidebar-header-inset: 0.9rem;
     --header-scrim-fade: 8rem;
     --header-scrim-solid: 50%;
+    --header-scrim-blur: 1.25rem;
+    --footer-scrim-fade: 8rem;
+    --footer-scrim-solid: 50%;
+    --footer-scrim-blur: 1.25rem;
     --paper: #f2f2ef;
     --paper-deep: #e9e9e5;
     --ink: #111210;
@@ -181,7 +185,6 @@
     transform: translate3d(0, 0, 0);
 }
 
-.introScrollCta:hover { color: var(--muted); }
 .introScrollCta:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
 
 :is(.processStageBody, .projectsBody, .servicesBody, .aboutParagraph, .articlesBody, .farewellBody) {
@@ -251,81 +254,77 @@
     position: relative;
     z-index: 2;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: clamp(1rem, 2vw, 2rem);
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
     margin:
         calc(var(--sidebar-header-inset) - clamp(1.5rem, 3vw, 3.25rem))
         0
-        0;
+        0
+        -1.8rem;
     pointer-events: auto;
 }
 
-.headerScrim {
-    pointer-events: none;
-}
-
-.headerScrimLayer,
-.headerScrimTint {
+.headerScrim,
+.footerScrim {
     position: fixed;
-    top: 0;
+    z-index: 25;
     left: 0;
     width: var(--sidebar-width);
-    height: var(--header-scrim-fade);
     pointer-events: none;
 }
 
-.headerScrimLayer {
-    z-index: 25;
-    top: calc(var(--header-scrim-fade) * 0.5);
-    height: calc(var(--header-scrim-fade) * 0.5);
+.headerScrim {
+    top: 0;
+    height: var(--header-scrim-fade);
+}
+
+.footerScrim {
+    bottom: 0;
+    height: var(--footer-scrim-fade);
+}
+
+.headerScrim::before,
+.headerScrim::after,
+.footerScrim::before,
+.footerScrim::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+}
+
+.headerScrim::before {
+    bottom: calc(var(--header-scrim-blur) * -1);
     background: color-mix(in srgb, var(--paper) 1%, transparent);
+    backdrop-filter: blur(var(--header-scrim-blur));
+    mask-image: linear-gradient(
+        to bottom,
+        #000 0,
+        #000 calc(var(--header-scrim-solid) - 12%),
+        transparent var(--header-scrim-fade),
+        transparent 100%
+    );
 }
 
-.headerScrimLayer:nth-child(1) {
-    backdrop-filter: blur(1px);
-    -webkit-backdrop-filter: blur(1px);
-}
-
-.headerScrimLayer:nth-child(2) {
-    height: calc(var(--header-scrim-fade) * 0.42);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-}
-
-.headerScrimLayer:nth-child(3) {
-    height: calc(var(--header-scrim-fade) * 0.34);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-}
-
-.headerScrimLayer:nth-child(4) {
-    height: calc(var(--header-scrim-fade) * 0.26);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-.headerScrimLayer:nth-child(5) {
-    height: calc(var(--header-scrim-fade) * 0.18);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-}
-
-.headerScrimLayer:nth-child(6) {
-    height: calc(var(--header-scrim-fade) * 0.12);
-    backdrop-filter: blur(32px);
-    -webkit-backdrop-filter: blur(32px);
-}
-
-.headerScrimLayer:nth-child(7) {
-    height: calc(var(--header-scrim-fade) * 0.07);
-    backdrop-filter: blur(48px);
-    -webkit-backdrop-filter: blur(48px);
-}
-
-.headerScrimTint {
-    z-index: 26;
+.headerScrim::after {
     background: linear-gradient(to bottom, var(--paper) 0%, var(--paper) var(--header-scrim-solid), transparent 100%);
+}
+
+.footerScrim::before {
+    top: calc(var(--footer-scrim-blur) * -1);
+    background: color-mix(in srgb, var(--paper) 1%, transparent);
+    backdrop-filter: blur(var(--footer-scrim-blur));
+    mask-image: linear-gradient(
+        to top,
+        #000 0,
+        #000 calc(var(--footer-scrim-solid) - 12%),
+        transparent var(--footer-scrim-fade),
+        transparent 100%
+    );
+}
+
+.footerScrim::after {
+    background: linear-gradient(to top, var(--paper) 0%, var(--paper) var(--footer-scrim-solid), transparent 100%);
 }
 
 .sidebarTop {
@@ -357,15 +356,15 @@
     display: block;
     width: clamp(6rem, 8vw, 7.5rem);
     flex: 0 0 auto;
+    margin-right: auto;
     line-height: 0;
+    transform: translateY(5px);
 }
 
 .brandFull { display: block; width: 100%; height: auto; filter: var(--brand-filter); }
 
 .themeToggle,
 .menuToggle {
-    position: relative;
-    z-index: 1;
     display: inline-flex;
     width: 1.8rem;
     height: 1.8rem;
@@ -378,23 +377,27 @@
     cursor: pointer;
 }
 
-.sidebarActions {
+.menuToggle {
     position: relative;
     z-index: 1;
-    display: flex;
-    flex: 0 0 auto;
-    align-items: center;
-    gap: 0.15rem;
-    margin-right: -10px;
+    transform: translateY(7px);
 }
 
-.themeToggle:hover,
-.menuToggle:hover { color: var(--muted); }
+.themeToggle {
+    position: fixed;
+    z-index: 90;
+    top: var(--sidebar-header-inset);
+    right: max(1.15rem, env(safe-area-inset-right));
+}
 
 .themeToggle svg,
 .menuToggle svg {
     width: 1.25rem;
     height: 1.25rem;
+    overflow: visible;
+    stroke: currentColor;
+    stroke-width: 1.35px;
+    stroke-linejoin: round;
 }
 
 .themeIconLight { display: none; }
@@ -411,9 +414,6 @@
     text-decoration: none;
     text-transform: uppercase;
 }
-
-.socialLink:hover,
-.contactAction:hover { color: var(--ink); }
 
 .brand:focus-visible,
 .socialLink:focus-visible,
@@ -485,7 +485,7 @@
 
 .scrollbarTicks {
     display: flex;
-    width: 1.65rem;
+    width: 1rem;
     height: 100%;
     flex-direction: column;
     align-items: flex-end;
@@ -495,7 +495,7 @@
 
 .scrollbarTick {
     display: block;
-    width: 8px;
+    width: 6px;
     height: 1.5px;
     flex-shrink: 0;
     border-radius: 1px;
@@ -563,8 +563,6 @@
     text-wrap: balance;
 }
 
-.columnMenuLink:hover { color: var(--muted); }
-
 .workSection {
     position: relative;
     z-index: 4;
@@ -607,8 +605,6 @@
     transition: opacity 180ms ease;
 }
 
-.projectList:has(.project:hover) .project:not(:hover) { opacity: 0.38; }
-
 .projectName {
     grid-column: 1;
     grid-row: 1;
@@ -649,19 +645,6 @@
     height: 0.95rem;
     color: var(--muted);
     transition: transform 180ms ease, color 180ms ease;
-}
-
-.project:hover .projectArrow,
-.project:hover .articleArrow {
-    color: var(--ink);
-}
-
-.project:hover .projectArrow {
-    transform: rotate(90deg);
-}
-
-.project:hover .articleArrow {
-    transform: translate3d(0.12rem, -0.12rem, 0);
 }
 
 .servicesSection {
@@ -788,7 +771,6 @@
 }
 
 .farewellAction svg { width: 0.9rem; height: 0.9rem; }
-.farewellAction:hover { color: var(--muted); }
 .farewellAction:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
 
 .copyEmailAction {
@@ -804,7 +786,6 @@
     cursor: pointer;
 }
 
-.copyEmailAction:hover { color: var(--ink); }
 .copyEmailAction:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
 .copyEmailAction svg { width: 0.85rem; height: 0.85rem; }
 
@@ -863,9 +844,9 @@
     cursor: pointer;
 }
 
-.projectDialogClose:hover { color: var(--muted); }
-.projectDialogClose:focus-visible,
 .projectDialogVisit:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+.projectDialogClose:focus,
+.projectDialogClose:focus-visible { outline: none; box-shadow: none; }
 .projectDialogClose svg { width: 1.65rem; height: 1.65rem; }
 
 .projectDialogIntro {
@@ -909,12 +890,34 @@
 
 .projectDialogVisit[data-visible='true'] { opacity: 1; pointer-events: auto; }
 
-.projectDialogVisit:hover { color: var(--muted); }
 .projectDialogVisit svg { width: 0.95rem; height: 0.95rem; }
 
 .projectDialogVisitText {
     display: inline-block;
     min-width: 10rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .introScrollCta:hover,
+    .themeToggle:hover,
+    .menuToggle:hover,
+    .columnMenuLink:hover,
+    .farewellAction:hover,
+    .projectDialogClose:hover,
+    .projectDialogVisit:hover { color: var(--muted); }
+
+    .socialLink:hover,
+    .contactAction:hover,
+    .copyEmailAction:hover { color: var(--ink); }
+
+    .projectList:has(.project:hover) .project:not(:hover) { opacity: 0.38; }
+
+    .project:hover .projectArrow,
+    .project:hover .articleArrow { color: var(--ink); }
+
+    .project:hover .projectArrow { transform: rotate(90deg); }
+
+    .project:hover .articleArrow { transform: translate3d(0.12rem, -0.12rem, 0); }
 }
 
 @media (max-width: 800px) {
@@ -927,8 +930,8 @@
 
     .processOverlay { width: 100%; }
 
-    .headerScrimLayer,
-    .headerScrimTint { width: 100%; }
+    .headerScrim,
+    .footerScrim { width: 100%; }
 
     .sidebar {
         position: fixed;
@@ -945,25 +948,22 @@
         border-bottom: 0;
     }
 
-    .sidebar::after {
-        position: absolute;
-        z-index: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 5.5rem;
-        content: '';
-        pointer-events: none;
-        background: linear-gradient(to top, var(--paper) 48%, transparent);
-    }
-
     .sidebarHeader {
         align-items: center;
+        gap: 0.15rem;
         margin: 0;
+        padding-right: 2.65rem;
         transform: translateZ(0);
     }
 
-    .sidebarActions { margin-right: 0; }
+    .brand { order: 1; }
+
+    .menuToggle { order: 2; }
+
+    .themeToggle {
+        top: max(1.25rem, env(safe-area-inset-top));
+        right: max(var(--mobile-controls-right), env(safe-area-inset-right));
+    }
 
     .sidebarTop { z-index: 1; }
 
@@ -1008,8 +1008,9 @@
 
     .themeToggle svg,
     .menuToggle svg {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 1.25rem;
+        height: 1.25rem;
+        stroke-width: 1.35px;
     }
 
     .scrollbar {
@@ -1082,6 +1083,20 @@
     .projectDialogPanel {
         min-height: 100dvh;
         padding: max(1.25rem, env(safe-area-inset-top)) var(--mobile-edge-x) max(1.5rem, env(safe-area-inset-bottom));
+    }
+
+    .projectDialogClose {
+        position: absolute;
+        top: max(1.25rem, env(safe-area-inset-top));
+        right: max(var(--mobile-controls-right), env(safe-area-inset-right));
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: 0;
+    }
+
+    .projectDialogClose svg {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 
     .projectDialogIntro {

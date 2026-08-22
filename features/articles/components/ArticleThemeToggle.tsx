@@ -1,6 +1,6 @@
 'use client';
 
-import { Moon, Sun } from 'lucide-react';
+import { Icon } from '@/components/ui/icon';
 import styles from './article.module.css';
 
 export function ArticleThemeToggle({ label }: { label: string }) {
@@ -19,8 +19,8 @@ export function ArticleThemeToggle({ label }: { label: string }) {
 
     return (
         <button className={styles.themeToggle} type="button" onClick={toggleTheme} aria-label={label}>
-            <Sun className={styles.themeIconLight} aria-hidden="true" strokeWidth={1.5} />
-            <Moon className={styles.themeIconDark} aria-hidden="true" strokeWidth={1.5} />
+            <Icon name="light_mode" className={styles.themeIconLight} />
+            <Icon name="dark_mode" className={styles.themeIconDark} />
         </button>
     );
 }

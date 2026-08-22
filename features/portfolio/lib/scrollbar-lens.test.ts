@@ -18,9 +18,20 @@ describe('scrollbar-lens', () => {
         expect(center.width).toBeCloseTo(TICK_MAX_WIDTH_PX, 5);
         expect(center.opacity).toBeCloseTo(TICK_MAX_OPACITY, 5);
         expect(edge.width).toBeLessThan(center.width);
-        expect(edge.opacity).toBeLessThan(center.opacity);
         expect(edge.width).toBeGreaterThanOrEqual(TICK_MIN_WIDTH_PX);
         expect(edge.opacity).toBeGreaterThanOrEqual(TICK_MIN_OPACITY);
+    });
+
+    it('pinta en sólido las marcas ya recorridas', () => {
+        const count = 13;
+        const past = tickAppearance(2, 0.5, count);
+        const current = tickAppearance(6, 0.5, count);
+        const upcoming = tickAppearance(10, 0.5, count);
+
+        expect(past.opacity).toBeCloseTo(TICK_MAX_OPACITY, 5);
+        expect(current.opacity).toBeCloseTo(TICK_MAX_OPACITY, 5);
+        expect(upcoming.opacity).toBeCloseTo(TICK_MIN_OPACITY, 5);
+        expect(upcoming.opacity).toBeLessThan(past.opacity);
     });
 
     it('mueve el foco al inicio y al final según el progreso', () => {
@@ -31,6 +42,9 @@ describe('scrollbar-lens', () => {
 
         expect(start.width).toBeGreaterThan(oppositeStart.width);
         expect(end.width).toBeCloseTo(TICK_MAX_WIDTH_PX, 5);
+        expect(end.opacity).toBeCloseTo(TICK_MAX_OPACITY, 5);
+        expect(start.opacity).toBeCloseTo(TICK_MAX_OPACITY, 5);
+        expect(oppositeStart.opacity).toBeCloseTo(TICK_MIN_OPACITY, 5);
     });
 
     it('calcula suficientes marcas para rellenar la pista', () => {

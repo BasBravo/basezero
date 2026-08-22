@@ -208,7 +208,7 @@ export function GrowthNarrative({
             <a
                 ref={introCtaRef}
                 className={styles.introScrollCta}
-                href="#projects"
+                href="#work"
                 aria-hidden="true"
                 tabIndex={-1}
             >

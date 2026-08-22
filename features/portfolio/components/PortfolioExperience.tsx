@@ -1,9 +1,9 @@
 'use client';
 
-import { ArrowUpRight, Check, Copy, Moon, Plus, Sun } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { Icon } from '@/components/ui/icon';
 import type { ArticleSummary } from '@/features/articles/types';
 import type { PortfolioProject } from '@/content/portfolio-projects';
 import { BotanicalField } from './BotanicalField';
@@ -109,9 +109,35 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
 
             <PortfolioScrollbar label={copy.scrollbar} />
 
+            <button
+                className={styles.themeToggle}
+                type="button"
+                onClick={toggleTheme}
+                aria-label={copy.themeToggle}
+            >
+                <Icon name="light_mode" className={styles.themeIconLight} />
+                <Icon name="dark_mode" className={styles.themeIconDark} />
+            </button>
+
             <aside className={styles.sidebar} aria-label="Basezero">
                 <header className={styles.sidebarHeader}>
-                    <a href={`/${copy.locale}#top`} className={styles.brand} aria-label="Basezero — Home">
+                    <ColumnMenuToggle
+                        open={menuOpen}
+                        openLabel={copy.menuOpen}
+                        closeLabel={copy.menuClose}
+                        onToggle={() => setMenuOpen((current) => !current)}
+                    />
+                    <a
+                        href={`/${copy.locale}#top`}
+                        className={styles.brand}
+                        aria-label={menuOpen ? copy.menuClose : copy.menuOpen}
+                        aria-expanded={menuOpen}
+                        aria-controls="column-menu"
+                        onClick={(event) => {
+                            event.preventDefault();
+                            setMenuOpen((current) => !current);
+                        }}
+                    >
                         <Image
                             className={styles.brandFull}
                             src="/logotipo.svg"
@@ -121,23 +147,6 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                             priority
                         />
                     </a>
-                    <div className={styles.sidebarActions}>
-                        <button
-                            className={styles.themeToggle}
-                            type="button"
-                            onClick={toggleTheme}
-                            aria-label={copy.themeToggle}
-                        >
-                            <Sun className={styles.themeIconLight} aria-hidden="true" strokeWidth={2.25} />
-                            <Moon className={styles.themeIconDark} aria-hidden="true" strokeWidth={2.25} />
-                        </button>
-                        <ColumnMenuToggle
-                            open={menuOpen}
-                            openLabel={copy.menuOpen}
-                            closeLabel={copy.menuClose}
-                            onToggle={() => setMenuOpen((current) => !current)}
-                        />
-                    </div>
                 </header>
                 <div className={styles.sidebarTop}>
                     <ColumnMenuPanel
@@ -145,7 +154,7 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                         label={copy.menuLabel}
                         items={[
                             { href: '#top', label: copy.menuHome },
-                            { href: '#projects', label: copy.menuWork },
+                            { href: '#work', label: copy.menuWork },
                             ...(articles.length > 0 ? [{ href: '#articles', label: copy.menuArticles }] : []),
                             { href: '#about', label: copy.menuAbout },
                             { href: '#contact', label: copy.menuContact },
@@ -164,21 +173,13 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                     </a>
                     <a className={styles.contactAction} href="mailto:hello@basezero.dev">
                         <span>{copy.contactAction}</span>
-                        <ArrowUpRight aria-hidden="true" strokeWidth={1.5} />
+                        <Icon name="arrow_outward" />
                     </a>
                 </div>
             </aside>
 
-            <div className={styles.headerScrim} aria-hidden="true">
-                <span className={styles.headerScrimLayer} />
-                <span className={styles.headerScrimLayer} />
-                <span className={styles.headerScrimLayer} />
-                <span className={styles.headerScrimLayer} />
-                <span className={styles.headerScrimLayer} />
-                <span className={styles.headerScrimLayer} />
-                <span className={styles.headerScrimLayer} />
-                <span className={styles.headerScrimTint} />
-            </div>
+            <div className={styles.headerScrim} aria-hidden="true" />
+            <div className={styles.footerScrim} aria-hidden="true" />
 
             <main id="content" className={styles.contentColumn}>
                 <section id="growth" className={styles.growthSection}>
@@ -217,7 +218,7 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                                     <span className={styles.projectMeta}>
                                         {project.facets.join(' · ')} · {project.year}
                                     </span>
-                                    <Plus className={styles.projectArrow} aria-hidden="true" strokeWidth={1.5} />
+                                    <Icon name="add" className={styles.projectArrow} />
                                 </button>
                             </li>
                         ))}
@@ -241,7 +242,7 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                                             <span className={styles.projectMeta}>
                                                 {article.category} · {formatArticleDate(article.date, copy.locale)}
                                             </span>
-                                            <ArrowUpRight className={styles.articleArrow} aria-hidden="true" strokeWidth={1.5} />
+                                            <Icon name="arrow_outward" className={styles.articleArrow} />
                                         </Link>
                                     </li>
                                 ))}
@@ -266,7 +267,7 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                         <div className={styles.farewellActions}>
                             <a className={styles.farewellAction} href="mailto:hello@basezero.dev">
                                 <span>{copy.contactAction}</span>
-                                <ArrowUpRight aria-hidden="true" strokeWidth={1.5} />
+                                <Icon name="arrow_outward" />
                             </a>
                             <button
                                 className={styles.copyEmailAction}
@@ -276,8 +277,8 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                                 onClick={() => void copyEmailAddress()}
                             >
                                 {emailCopied
-                                    ? <Check aria-hidden="true" strokeWidth={1.5} />
-                                    : <Copy aria-hidden="true" strokeWidth={1.5} />}
+                                    ? <Icon name="check" />
+                                    : <Icon name="content_copy" />}
                             </button>
                         </div>
                     </section>

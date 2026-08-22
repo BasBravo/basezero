@@ -1,11 +1,12 @@
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ComponentPropsWithoutRef } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import type { Article } from '../types';
-import { ArticleThemeToggle } from './ArticleThemeToggle';
+import { Icon } from '@/components/ui/icon';
+import { PortfolioScrollbar } from '@/features/portfolio/components/PortfolioScrollbar';
+import type { Article, ArticleSummary } from '../types';
+import { ArticleSidebar } from './ArticleSidebar';
 import styles from './article.module.css';
 
 const markdownComponents: Components = {
@@ -19,7 +20,7 @@ const markdownComponents: Components = {
                 {...(isExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
             >
                 {children}
-                {isExternal ? <ArrowUpRight aria-hidden="true" strokeWidth={1.5} /> : null}
+                {isExternal ? <Icon name="arrow_outward" /> : null}
             </a>
         );
     },
@@ -28,6 +29,19 @@ const markdownComponents: Components = {
             <table>{children}</table>
         </div>
     ),
+    img: ({ src, alt = '', title, node }) => {
+        void node;
+        if (typeof src !== 'string') return null;
+
+        return (
+            <span className={styles.proseImage}>
+                <span className={styles.proseImageFrame}>
+                    <Image src={src} alt={alt} fill sizes="(max-width: 800px) 100vw, 70vw" />
+                </span>
+                {title ? <span className={styles.proseImageCaption}>{title}</span> : null}
+            </span>
+        );
+    },
 };
 
 function formatArticleDate(date: string) {
@@ -51,47 +65,58 @@ export type ArticlePageCopy = {
     sourcesLabel: string;
     footnoteBack: string;
     backToBasezero: string;
+    scrollbar: string;
+    detailsLabel: string;
+    publishedLabel: string;
+    readingLabel: string;
+    categoryLabel: string;
+    otherArticles: string;
+    noOtherArticles: string;
+    menuOpen: string;
+    menuClose: string;
+    menuLabel: string;
+    menuHome: string;
+    menuWork: string;
+    menuArticles: string;
+    menuAbout: string;
+    menuContact: string;
 };
 
-export function ArticlePage({ article, copy }: { article: Article; copy: ArticlePageCopy }) {
+export function ArticlePage({
+    article,
+    otherArticles,
+    copy,
+}: {
+    article: Article;
+    otherArticles: ArticleSummary[];
+    copy: ArticlePageCopy;
+}) {
+    const formattedDate = formatArticleDate(article.date);
+
     return (
         <div className={styles.articleShell}>
             <a href="#article-content" className={styles.skipLink}>{copy.skip}</a>
 
-            <header className={styles.siteHeader}>
-                <Link href="/es" className={styles.brand} aria-label={copy.homeLabel}>
-                    <Image src="/logotipo.svg" alt="" width={538} height={92} priority />
-                </Link>
-                <div className={styles.headerActions}>
-                    <Link href="/es#articles" className={styles.backLink}>
-                        <ArrowLeft aria-hidden="true" strokeWidth={1.5} />
-                        <span>{copy.backToStudio}</span>
-                    </Link>
-                    <ArticleThemeToggle label={copy.themeToggle} />
-                </div>
-            </header>
+            <div className={styles.articleScroll}>
+                <PortfolioScrollbar label={copy.scrollbar} />
+            </div>
 
-            <main id="article-content">
+            <ArticleSidebar
+                article={article}
+                otherArticles={otherArticles}
+                formattedDate={formattedDate}
+                copy={copy}
+            />
+
+            <main id="article-content" className={styles.articleMain}>
                 <article>
                     <header className={styles.articleHero}>
-                        <div className={styles.articleMeta}>
-                            <span>{article.category}</span>
-                            <span>{formatArticleDate(article.date)}</span>
-                            <span>{copy.readingTime}</span>
-                        </div>
-                        <div className={styles.articleHeading}>
-                            <p className={styles.articleIndex}>{copy.articleIndex}</p>
-                            <h1>{article.title}</h1>
-                            <p className={styles.articleDescription}>{article.description}</p>
-                        </div>
+                        <p className={styles.articleIndex}>{copy.articleIndex}</p>
+                        <h1>{article.title}</h1>
+                        <p className={styles.articleDescription}>{article.description}</p>
                     </header>
 
                     <div className={styles.articleBody}>
-                        <aside className={styles.byline} aria-label={copy.authorLabel}>
-                            <span>{copy.writtenBy}</span>
-                            <strong>{article.author}</strong>
-                            <span>Basezero</span>
-                        </aside>
                         <div className={styles.prose}>
                             <ReactMarkdown
                                 remarkPlugins={[remarkGfm]}
@@ -106,15 +131,15 @@ export function ArticlePage({ article, copy }: { article: Article; copy: Article
                         </div>
                     </div>
                 </article>
-            </main>
 
-            <footer className={styles.articleFooter}>
-                <Link href="/es#articles">
-                    <ArrowLeft aria-hidden="true" strokeWidth={1.5} />
-                    <span>{copy.backToBasezero}</span>
-                </Link>
-                <span>© {new Date().getUTCFullYear()} Basezero</span>
-            </footer>
+                <footer className={styles.articleFooter}>
+                    <Link href={`/${article.locale}#articles`}>
+                        <Icon name="arrow_back" />
+                        <span>{copy.backToBasezero}</span>
+                    </Link>
+                    <span>© {new Date().getUTCFullYear()} Basezero</span>
+                </footer>
+            </main>
         </div>
     );
 }

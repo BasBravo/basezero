@@ -1,6 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
+import {
+    pushDragSample,
+    releaseDragVelocity,
+    rotationFromDragDelta,
+    stepDragInertia,
+    type DragSample,
+} from '../lib/drag-inertia';
 import styles from './portfolio.module.css';
 
 type BotanicalFieldProps = {
@@ -848,8 +855,10 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
         let pointerX = 0.5;
         let pointerY = 0.5;
         let dragRotationY = 0;
+        let dragVelocityY = 0;
         let dragStartX = 0;
         let dragStartRotationY = 0;
+        const dragSamples: DragSample[] = [];
         let activePointerId = -1;
         let isDragging = false;
         let orientationBaseline: { beta: number; gamma: number } | null = null;
@@ -981,8 +990,11 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
             if (event.button !== 0) return;
             isDragging = true;
             activePointerId = event.pointerId;
+            dragVelocityY = 0;
+            dragSamples.length = 0;
             dragStartX = event.clientX;
             dragStartRotationY = dragRotationY;
+            pushDragSample(dragSamples, event.clientX, event.timeStamp);
             surface.dataset.dragging = 'true';
             surface.setPointerCapture?.(event.pointerId);
             queueFrame();
@@ -990,12 +1002,16 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
 
         function dragFlower(event: PointerEvent) {
             if (!isDragging || event.pointerId !== activePointerId) return;
-            dragRotationY = dragStartRotationY + (event.clientX - dragStartX) * 0.009;
+            pushDragSample(dragSamples, event.clientX, event.timeStamp);
+            dragRotationY = dragStartRotationY + rotationFromDragDelta(event.clientX - dragStartX);
             queueFrame();
         }
 
         function stopDrag(event: PointerEvent) {
             if (!isDragging || event.pointerId !== activePointerId) return;
+            pushDragSample(dragSamples, event.clientX, event.timeStamp);
+            dragVelocityY = reducedMotion ? 0 : releaseDragVelocity(dragSamples);
+            dragSamples.length = 0;
             isDragging = false;
             activePointerId = -1;
             delete surface.dataset.dragging;
@@ -1025,6 +1041,11 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
             progress += (targetProgress - progress) * easing;
             deviceRotationX += (targetDeviceRotationX - deviceRotationX) * easing;
             deviceRotationY += (targetDeviceRotationY - deviceRotationY) * easing;
+            if (!isDragging && dragVelocityY !== 0) {
+                const coast = stepDragInertia(dragRotationY, dragVelocityY, delta);
+                dragRotationY = coast.rotation;
+                dragVelocityY = coast.velocity;
+            }
 
             const mobile = width <= 800;
             const growthPresence = smoothCurve(clamp01(progress / 0.66));
@@ -1064,7 +1085,14 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
             const needsDeviceMotion =
                 Math.abs(deviceRotationX - targetDeviceRotationX) > 0.0005 ||
                 Math.abs(deviceRotationY - targetDeviceRotationY) > 0.0005;
-            if (needsAmbientMotion || needsDeviceMotion || Math.abs(progress - targetProgress) > 0.001) queueFrame();
+            if (
+                needsAmbientMotion ||
+                needsDeviceMotion ||
+                dragVelocityY !== 0 ||
+                Math.abs(progress - targetProgress) > 0.001
+            ) {
+                queueFrame();
+            }
         }
 
         resize();

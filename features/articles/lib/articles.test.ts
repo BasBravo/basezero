@@ -12,8 +12,20 @@ describe('article content', () => {
             author: 'Bas Bravo',
             href: '/es/articulos/minimo-no-significa-incompleto',
         });
-        expect(article?.readingMinutes).toBeGreaterThan(10);
+        expect(article?.readingMinutes).toBe(10);
+        expect(article?.readingMinutes).toBeGreaterThanOrEqual(5);
+        expect(article?.readingMinutes).toBeLessThanOrEqual(10);
         expect(article?.content).toContain('## El alcance no es una lista de funciones');
+    });
+
+    it('keeps every published article within the editorial reading-time range', () => {
+        const articles = getArticleSummaries('es');
+
+        expect(articles.length).toBeGreaterThan(0);
+        for (const article of articles) {
+            expect(article.readingMinutes).toBeGreaterThanOrEqual(5);
+            expect(article.readingMinutes).toBeLessThanOrEqual(10);
+        }
     });
 
     it('returns no articles for a locale without content', () => {

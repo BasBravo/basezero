@@ -10,7 +10,13 @@
     "writtenBy": "Escrito por",
     "sourcesLabel": "Fuentes y notas",
     "footnoteBack": "Volver al contenido",
-    "backToBasezero": "Volver a Basezero"
+    "backToBasezero": "Volver a Basezero",
+    "detailsLabel": "Sobre este artículo",
+    "publishedLabel": "Publicado",
+    "readingLabel": "Lectura",
+    "categoryLabel": "Tema",
+    "otherArticles": "Otros artículos",
+    "noOtherArticles": "Nuevos artículos próximamente"
   },
   "Portfolio": {
     "navWork": "Proyectos",

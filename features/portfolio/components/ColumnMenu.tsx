@@ -1,7 +1,7 @@
 'use client';
 
-import { Menu, X } from 'lucide-react';
 import { useEffect, useRef } from 'react';
+import { Icon } from '@/components/ui/icon';
 import styles from './portfolio.module.css';
 
 export type ColumnMenuItem = {
@@ -33,9 +33,7 @@ export function ColumnMenuToggle({ open, openLabel, closeLabel, onToggle }: Colu
             aria-label={open ? closeLabel : openLabel}
             onClick={onToggle}
         >
-            {open
-                ? <X aria-hidden="true" strokeWidth={2.25} />
-                : <Menu aria-hidden="true" strokeWidth={2.25} />}
+            <Icon name={open ? 'close' : 'menu'} />
         </button>
     );
 }
