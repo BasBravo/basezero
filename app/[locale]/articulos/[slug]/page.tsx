@@ -102,7 +102,6 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
                     writtenBy: t('writtenBy'),
                     sourcesLabel: t('sourcesLabel'),
                     footnoteBack: t('footnoteBack'),
-                    backToBasezero: t('backToBasezero'),
                     scrollbar: portfolioT('scrollbar'),
                     detailsLabel: t('detailsLabel'),
                     publishedLabel: t('publishedLabel'),

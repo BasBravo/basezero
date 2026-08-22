@@ -10,7 +10,6 @@
     "writtenBy": "Written by",
     "sourcesLabel": "Sources and notes",
     "footnoteBack": "Back to content",
-    "backToBasezero": "Back to Basezero",
     "detailsLabel": "About this article",
     "publishedLabel": "Published",
     "readingLabel": "Reading time",
@@ -26,7 +25,7 @@
     },
     "intro": {
       "title": "From an idea\nto a real digital product.",
-      "body": "I work directly with founders and teams to define, design and build MVPs, platforms and web tools from scratch, from strategy through launch.",
+      "body": "I work directly with founders and teams through an AI-first practice: AI guides strategy, design and development so ideas become real digital products faster, from definition through launch.",
       "viewWork": "View projects"
     },
     "openProject": "Explore project",
@@ -45,10 +44,10 @@
     },
     "scrollbar": "Page position",
     "about": {
-      "title": "An independent studio.",
-      "paragraphOne": "I’m Bas Bravo, a product designer and developer. Basezero is my independent studio: I work directly with you to understand the problem, refine the idea and turn it into a production-ready solution. I own the complete journey, from strategy and experience through technology and launch.",
-      "paragraphTwo": "I integrate AI throughout exploration, design, development, testing and product evolution. Moving fast is not enough: my experience brings the judgment needed to decide what to build, what to leave out and how to create a solid foundation without unnecessary complexity.",
-      "paragraphThree": "I work best with founders and teams who have a clear idea—or a specific problem—trust an open process and take part in the decisions. The goal is to put a useful first version in front of real people early and learn from it."
+      "title": "An independent, AI-first studio.",
+      "paragraphOne": "I’m Bas Bravo, a product designer and developer. Basezero is my independent, AI-first studio: I work directly with you and own the complete journey, from understanding the problem and defining the strategy through design, development and the launch of a real solution.",
+      "paragraphTwo": "AI guides the core of my work. It is not an add-on: I use it to explore more directions, shape the product, write code, test and learn at a pace that was not possible before. My experience provides the judgment to decide what to build, what to leave out and how to turn that speed into a solid foundation.",
+      "paragraphThree": "I work in short, open cycles instead of imposing a fixed definition or rigid management model from the start. Each version incorporates what we learn, allowing the software to grow organically and fluidly. This method works best with founders and teams who take part in decisions and want to put a useful product in front of real people early."
     },
     "articles": {
       "title": "Articles",
@@ -66,27 +65,27 @@
       "close": "Close project",
       "visit": "Open live product"
     },
-    "processLabel": "Product process",
+    "processLabel": "AI-first product process",
     "processSteps": {
       "understand": {
         "title": "Define the challenge",
-        "body": "Together we define the objective, context, users and constraints to establish a shared framework for product decisions."
+        "body": "Together we define the objective, context, users and constraints. AI helps us explore scenarios and turn uncertainty into a shared framework for product decisions."
       },
       "shape": {
         "title": "Design the direction",
-        "body": "I turn that framework into a product proposal: scope, architecture, experience and visual identity, with explicit priorities."
+        "body": "I use AI to model different product directions and turn the framework into a concrete proposal: scope, architecture, experience and visual identity, with explicit priorities."
       },
       "launch": {
         "title": "Build the product",
-        "body": "I design and develop a functional, integrated and deployed first version so decisions can be validated against a real product."
+        "body": "I build the product’s core through an AI-first approach, linking fast cycles of design, code and testing until a functional, integrated first version is deployed."
       },
       "learn": {
         "title": "Validate with evidence",
-        "body": "We validate the solution with the business and its users. What we learn becomes concrete decisions and priorities for the next iteration."
+        "body": "We validate the solution with the business and its users. AI helps organise the evidence and turn what we learn into concrete decisions and priorities for the next iteration."
       },
       "grow": {
         "title": "Evolve with purpose",
-        "body": "We improve a solid foundation, applying design, technology and AI where they add value while avoiding unnecessary complexity."
+        "body": "The software evolves organically: AI lets us shape each next step around what we learn, without relying on rigid planning or adding complexity before it is needed."
       }
     }
   }

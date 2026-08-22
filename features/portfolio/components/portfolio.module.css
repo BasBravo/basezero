@@ -388,6 +388,7 @@
     z-index: 90;
     top: var(--sidebar-header-inset);
     right: max(1.15rem, env(safe-area-inset-right));
+    transform: translateY(7px);
 }
 
 .themeToggle svg,
@@ -877,10 +878,10 @@
         --mobile-content-end: clamp(3rem, 12vw, 4.25rem);
         --mobile-controls-right: 0.4rem;
         --sidebar-pad-x: var(--mobile-edge-x);
-        --header-scrim-fade: 5rem;
+        --header-scrim-fade: 5.5rem;
         --header-scrim-solid: 42%;
         --header-scrim-blur: 0.8rem;
-        --footer-scrim-fade: 4.5rem;
+        --footer-scrim-fade: 5rem;
         --footer-scrim-solid: 42%;
         --footer-scrim-blur: 0.75rem;
     }

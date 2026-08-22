@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import type { ComponentPropsWithoutRef } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -7,6 +6,7 @@ import { Icon } from '@/components/ui/icon';
 import { PortfolioScrollbar } from '@/features/portfolio/components/PortfolioScrollbar';
 import type { Article, ArticleSummary } from '../types';
 import { ArticleSidebar } from './ArticleSidebar';
+import { ArticleTitleBreadcrumb } from './ArticleTitleBreadcrumb';
 import styles from './article.module.css';
 
 const markdownComponents: Components = {
@@ -64,7 +64,6 @@ export type ArticlePageCopy = {
     writtenBy: string;
     sourcesLabel: string;
     footnoteBack: string;
-    backToBasezero: string;
     scrollbar: string;
     detailsLabel: string;
     publishedLabel: string;
@@ -108,11 +107,18 @@ export function ArticlePage({
                 copy={copy}
             />
 
+            <ArticleTitleBreadcrumb
+                title={article.title}
+                sectionLabel={copy.menuArticles}
+                sectionHref={`/${article.locale}#articles`}
+                targetId="article-title"
+            />
+
             <main id="article-content" className={styles.articleMain}>
                 <article>
                     <header className={styles.articleHero}>
                         <p className={styles.articleIndex}>{copy.articleIndex}</p>
-                        <h1>{article.title}</h1>
+                        <h1 id="article-title">{article.title}</h1>
                         <p className={styles.articleDescription}>{article.description}</p>
                     </header>
 
@@ -132,13 +138,6 @@ export function ArticlePage({
                     </div>
                 </article>
 
-                <footer className={styles.articleFooter}>
-                    <Link href={`/${article.locale}#articles`}>
-                        <Icon name="arrow_back" />
-                        <span>{copy.backToBasezero}</span>
-                    </Link>
-                    <span>© {new Date().getUTCFullYear()} Basezero</span>
-                </footer>
             </main>
         </div>
     );

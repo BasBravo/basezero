@@ -22,20 +22,21 @@ export function ArticleSidebar({ article, otherArticles, formattedDate, copy }: 
     const localeRoot = `/${article.locale}`;
 
     return (
-        <aside className={styles.sidebar} aria-label={copy.detailsLabel}>
+        <aside className={styles.sidebar} aria-label={copy.detailsLabel} data-menu-open={menuOpen ? 'true' : undefined}>
+            <div className={styles.headerScrim} aria-hidden="true" />
+
+            <ArticleThemeToggle label={copy.themeToggle} />
+
             <header className={styles.sidebarHeader}>
+                <ColumnMenuToggle
+                    open={menuOpen}
+                    openLabel={copy.menuOpen}
+                    closeLabel={copy.menuClose}
+                    onToggle={() => setMenuOpen(current => !current)}
+                />
                 <Link href={localeRoot} className={styles.brand} aria-label={copy.homeLabel}>
                     <Image src="/logotipo.svg" alt="" width={538} height={92} priority />
                 </Link>
-                <div className={styles.headerActions}>
-                    <ArticleThemeToggle label={copy.themeToggle} />
-                    <ColumnMenuToggle
-                        open={menuOpen}
-                        openLabel={copy.menuOpen}
-                        closeLabel={copy.menuClose}
-                        onToggle={() => setMenuOpen(current => !current)}
-                    />
-                </div>
             </header>
 
             <div className={styles.sidebarBody}>
@@ -54,7 +55,7 @@ export function ArticleSidebar({ article, otherArticles, formattedDate, copy }: 
 
                 <section className={styles.articleDetails}>
                     <p className={styles.sidebarLabel}>{copy.detailsLabel}</p>
-                    <h2>{article.title}</h2>
+                    <h2 className={styles.mobileArticleTitle}>{article.title}</h2>
                     <p className={styles.sidebarDescription}>{article.description}</p>
                     <dl className={styles.articleFacts}>
                         <div>

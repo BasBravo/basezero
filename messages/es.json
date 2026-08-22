@@ -10,7 +10,6 @@
     "writtenBy": "Escrito por",
     "sourcesLabel": "Fuentes y notas",
     "footnoteBack": "Volver al contenido",
-    "backToBasezero": "Volver a Basezero",
     "detailsLabel": "Sobre este artículo",
     "publishedLabel": "Publicado",
     "readingLabel": "Lectura",
@@ -26,7 +25,7 @@
     },
     "intro": {
       "title": "De una idea\na un producto digital real.",
-      "body": "Trabajo directamente con fundadores y equipos para definir, diseñar y desarrollar MVPs, plataformas y herramientas web desde cero, de la estrategia al lanzamiento.",
+      "body": "Trabajo directamente con fundadores y equipos con una metodología AI-first: la IA guía la estrategia, el diseño y el desarrollo para convertir ideas en productos digitales reales con más velocidad, desde la definición hasta el lanzamiento.",
       "viewWork": "Ver proyectos"
     },
     "openProject": "Conocer el proyecto",
@@ -45,10 +44,10 @@
     },
     "scrollbar": "Posición de la página",
     "about": {
-      "title": "Un estudio independiente.",
-      "paragraphOne": "Soy Bas Bravo, diseñador y desarrollador de producto. Basezero es mi estudio independiente: trabajo directamente contigo para entender el problema, afinar la idea y convertirla en una solución en producción. Me responsabilizo del recorrido completo, desde la estrategia y la experiencia hasta la tecnología y el lanzamiento.",
-      "paragraphTwo": "Integro la IA durante la exploración, el diseño, el desarrollo, las pruebas y la evolución del producto. Avanzar rápido no basta: mi experiencia aporta el criterio para decidir qué construir, qué dejar fuera y cómo crear una base sólida sin añadir complejidad innecesaria.",
-      "paragraphThree": "Trabajo mejor con fundadores y equipos que tienen una idea clara —o un problema concreto—, confían en un proceso abierto y participan en las decisiones. El objetivo es poner pronto una primera versión útil en manos de personas reales y aprender a partir de ella."
+      "title": "Un estudio independiente, AI-first.",
+      "paragraphOne": "Soy Bas Bravo, diseñador y desarrollador de producto. Basezero es mi estudio independiente y AI-first: trabajo directamente contigo y me responsabilizo del recorrido completo, desde entender el problema y definir la estrategia hasta diseñar, desarrollar y lanzar una solución real.",
+      "paragraphTwo": "La IA guía el núcleo de mi trabajo. No es un complemento: la utilizo para explorar más direcciones, modelar el producto, escribir código, probar y aprender a una velocidad que antes no era posible. Mi experiencia aporta el criterio para decidir qué construir, qué dejar fuera y cómo convertir esa velocidad en una base sólida.",
+      "paragraphThree": "Trabajo en ciclos cortos y abiertos, sin imponer una definición cerrada ni una gestión rígida desde el principio. Cada versión incorpora lo aprendido y el software crece de forma orgánica y fluida. Este método funciona mejor con fundadores y equipos que participan en las decisiones y quieren poner pronto un producto útil en manos de personas reales."
     },
     "articles": {
       "title": "Artículos",
@@ -66,27 +65,27 @@
       "close": "Cerrar proyecto",
       "visit": "Abrir producto real"
     },
-    "processLabel": "Proceso de producto",
+    "processLabel": "Proceso de producto AI-first",
     "processSteps": {
       "understand": {
         "title": "Definir el reto",
-        "body": "Definimos juntos el objetivo, el contexto, las personas usuarias y las restricciones para establecer un marco de decisión compartido."
+        "body": "Definimos juntos el objetivo, el contexto, las personas usuarias y las restricciones. La IA ayuda a explorar escenarios y convertir la incertidumbre en un marco de decisión compartido."
       },
       "shape": {
         "title": "Diseñar la dirección",
-        "body": "Convierto ese marco en una propuesta de producto: alcance, arquitectura, experiencia e identidad visual, con prioridades explícitas."
+        "body": "Modelo con IA distintas direcciones de producto y convierto el marco en una propuesta concreta: alcance, arquitectura, experiencia e identidad visual, con prioridades explícitas."
       },
       "launch": {
         "title": "Construir el producto",
-        "body": "Diseño y desarrollo una primera versión funcional, integrada y desplegada para validar decisiones sobre un producto real."
+        "body": "Desarrollo el núcleo del producto con un enfoque AI-first, encadenando ciclos rápidos de diseño, código y prueba hasta desplegar una primera versión funcional e integrada."
       },
       "learn": {
         "title": "Validar con evidencia",
-        "body": "Validamos la solución con negocio y usuarios. Lo aprendido se traduce en decisiones y prioridades concretas para la siguiente iteración."
+        "body": "Validamos la solución con negocio y usuarios. La IA ayuda a ordenar la evidencia y transformar lo aprendido en decisiones y prioridades concretas para la siguiente iteración."
       },
       "grow": {
         "title": "Evolucionar con criterio",
-        "body": "Mejoramos sobre una base sólida, incorporando diseño, tecnología e IA donde aportan valor y evitando complejidad innecesaria."
+        "body": "El software evoluciona de forma orgánica: la IA permite modelar cada siguiente paso sobre lo aprendido, sin depender de una planificación rígida ni añadir complejidad antes de necesitarla."
       }
     }
   }
