@@ -354,7 +354,7 @@
     position: relative;
     z-index: 1;
     display: block;
-    width: clamp(6rem, 8vw, 7.5rem);
+    width: 6.25rem;
     flex: 0 0 auto;
     margin-right: auto;
     line-height: 0;
@@ -954,7 +954,6 @@
     .numericCanvas { mix-blend-mode: normal; }
 
     .sidebarBottom { margin-top: auto; }
-    .brand { width: 6.25rem; }
     .brandFull { display: block; }
     .growthSection { height: 560svh; }
 

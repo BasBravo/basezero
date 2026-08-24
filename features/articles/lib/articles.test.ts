@@ -3,8 +3,7 @@ import { getArticle, getArticleSlugs, getArticleSummaries } from './articles';
 
 describe('article content', () => {
     it('loads the Spanish article and its derived metadata', () => {
-        const [slug] = getArticleSlugs('es');
-        const article = getArticle('es', slug);
+        const article = getArticle('es', 'minimo-no-significa-incompleto');
 
         expect(article).toMatchObject({
             slug: 'minimo-no-significa-incompleto',
@@ -14,6 +13,22 @@ describe('article content', () => {
         });
         expect(article?.readingMinutes).toBeGreaterThanOrEqual(1);
         expect(article?.content).toContain('## Decidir qué entra no consiste en tachar funciones');
+    });
+
+    it('discovers every published Spanish article', () => {
+        expect(getArticleSlugs('es')).toEqual([
+            'construir-ya-no-es-el-cuello-de-botella',
+            'de-ejecutar-tareas-a-responder-por-el-resultado',
+            'minimo-no-significa-incompleto',
+        ]);
+        expect(getArticle('es', 'construir-ya-no-es-el-cuello-de-botella')).toMatchObject({
+            title: 'Construir ya no es el cuello de botella',
+            date: '2026-08-24',
+        });
+        expect(getArticle('es', 'de-ejecutar-tareas-a-responder-por-el-resultado')).toMatchObject({
+            title: 'De ejecutar tareas a responder por el resultado',
+            date: '2026-07-03',
+        });
     });
 
     it('estimates a reading time for every published article', () => {

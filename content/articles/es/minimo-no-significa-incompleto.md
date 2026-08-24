@@ -1,7 +1,7 @@
 ---
 title: "Mínimo no significa incompleto"
 description: "Cómo hacer una primera versión más pequeña sin dejarla a medias, pasar por alto riesgos ni perder la oportunidad de aprender."
-date: "2026-08-19"
+date: "2026-06-04"
 author: "Bas Bravo"
 locale: "es"
 category: "Producto"

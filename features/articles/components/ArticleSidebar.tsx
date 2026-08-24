@@ -32,6 +32,12 @@ function ArticleContext({
     formattedDate,
     copy,
 }: ArticleSidebarProps) {
+    const publicationNumberBySlug = new Map(
+        [...otherArticles, article]
+            .sort((first, second) => first.date.localeCompare(second.date) || first.slug.localeCompare(second.slug))
+            .map((publishedArticle, index) => [publishedArticle.slug, String(index + 1).padStart(2, '0')]),
+    );
+
     return (
         <>
             <section className={styles.articleDetails}>
@@ -63,10 +69,10 @@ function ArticleContext({
                 <p className={styles.sidebarLabel}>{copy.otherArticles}</p>
                 {otherArticles.length > 0 ? (
                     <ul>
-                        {otherArticles.map((otherArticle, index) => (
+                        {otherArticles.map(otherArticle => (
                             <li key={otherArticle.slug}>
                                 <Link href={otherArticle.href}>
-                                    <span>{String(index + 2).padStart(2, '0')}</span>
+                                    <span>{publicationNumberBySlug.get(otherArticle.slug)}</span>
                                     <strong>{otherArticle.title}</strong>
                                 </Link>
                             </li>

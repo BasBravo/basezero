@@ -1,5 +1,5 @@
 .articleShell {
-    --sidebar-width: 30vw;
+    --sidebar-width: min(30vw, 500px);
     --sidebar-pad-x: clamp(1.5rem, 3vw, 3.5rem);
     --sidebar-header-inset: 0.9rem;
     --header-scrim-fade: 8rem;
