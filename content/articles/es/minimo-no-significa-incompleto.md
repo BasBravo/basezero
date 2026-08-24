@@ -1,184 +1,184 @@
 ---
 title: "Mínimo no significa incompleto"
-description: "Cómo reducir el alcance de un MVP sin romper la experiencia, esconder riesgos ni perder aquello que queríamos aprender al construirlo."
+description: "Cómo hacer una primera versión más pequeña sin dejarla a medias, pasar por alto riesgos ni perder la oportunidad de aprender."
 date: "2026-08-19"
 author: "Bas Bravo"
 locale: "es"
 category: "Producto"
 ---
 
-Hay una escena que se repite al empezar un producto. Sobre la mesa aparece una lista larga de funciones: cuentas, filtros, notificaciones, pagos, roles, integraciones. Alguien recuerda que estamos definiendo un MVP y propone pasar la mitad a una segunda fase. El documento queda más corto y durante un momento parece que el alcance está resuelto.
+Hay una escena que se repite al empezar un producto. Aparece una lista larga de funciones y alguien recuerda que queremos construir un MVP: la versión más pequeña que nos permita saber si la idea merece la pena. Dejamos la mitad para después y, durante un momento, parece que el problema está resuelto.
 
 Casi nunca lo está.
 
-Quitar funciones no garantiza que hayamos encontrado un producto más pequeño. A veces solo deja el mismo producto a medio hacer: pantallas sueltas, un recorrido interrumpido o la ausencia de aquello que permitía confiar en el resultado.
+Quitar funciones no garantiza que hayamos encontrado un producto más pequeño. A veces solo deja el mismo producto a medio hacer: pantallas sueltas, un camino que se interrumpe o la ausencia de algo necesario para confiar en el resultado.
 
-Para mí, definir un buen MVP consiste en **reducir la superficie del producto sin reducir su responsabilidad**. Elegir una persona, una situación y un resultado concretos; acompañarlos de principio a fin; y dejar fuera lo que todavía no sea necesario para comprobar si esa relación tiene valor.
+Para mí, una buena primera versión consiste en **hacer menos, pero completar bien aquello que decidimos cuidar**. Elegir a una persona, una situación y un resultado; acompañar el recorrido de principio a fin; y dejar el resto para más adelante.
 
-![Un circuito esencial completo ocupa un perímetro reducido mientras las ampliaciones opcionales quedan fuera.](/articles/minimo-no-significa-incompleto/alcance-completo-diagrama.png "Reducir superficie no consiste en dejar el producto a medio construir, sino en proteger un recorrido completo dentro de un alcance menor.")
+![Un circuito esencial completo ocupa un perímetro reducido mientras las ampliaciones opcionales quedan fuera.](/articles/minimo-no-significa-incompleto/alcance-completo-diagrama.png "Hacer el producto más pequeño no consiste en dejarlo a medias, sino en cuidar un recorrido completo dentro de un espacio menor.")
 
 ---
 
-## El alcance no es una lista de funciones
+## Decidir qué entra no consiste en tachar funciones
 
-Una lista coloca cada función al mismo nivel, aunque no cumplan el mismo papel ni tengan el mismo coste si faltan. Los permisos pueden ser invisibles y determinar si el producto admite datos reales. Un error quizá no aparezca en una demostración, pero será la interfaz que vea alguien cuando algo falle.
+En una lista, todas las funciones parecen igual de importantes. Sin embargo, saber quién puede ver o cambiar la información decide si podemos usar datos reales. Un mensaje de error parece un detalle hasta que algo falla y se convierte en la única pantalla que alguien ve.
 
-Por eso prefiero pensar el alcance como un recorrido. Un producto empieza cuando una persona llega con una intención y termina cuando obtiene un resultado, entiende qué ha ocurrido y sabe qué puede hacer después.
+Por eso me resulta más útil pensar en el camino de una persona: desde que llega con una intención hasta que consigue un resultado y entiende qué puede hacer después.
 
-Imaginemos una herramienta para aprobar compras con tipos de solicitud, reglas, comentarios, avisos, métricas y exportaciones. Ordenar la lista genera una discusión interminable. Dibujar el recorrido básico produce algo más útil:
+Imaginemos una herramienta para aprobar compras con distintos tipos de solicitud, reglas, comentarios, avisos e informes. Ordenar la lista nos llevaría a una discusión interminable. Dibujar el recorrido básico nos da algo más claro:
 
 1. una persona crea una solicitud con la información necesaria;
 2. la persona responsable puede revisarla;
 3. toma una decisión;
-4. quien la creó conoce el resultado.
+4. quien hizo la solicitud conoce el resultado.
 
-![Una infraestructura continua conecta la creación, la revisión, la decisión y el retorno del resultado.](/articles/minimo-no-significa-incompleto/recorrido-esencial-diagrama.png "El recorrido esencial no termina al tomar una decisión: devuelve el resultado a quien inició el proceso.")
+![Una infraestructura continua conecta la creación, la revisión, la decisión y el retorno del resultado.](/articles/minimo-no-significa-incompleto/recorrido-esencial-diagrama-v4.png "El recorrido no termina cuando se toma una decisión: también debe devolver el resultado a quien inició el proceso.")
 
-Podemos empezar con un solo tipo de solicitud, cargar responsables manualmente y posponer los paneles. No podemos eliminar la separación entre quien solicita y quien aprueba si la decisión necesita control. Tampoco podemos omitir qué sucede al rechazar o qué ve alguien si la solicitud ya fue resuelta.
+Podemos empezar con un solo tipo de solicitud, elegir responsables a mano y dejar los informes para después. No podemos eliminar una revisión necesaria ni ocultar qué ocurre cuando una solicitud se rechaza o ya está resuelta.
 
-El recorte deja de ser una negociación sobre preferencias y pasa a responder una pregunta más precisa:
+Así, recortar deja de ser una discusión sobre qué función gusta más y pasa a responder una pregunta más útil:
 
-> ¿Qué necesita este recorrido para ser verdadero?
+> ¿Qué tiene que ocurrir para que este recorrido funcione de verdad?
 
-## Producto, prototipo y primera versión no son lo mismo
+## No es lo mismo probar una idea que entregar un producto
 
-Parte de la confusión viene de llamar MVP a cosas distintas. Un prototipo comprueba una interacción, una dirección visual o una incertidumbre técnica en condiciones controladas. Puede utilizar datos ficticios y operaciones manuales ocultas.
+Parte de la confusión viene de llamar MVP a cosas distintas. Una prueba puede servir para ensayar una tarea, explorar una dirección visual o saber si una idea es posible. Puede usar información inventada y trabajo manual que la persona no ve.
 
-Un producto se enfrenta a condiciones menos amables. La persona entra sola, se equivoca, vuelve otro día, utiliza datos que importan y espera que el sistema recuerde lo ocurrido. Aunque sea pequeño, asume otra responsabilidad.
+Un producto se enfrenta a una realidad menos ordenada. Alguien entra sin ayuda, se equivoca, vuelve otro día y espera encontrar su información tal como la dejó. Aunque sea pequeño, la responsabilidad es mayor.
 
-Y Combinator describe el MVP como un producto real que sus usuarios perciben como una experiencia terminada, aunque su función sea acotada.[^1] Marty Cagan añade tres condiciones útiles: debe aportar valor, poder utilizarse y ser viable para el equipo que lo entrega.[^2]
+Y Combinator describe el MVP como un producto real que sus usuarios sienten terminado, aunque sirva para una tarea muy concreta.[^1] Marty Cagan añade tres preguntas útiles: ¿aporta valor?, ¿se puede usar con facilidad? y ¿el equipo puede construirlo y mantenerlo?[^2]
 
-No merece la pena discutir demasiado la etiqueta. Sí conviene declarar si estamos construyendo:
+No hace falta discutir demasiado sobre el nombre. Sí conviene decir con claridad si estamos preparando:
 
-- una prueba para aprender sobre una necesidad;
-- un prototipo para resolver una incertidumbre;
-- un piloto acompañado con pocas personas;
-- o una primera versión autónoma que entrará en su trabajo.
+- una prueba para saber si un problema merece atención;
+- un modelo sencillo para explorar una posible solución;
+- una prueba con pocas personas a las que acompañaremos de cerca;
+- o una primera versión que alguien podrá utilizar por su cuenta.
 
-Cada formato admite atajos distintos. El problema aparece cuando presentamos como producto lo que solo funciona como demostración.
+Cada formato permite simplificar cosas distintas. El problema aparece cuando llamamos producto a algo que solo funciona si estamos al lado para explicarlo.
 
-## Lo mínimo está en la superficie, no en el cuidado
+## Lo mínimo está en lo que hacemos, no en el cuidado
 
-Cuando se habla de un MVP rápido, calidad suele confundirse con cantidad. Es razonable posponer personalización o automatizaciones sofisticadas. No lo es que la persona no sepa si su acción se ha guardado. Es razonable diseñar un recorrido principal. No lo es guardar datos sensibles sin saber quién puede verlos.
+Al hablar de una primera versión rápida, a veces confundimos calidad con cantidad. Podemos posponer muchas opciones o tareas automáticas. No deberíamos posponer algo tan básico como saber si una acción se ha guardado o quién puede ver información sensible.
 
-Una primera versión no necesita el acabado de un producto maduro en toda su superficie. Necesita intención en los puntos que sostienen su promesa. Yo separo esa base en cuatro capas:
+Una primera versión no necesita un acabado perfecto en cada rincón. Sí necesita cuidado donde se sostiene su promesa. A mí me ayuda separar esa base en cuatro áreas:
 
-| Capa | Pregunta | Ejemplos |
+| Área | Pregunta | Qué incluye |
 | --- | --- | --- |
-| **Valor** | ¿Puede alcanzar el resultado principal? | Crear, decidir, recibir o completar aquello que vino a hacer. |
-| **Comprensión** | ¿Entiende qué ocurre y qué puede hacer? | Jerarquía, contenido, estados, confirmaciones y errores. |
-| **Confianza** | ¿Puede usarlo con consecuencias reales? | Permisos, privacidad, integridad, accesibilidad y recuperación. |
-| **Aprendizaje** | ¿Sabremos si la hipótesis se sostiene? | Señales de uso, contexto cualitativo y criterio para decidir. |
+| **Utilidad** | ¿Permite conseguir el resultado principal? | Crear, decidir, recibir o completar aquello que la persona vino a hacer. |
+| **Claridad** | ¿Se entiende qué ocurre y qué se puede hacer? | Orden visual, textos claros, indicaciones de lo que está pasando, confirmaciones y errores. |
+| **Confianza** | ¿Se puede usar con consecuencias reales? | Quién puede ver cada cosa, privacidad, datos correctos, accesibilidad y cómo recuperar el trabajo si algo falla. |
+| **Aprendizaje** | ¿Sabremos si la idea funciona? | Ver si se usa, entender por qué y acordar qué decisión tomaremos después. |
 
-Si una pieza no fortalece ninguna capa, es candidata para quedar fuera. Si sostiene una, eliminarla exige algo más que llamarla “detalle”. La profundidad necesaria depende del riesgo: no es igual organizar referencias visuales que gestionar pagos o información médica. Lo importante es hacerlo explícito y responder de forma proporcional.
+Si algo no ayuda a ninguna de estas áreas, quizá pueda quedarse fuera. Si sostiene una, no basta con llamarlo “detalle”. El cuidado también depende del riesgo: no es lo mismo ordenar referencias visuales que gestionar pagos o información médica.
 
-## Cuatro maneras de hacer un producto más pequeño
+## Cuatro formas de empezar con algo más pequeño
 
-Cuando el alcance no cabe, quitar pantallas suele ser el último recurso. Hay recortes más eficaces que conservan el recorrido completo.
+Cuando el trabajo no cabe, quitar pantallas puede ser el último recurso. Hay otras formas de reducirlo sin romper el recorrido.
 
-### 1. Reducir para quién se construye
+### 1. Elegir mejor a quién queremos ayudar
 
-Servir a “equipos” obliga a resolver diferencias de responsabilidad, tamaño y contexto. Empezar por quien coordina un equipo pequeño permite decidir con más claridad.
+Construir para “equipos” obliga a resolver muchas diferencias de tamaño y responsabilidad. Empezar por quien coordina un equipo pequeño permite decidir con más claridad.
 
-### 2. Reducir la situación
+### 2. Empezar por una situación concreta
 
-Una herramienta puede cubrir todo un proceso o empezar por el caso más frecuente. Las restricciones bien elegidas ahorran desarrollo y mejoran la comprensión. La flexibilidad temprana traslada decisiones al usuario antes de que sepamos cuáles son buenas.
+Una herramienta puede cubrir un proceso entero o empezar por el caso más frecuente. Unos buenos límites ahorran trabajo y facilitan la comprensión. Demasiada libertad al principio obliga a elegir antes de que sepamos qué opciones son realmente útiles.
 
-### 3. Reducir la variabilidad
+### 3. Ofrecer menos opciones
 
-Un rol, una plantilla, un idioma o una integración pueden bastar. Cada variante multiplica estados, permisos, contenido, pruebas y soporte. Reducirlas estrecha el marco sin romper el recorrido.
+Un tipo de usuario, una plantilla, un idioma o una conexión pueden bastar al principio. Cada opción añade situaciones que diseñar, explicar, probar y mantener. Ofrecer menos aclara por dónde empezamos.
 
-### 4. Reducir la automatización
+### 4. Hacer a mano lo que todavía no necesita ser automático
 
-No todo necesita automatizarse desde el primer día. El equipo puede revisar altas o resolver excepciones mientras el volumen lo permita. Lo manual compra aprendizaje si no compromete datos ni promete una capacidad inexistente.
+No todo tiene que ser automático desde el primer día. Mientras haya pocas personas, el equipo puede revisar cuentas o resolver casos poco habituales. Ese trabajo manual permite aprender antes de construir algo más complejo, siempre que sea responsable.
 
-Una operación manual también necesita un procedimiento: quién la realiza, cuánto tarda y qué ocurre si no está disponible. De otro modo no hemos reducido el producto; solo hemos movido una parte fuera de plano.
+También necesita reglas: quién lo hace, cuánto tarda y qué ocurre si no está disponible. Sin ellas, no hemos reducido el producto; solo hemos escondido parte del trabajo.
 
-## Poner límites y decidir qué queremos aprender
+## Poner límites y saber qué queremos aprender
 
-Un alcance se estabiliza con exclusiones explícitas: “no importaremos el histórico”, “las solicitudes no se editan” o “el piloto será solo en español”. Evitan que los casos descartados regresen como pequeños ajustes.
+Una primera versión se vuelve más manejable cuando escribimos con claridad qué queda fuera: “no importaremos información anterior”, “las solicitudes no se podrán editar” o “la prueba será solo en español”. Estos límites evitan que lo descartado vuelva poco a poco disfrazado de pequeños ajustes.
 
-*Shape Up* llama *appetite* a decidir cuánto tiempo merece una idea y trabaja con tiempo fijo y alcance variable.[^3] El límite participa así en la forma del producto, aunque todavía hace falta una jerarquía:
+El método *Shape Up* propone decidir de antemano cuánto tiempo merece una idea y adaptar el trabajo a ese límite.[^3] Así, el tiempo disponible también ayuda a dar forma al producto. Aun así, necesitamos decidir qué proteger primero:
 
-1. proteger el resultado principal;
-2. proteger la comprensión y la confianza necesarias;
-3. resolver la incertidumbre más arriesgada;
-4. simplificar variantes y operación;
-5. aplazar comodidad, escala y optimización.
+1. el resultado principal;
+2. la claridad y la confianza necesarias para usarlo;
+3. la duda más importante que queremos resolver;
+4. una forma sencilla de trabajar y atender distintos casos;
+5. y, para más adelante, la comodidad, el crecimiento y las mejoras menores.
 
-También necesitamos una pregunta más concreta que “validar la idea”:
+También necesitamos una pregunta más concreta que “comprobar si la idea funciona”:
 
-> ¿Un responsable de operaciones utilizará esta herramienta cada semana para aprobar solicitudes reales sin volver a coordinarlas por correo?
+> ¿Una persona responsable de operaciones usará esta herramienta cada semana para aprobar solicitudes reales sin volver a organizarse por correo?
 
-Así podemos observar solicitudes, decisiones, recurrencia y pasos que salen de la herramienta. También reconocer evidencia negativa: si todos entran una vez y vuelven al correo, otro panel no resolverá el problema.
+Podemos observar cuántas solicitudes se crean, cuántas decisiones se toman, si las personas regresan y qué pasos siguen haciendo fuera de la herramienta. También tenemos que aceptar las señales que no nos gustan: si todo el mundo entra una vez y vuelve al correo, añadir otro panel no resolverá el problema.
 
-Interés, uso y adopción son señales distintas. En la encuesta europea de Slush de 2025, el 68 % de los fundadores decía identificar posibles clientes con facilidad, pero solo el 30 % encontraba fácil convertirlos.[^4] La versión debe dejar claro qué señal estamos buscando y qué decisión tomaremos después.
+Mostrar interés, usar algo una vez e incorporarlo al trabajo diario son cosas distintas. En una encuesta europea de Slush de 2025, el 68 % de quienes habían fundado una empresa decía que le resultaba fácil encontrar posibles clientes. Solo el 30 % veía fácil convertir ese interés en clientes reales.[^4] Por eso conviene decidir qué señal estamos buscando y qué haremos cuando la tengamos.
 
-## La IA ha hecho más fácil construir de más
+## La IA también nos lo pone fácil para construir de más
 
-Hoy podemos pasar de una descripción a una interfaz funcional muy rápido. Es una ventaja enorme para explorar y reducir incertidumbre técnica. También crea una tentación: si añadir algo parece barato, dejarlo fuera parece una pérdida.
+Hoy podemos pasar de una descripción a una pantalla que funciona en muy poco tiempo. Es una ventaja enorme para explorar ideas y comprobar si algo se puede construir. También crea una tentación: si añadir una función parece barato, dejarla fuera puede parecer una oportunidad perdida.
 
-El coste visible de una función ha bajado, pero todavía hay que integrarla, decidir estados, probarla y mantenerla.
+Pero crear la primera versión de una función no es todo el trabajo. Todavía hay que encajarla con las demás, decidir qué ocurre en cada situación, probarla y mantenerla.
 
-En *State of Startups 2026* de Supabase, la complejidad técnica cayó del 24 % al 11 % como reto principal, por detrás de adquisición y product-market fit.[^5] La muestra está vinculada a un proveedor, pero señala algo útil: poder construir no demuestra que merezca existir.
+En *State of Startups 2026* de Supabase, las dificultades técnicas bajaron del 24 % al 11 % como principal preocupación. Encontrar clientes y saber si el producto responde a una necesidad real aparecían por delante.[^5] Como la encuesta procede de una empresa del sector, conviene leerla con cierta cautela. Aun así, recuerda algo importante: que podamos construir una idea no significa que debamos hacerlo.
 
-DORA llegó a una conclusión compatible al estudiar a casi cinco mil profesionales: la IA amplifica las capacidades y los problemas que ya tiene una organización.[^6] Con un alcance claro acelera la entrega. Con una dirección confusa produce más confusión en menos tiempo.
+DORA llegó a una conclusión parecida después de estudiar a casi cinco mil profesionales.[^6] La IA da más fuerza a lo que un equipo ya hace bien, pero también a sus problemas. Con una dirección clara, ayuda a avanzar más rápido. Sin ella, nos permite crear más confusión en menos tiempo.
 
-Mi respuesta no es usar menos IA, sino elevar el nivel de la decisión que la precede. Cuando generar otra variante cuesta minutos, el criterio para escoger una importa todavía más.
+Mi respuesta no es usar menos IA, sino cuidar mejor la decisión que viene antes. Cuando generar otra opción cuesta minutos, el criterio para elegir importa todavía más.
 
-## Un método sencillo para recortar alcance
+## Un método sencillo para decidir qué dejar fuera
 
-No utilizo una fórmula rígida, pero este proceso suele revelar pronto dónde está el peso innecesario.
+No utilizo una fórmula rígida, pero este proceso suele mostrar pronto dónde estamos intentando abarcar demasiado.
 
-### 1. Escribir el cambio esperado
+> Para **[una persona concreta]**, cuando **[vive una situación]**, el producto le ayuda a **[conseguir un resultado]** sin **[el problema actual]**.
 
-> Para **[una persona]**, en **[una situación]**, el producto permite **[obtener un resultado]** sin **[la fricción actual]**.
+### 1. Describir el cambio que esperamos
 
-Si necesitamos unir varias frases con “y”, probablemente hay más de un producto compitiendo por entrar.
+Si necesitamos unir varias ideas con “y”, probablemente hay más de un producto intentando entrar en la misma primera versión.
 
 ### 2. Dibujar el recorrido completo
 
-Entre cinco y siete pasos bastan. No son pantallas, sino cambios que la persona intenta producir, incluido cómo sabe que ha terminado.
+Entre cinco y siete pasos suelen bastar. No son pantallas, sino lo que una persona intenta conseguir en cada momento, incluido cómo sabe que ha terminado.
 
-### 3. Nombrar la pregunta más arriesgada
+### 3. Nombrar nuestra mayor duda
 
-¿Dudamos de la necesidad, la adopción, la comprensión o la viabilidad? La primera versión no debe responderlo todo con la misma fuerza.
+¿No sabemos si el problema importa, si las personas usarán la solución, si se entenderá o si podemos construirla bien? La primera versión no tiene que responder a todo con la misma fuerza.
 
-### 4. Clasificar cada elemento
+### 4. Agrupar cada elemento
 
-- **Núcleo:** sin esto no existe el resultado principal.
-- **Confianza:** sin esto no deberíamos pedir uso real.
-- **Manual:** puede hacerlo el equipo temporalmente y con responsabilidad.
-- **Después:** aporta comodidad, escala o variedad, pero no cambia la pregunta.
+- **Imprescindible:** sin esto no existe el resultado principal.
+- **Cuidado:** sin esto no deberíamos pedir a nadie que lo use de verdad.
+- **Manual:** el equipo puede hacerlo durante un tiempo de forma responsable.
+- **Más adelante:** aporta comodidad, permite crecer o añade opciones, pero no cambia lo que queremos aprender ahora.
 
 ### 5. Escribir qué no entra
 
-Los límites deben poder discutirse. Si una exclusión amenaza el valor central, se verá antes de construir; si es aceptable, protegerá al equipo cuando reaparezca.
+Los límites tienen que poder ponerse sobre la mesa y discutirse. Si dejar algo fuera amenaza el valor principal, lo veremos antes de construir. Si el límite es razonable, nos ayudará a proteger el trabajo cuando esa idea vuelva a aparecer.
 
-### 6. Definir la señal y la siguiente decisión
+### 6. Acordar qué observaremos y qué haremos después
 
-Definir qué observaremos, durante cuánto tiempo y qué haremos con cada respuesta. Sin ese paso, el aprendizaje se convierte en comentarios y el alcance vuelve a crecer.
+Conviene decidir qué miraremos, durante cuánto tiempo y qué haremos según lo que ocurra. Sin ese paso, el aprendizaje se convierte en una colección de comentarios y la lista vuelve a crecer.
 
 ## Pequeño no significa provisional
 
-Hay decisiones cuyo coste aumenta mucho después del lanzamiento: permisos, propiedad de los datos, eliminación de información, estructura semántica o identificación de errores. No siempre necesitan una solución sofisticada. Necesitan que alguien las haya pensado.
+Hay decisiones que resultan mucho más difíciles de cambiar después de lanzar un producto. Por ejemplo: quién puede acceder, a quién pertenece la información, cómo se borra, cómo se organiza para que pueda entenderse bien o cómo detectamos y resolvemos los errores. No siempre necesitan una solución compleja. Sí necesitan que alguien se haya parado a pensarlas.
 
-La protección de datos desde el diseño exige preguntarse para qué recogemos cada dato, quién lo necesita y cuánto tiempo debe existir.[^7] Accesibilidad significa no introducir barreras evitables en el recorrido esencial.
+Las normas europeas de protección de datos piden pensar estas cuestiones desde el principio: para qué recogemos cada dato, quién lo necesita y durante cuánto tiempo debe existir.[^7] Algo parecido ocurre con la accesibilidad. Se trata de procurar que personas con necesidades distintas puedan completar el recorrido esencial.
 
-Mi criterio es sencillo: si un atajo puede invalidar el aprendizaje, dañar a la persona o hacer muy costoso cambiar después, no es un buen recorte. Si reduce variedad o comodidad sin romper el resultado, probablemente sí.
+Mi criterio es sencillo: si un atajo puede impedirnos aprender, hacer daño a alguien o volver muy difícil un cambio futuro, no es un buen recorte. Si reduce opciones o comodidad sin romper el resultado, probablemente sí lo sea.
 
-Un MVP no necesita parecer grande. Necesita tener una razón clara para ser pequeño. Puede incluir trabajo manual, pocas opciones y decisiones temporales. Lo que no debería incluir es dejadez accidental presentada como velocidad.
+Una primera versión no necesita parecer grande. Necesita una buena razón para ser pequeña. Puede incluir trabajo manual, pocas opciones y decisiones temporales. Lo que no debería hacer es confundir falta de cuidado con velocidad.
 
-La pregunta que utilizo al cerrar el alcance no es “¿podemos quitar algo más?”. Es esta:
+La pregunta que utilizo al cerrar esta primera versión es:
 
-> Si una persona completa esta versión, ¿habrá recibido valor suficiente y nosotros habremos aprendido algo que justifique la siguiente?
+> Si alguien completa este recorrido, ¿habrá conseguido algo valioso y sabremos nosotros qué hacer después?
 
-Si la respuesta es sí, probablemente tenemos una primera versión. Si solo hemos conseguido una lista más corta, todavía no.
+Si la respuesta es sí, probablemente tenemos una buena primera versión. Si solo hemos conseguido una lista más corta, todavía no.
 
 [^1]: [Y Combinator, *Practical Design: MVP Spec*](https://www.ycombinator.com/blog/practical-design-mvp).
 [^2]: [Marty Cagan, *Minimum Viable Product*](https://www.svpg.com/minimum-viable-product/), Silicon Valley Product Group.
 [^3]: [Ryan Singer, *Set Boundaries*](https://basecamp.com/shapeup/1.2-chapter-03), en *Shape Up*.
-[^4]: [Slush, *Startup Struggle Survey 2025*](https://impact.slush.org/startup-struggle-survey-2025.html), encuesta a 607 fundadores europeos early-stage.
-[^5]: [Supabase, *State of Startups 2026*](https://supabase.com/state-of-startups). La encuesta declara dos mil participantes y debe interpretarse teniendo en cuenta su afinidad con el ecosistema del proveedor.
+[^4]: [Slush, *Startup Struggle Survey 2025*](https://impact.slush.org/startup-struggle-survey-2025.html), encuesta a 607 personas que habían fundado empresas jóvenes en Europa.
+[^5]: [Supabase, *State of Startups 2026*](https://supabase.com/state-of-startups). La encuesta declara dos mil participantes y procede de una empresa que ofrece este tipo de herramientas.
 [^6]: [Google Research, *DORA 2025 State of AI-assisted Software Development*](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/).
 [^7]: [Comisión Europea, principios de tratamiento de datos bajo el GDPR](https://commission.europa.eu/law/law-topic/data-protection/information-business-and-organisations/principles-gdpr_en).

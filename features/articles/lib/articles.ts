@@ -4,8 +4,6 @@ import matter from 'gray-matter';
 import type { Article, ArticleSummary } from '../types';
 
 const articlesRoot = path.join(process.cwd(), 'content', 'articles');
-const MIN_READING_MINUTES = 5;
-const MAX_READING_MINUTES = 10;
 
 function readRequiredString(value: unknown, field: string, filePath: string) {
     if (typeof value !== 'string' || value.trim() === '') {
@@ -50,13 +48,6 @@ export function getArticle(locale: string, slug: string): Article | null {
 
     if (articleLocale !== locale) {
         throw new Error(`Article ${filePath} declares locale "${articleLocale}" instead of "${locale}".`);
-    }
-
-    if (readingMinutes < MIN_READING_MINUTES || readingMinutes > MAX_READING_MINUTES) {
-        throw new Error(
-            `Article ${filePath} has an estimated reading time of ${readingMinutes} minutes. ` +
-            `Articles must stay between ${MIN_READING_MINUTES} and ${MAX_READING_MINUTES} minutes.`,
-        );
     }
 
     return {

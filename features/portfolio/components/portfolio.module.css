@@ -1,5 +1,5 @@
 .siteShell {
-    --sidebar-width: 30vw;
+    --sidebar-width: max(340px, 30vw);
     --sidebar-pad-x: clamp(1.5rem, 3vw, 3.5rem);
     --sidebar-header-inset: 0.9rem;
     --header-scrim-fade: 8rem;
@@ -432,6 +432,7 @@
     top: 0;
     height: 100svh;
     min-height: 38rem;
+    pointer-events: none;
 }
 
 .contactAction {
@@ -704,42 +705,55 @@
 }
 
 .farewellActions {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
+    display: inline-flex;
+    align-items: stretch;
     margin-top: 1.5rem;
 }
 
 .farewellAction {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    color: var(--ink);
-    font-size: 0.66rem;
+    justify-content: center;
+    height: 2.25rem;
+    margin: 0;
+    padding: 0;
+    appearance: none;
+    border: 1px solid var(--ink);
+    border-radius: 0;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.6rem;
     font-weight: 650;
     letter-spacing: 0.08em;
+    line-height: 1;
     text-decoration: none;
     text-transform: uppercase;
+    transition: background-color 160ms ease, color 160ms ease;
 }
 
-.farewellAction svg { width: 0.9rem; height: 0.9rem; }
-.farewellAction:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
-
-.copyEmailAction {
-    display: inline-flex;
-    width: 1.8rem;
-    height: 1.8rem;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 0;
+.farewellContact {
+    padding: 0 0.95rem;
+    border-right-width: 0;
     background: transparent;
-    color: var(--muted);
-    cursor: pointer;
+    color: var(--ink);
+    white-space: nowrap;
 }
 
-.copyEmailAction:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
-.copyEmailAction svg { width: 0.85rem; height: 0.85rem; }
+.farewellCopy {
+    width: 2.25rem;
+    flex: 0 0 2.25rem;
+    padding: 0;
+    background: var(--ink);
+    color: var(--paper);
+}
+
+.farewellAction svg { width: 0.8rem; height: 0.8rem; }
+.farewellAction:focus-visible,
+.projectDialogVisit:focus-visible {
+    z-index: 1;
+    outline: 1px solid var(--ink);
+    outline-offset: 3px;
+}
 
 .projectDialog {
     width: min(52rem, calc(100vw - 3rem));
@@ -757,6 +771,10 @@
 .projectDialog::backdrop {
     background: rgba(0, 0, 0, 0.74);
     backdrop-filter: blur(0.55rem);
+}
+
+:global(html[data-theme='dark']) .projectDialog::backdrop {
+    background: rgb(48, 48, 46);
 }
 
 .projectDialogPanel {
@@ -796,7 +814,6 @@
     cursor: pointer;
 }
 
-.projectDialogVisit:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
 .projectDialogClose:focus,
 .projectDialogClose:focus-visible { outline: none; box-shadow: none; }
 .projectDialogClose svg { width: 1.65rem; height: 1.65rem; }
@@ -825,42 +842,35 @@
 .projectDialogStory p + p { margin-top: 1.15rem; }
 
 .projectDialogVisit {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
     margin-top: clamp(2rem, 4vw, 3rem);
     color: inherit;
-    font-size: 0.68rem;
-    font-weight: 650;
-    letter-spacing: 0.08em;
     opacity: 0;
     pointer-events: none;
     text-decoration: none;
-    text-transform: uppercase;
     transition: opacity 160ms ease;
 }
 
 .projectDialogVisit[data-visible='true'] { opacity: 1; pointer-events: auto; }
-
-.projectDialogVisit svg { width: 0.95rem; height: 0.95rem; }
-
-.projectDialogVisitText {
-    display: inline-block;
-    min-width: 10rem;
-}
 
 @media (hover: hover) and (pointer: fine) {
     .introScrollCta:hover,
     .themeToggle:hover,
     .menuToggle:hover,
     .columnMenuLink:hover,
-    .farewellAction:hover,
-    .projectDialogClose:hover,
-    .projectDialogVisit:hover { color: var(--muted); }
+    .projectDialogClose:hover { color: var(--muted); }
+
+    .farewellContact:hover,
+    .projectDialogVisit:hover .farewellContact {
+        background: color-mix(in srgb, var(--ink) 8%, transparent);
+    }
+
+    .farewellCopy:hover,
+    .projectDialogVisit:hover .farewellCopy {
+        background: color-mix(in srgb, var(--ink) 82%, var(--paper));
+    }
 
     .socialLink:hover,
-    .contactAction:hover,
-    .copyEmailAction:hover { color: var(--ink); }
+    .contactAction:hover { color: var(--ink); }
 
     .projectList:has(.project:hover) .project:not(:hover) { opacity: 0.38; }
 
@@ -1070,5 +1080,6 @@
     .processStageTitle,
     .fadeInTitle,
     .columnMenu,
-    .introScrollCta { transition: none; }
+    .introScrollCta,
+    .farewellAction { transition: none; }
 }

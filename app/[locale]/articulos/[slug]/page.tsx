@@ -96,7 +96,6 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
                     homeLabel: t('homeLabel'),
                     backToStudio: t('backToStudio'),
                     themeToggle: t('themeToggle'),
-                    articleIndex: t('articleIndex'),
                     readingTime: t('readingTime', { minutes: article.readingMinutes }),
                     authorLabel: t('authorLabel'),
                     writtenBy: t('writtenBy'),

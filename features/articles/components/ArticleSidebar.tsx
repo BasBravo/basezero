@@ -17,29 +17,74 @@ type ArticleSidebarProps = {
     copy: ArticlePageCopy;
 };
 
+function BackLink({ href, label }: { href: string; label: string }) {
+    return (
+        <Link href={href} className={styles.backLink}>
+            <Icon name="arrow_back" />
+            <span>{label}</span>
+        </Link>
+    );
+}
+
+function ArticleContext({
+    article,
+    otherArticles,
+    formattedDate,
+    copy,
+}: ArticleSidebarProps) {
+    return (
+        <>
+            <section className={styles.articleDetails}>
+                <h2 className={styles.mobileArticleTitle}>{article.title}</h2>
+                <p className={styles.sidebarDescription}>{article.description}</p>
+                <dl className={styles.articleFacts}>
+                    <div className={styles.articleByline}>
+                        <dt>{copy.writtenBy}</dt>
+                        <dd>{article.author}</dd>
+                    </div>
+                    <div className={styles.articleMeta}>
+                        <div>
+                            <dt className={styles.visuallyHidden}>{copy.publishedLabel}</dt>
+                            <dd>{formattedDate}</dd>
+                        </div>
+                        <div>
+                            <dt className={styles.visuallyHidden}>{copy.readingLabel}</dt>
+                            <dd>{copy.readingTime}</dd>
+                        </div>
+                        <div>
+                            <dt className={styles.visuallyHidden}>{copy.categoryLabel}</dt>
+                            <dd>{article.category}</dd>
+                        </div>
+                    </div>
+                </dl>
+            </section>
+
+            <nav className={styles.otherArticles} aria-label={copy.otherArticles}>
+                <p className={styles.sidebarLabel}>{copy.otherArticles}</p>
+                {otherArticles.length > 0 ? (
+                    <ul>
+                        {otherArticles.map((otherArticle, index) => (
+                            <li key={otherArticle.slug}>
+                                <Link href={otherArticle.href}>
+                                    <span>{String(index + 2).padStart(2, '0')}</span>
+                                    <strong>{otherArticle.title}</strong>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                ) : <p className={styles.emptyArticles}>{copy.noOtherArticles}</p>}
+            </nav>
+        </>
+    );
+}
+
 export function ArticleSidebar({ article, otherArticles, formattedDate, copy }: ArticleSidebarProps) {
     const [menuOpen, setMenuOpen] = useState(false);
     const localeRoot = `/${article.locale}`;
 
     return (
-        <aside className={styles.sidebar} aria-label={copy.detailsLabel} data-menu-open={menuOpen ? 'true' : undefined}>
-            <div className={styles.headerScrim} aria-hidden="true" />
-
-            <ArticleThemeToggle label={copy.themeToggle} />
-
-            <header className={styles.sidebarHeader}>
-                <ColumnMenuToggle
-                    open={menuOpen}
-                    openLabel={copy.menuOpen}
-                    closeLabel={copy.menuClose}
-                    onToggle={() => setMenuOpen(current => !current)}
-                />
-                <Link href={localeRoot} className={styles.brand} aria-label={copy.homeLabel}>
-                    <Image src="/logotipo.svg" alt="" width={538} height={92} priority />
-                </Link>
-            </header>
-
-            <div className={styles.sidebarBody}>
+        <>
+            <div className={styles.menuLayer}>
                 <ColumnMenuPanel
                     open={menuOpen}
                     label={copy.menuLabel}
@@ -52,52 +97,46 @@ export function ArticleSidebar({ article, otherArticles, formattedDate, copy }: 
                     ]}
                     onNavigate={() => setMenuOpen(false)}
                 />
-
-                <section className={styles.articleDetails}>
-                    <p className={styles.sidebarLabel}>{copy.detailsLabel}</p>
-                    <h2 className={styles.mobileArticleTitle}>{article.title}</h2>
-                    <p className={styles.sidebarDescription}>{article.description}</p>
-                    <dl className={styles.articleFacts}>
-                        <div>
-                            <dt>{copy.writtenBy}</dt>
-                            <dd>{article.author}</dd>
-                        </div>
-                        <div>
-                            <dt>{copy.publishedLabel}</dt>
-                            <dd>{formattedDate}</dd>
-                        </div>
-                        <div>
-                            <dt>{copy.readingLabel}</dt>
-                            <dd>{copy.readingTime}</dd>
-                        </div>
-                        <div>
-                            <dt>{copy.categoryLabel}</dt>
-                            <dd>{article.category}</dd>
-                        </div>
-                    </dl>
-                </section>
-
-                <nav className={styles.otherArticles} aria-label={copy.otherArticles}>
-                    <p className={styles.sidebarLabel}>{copy.otherArticles}</p>
-                    {otherArticles.length > 0 ? (
-                        <ul>
-                            {otherArticles.map((otherArticle, index) => (
-                                <li key={otherArticle.slug}>
-                                    <Link href={otherArticle.href}>
-                                        <span>{String(index + 2).padStart(2, '0')}</span>
-                                        <strong>{otherArticle.title}</strong>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : <p className={styles.emptyArticles}>{copy.noOtherArticles}</p>}
-                </nav>
-
-                <Link href={`${localeRoot}#articles`} className={styles.backLink}>
-                    <Icon name="arrow_back" />
-                    <span>{copy.backToStudio}</span>
-                </Link>
             </div>
-        </aside>
+
+            <aside className={styles.sidebar} aria-label={copy.detailsLabel} data-menu-open={menuOpen ? 'true' : undefined}>
+                <ArticleThemeToggle label={copy.themeToggle} />
+
+                <header className={styles.sidebarHeader}>
+                    <ColumnMenuToggle
+                        open={menuOpen}
+                        openLabel={copy.menuOpen}
+                        closeLabel={copy.menuClose}
+                        onToggle={() => setMenuOpen(current => !current)}
+                    />
+                    <Link href={localeRoot} className={styles.brand} aria-label={copy.homeLabel}>
+                        <Image src="/logotipo.svg" alt="" width={538} height={92} priority />
+                    </Link>
+                </header>
+
+                <div className={styles.sidebarBody}>
+                    <ArticleContext
+                        article={article}
+                        otherArticles={otherArticles}
+                        formattedDate={formattedDate}
+                        copy={copy}
+                    />
+                </div>
+
+                <div className={styles.sidebarFooter}>
+                    <BackLink href={`${localeRoot}#articles`} label={copy.backToStudio} />
+                </div>
+            </aside>
+
+            <div className={styles.mobileArticleIntro}>
+                <ArticleContext
+                    article={article}
+                    otherArticles={otherArticles}
+                    formattedDate={formattedDate}
+                    copy={copy}
+                />
+                <BackLink href={`${localeRoot}#articles`} label={copy.backToStudio} />
+            </div>
+        </>
     );
 }

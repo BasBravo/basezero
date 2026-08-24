@@ -27,8 +27,8 @@ export function ProjectDialog({ project, copy, onClose }: ProjectDialogProps) {
     const descriptionId = useId();
     const projectMeta = `${project.facets.join(' · ')} · ${project.year}`;
     const terminalSegments = useMemo(
-        () => [projectMeta, ...project.story, copy.visit],
-        [copy.visit, project.story, projectMeta],
+        () => [projectMeta, ...project.story],
+        [project.story, projectMeta],
     );
 
     useEffect(() => {
@@ -86,14 +86,13 @@ export function ProjectDialog({ project, copy, onClose }: ProjectDialogProps) {
                 };
             });
             const totalDuration = schedule.at(-1)?.end ?? 0;
-            const visitStartsAt = schedule.at(-1)?.start ?? 0;
             let startedAt = 0;
             setVisitVisible(false);
 
             function draw(timestamp: number) {
                 if (startedAt === 0) startedAt = timestamp;
                 const elapsed = timestamp - startedAt;
-                setVisitVisible(elapsed >= visitStartsAt);
+                setVisitVisible(elapsed >= totalDuration);
 
                 terminalSegments.forEach((segment, index) => {
                     const text = textRefs.current[index];
@@ -217,15 +216,17 @@ export function ProjectDialog({ project, copy, onClose }: ProjectDialogProps) {
                     ))}
                     <a
                         ref={visitRef}
-                        className={styles.projectDialogVisit}
+                        className={`${styles.farewellActions} ${styles.projectDialogVisit}`}
                         href={project.url}
                         target="_blank"
                         rel="noreferrer"
                     >
-                        <span className={`${styles.projectDialogVisitText} ${styles.terminalLine}`}>
-                            {terminalLine(copy.visit, project.story.length + 1)}
+                        <span className={`${styles.farewellAction} ${styles.farewellContact}`}>
+                            {copy.visit}
                         </span>
-                        <Icon name="arrow_outward" />
+                        <span className={`${styles.farewellAction} ${styles.farewellCopy}`} aria-hidden="true">
+                            <Icon name="arrow_outward" />
+                        </span>
                     </a>
                 </div>
             </article>

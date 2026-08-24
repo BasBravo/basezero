@@ -4,7 +4,6 @@
     "homeLabel": "Basezero — Inicio",
     "backToStudio": "Volver al estudio",
     "themeToggle": "Cambiar tema",
-    "articleIndex": "Artículo 01",
     "readingTime": "{minutes} min de lectura",
     "authorLabel": "Autor",
     "writtenBy": "Escrito por",
@@ -58,7 +57,7 @@
     "farewell": {
       "title": "Hablemos de lo que quieres construir.",
       "body": "Cuéntame qué quieres conseguir, en qué punto está el proyecto y si tienes una fecha objetivo. Te responderé personalmente para valorar si podemos construirlo juntos.",
-      "copyEmail": "Copiar correo electrónico",
+      "copyEmail": "Copiar correo",
       "emailCopied": "Correo copiado"
     },
     "projectDialog": {
@@ -73,7 +72,7 @@
       },
       "shape": {
         "title": "Diseñar la dirección",
-        "body": "Modelo con IA distintas direcciones de producto y convierto el marco en una propuesta concreta: alcance, arquitectura, experiencia e identidad visual, con prioridades explícitas."
+        "body": "Modelamos distintas direcciones de producto y juntos convertimos el marco en una propuesta concreta: alcance, arquitectura, experiencia e identidad visual, con prioridades explícitas."
       },
       "launch": {
         "title": "Construir el producto",
@@ -81,7 +80,7 @@
       },
       "learn": {
         "title": "Validar con evidencia",
-        "body": "Validamos la solución con negocio y usuarios. La IA ayuda a ordenar la evidencia y transformar lo aprendido en decisiones y prioridades concretas para la siguiente iteración."
+        "body": "Validamos la solución con negocio y usuarios transformando lo aprendido en decisiones y prioridades concretas para la siguiente iteración."
       },
       "grow": {
         "title": "Evolucionar con criterio",

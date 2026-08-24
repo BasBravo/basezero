@@ -4,6 +4,7 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { HtmlLang } from '../html-lang';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://basezero.dev';
 
@@ -85,11 +86,7 @@ export default async function LocaleLayout({
 
     return (
         <NextIntlClientProvider>
-            <script
-                dangerouslySetInnerHTML={{
-                    __html: `document.documentElement.lang=${JSON.stringify(locale)}`,
-                }}
-            />
+            <HtmlLang locale={locale} />
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{

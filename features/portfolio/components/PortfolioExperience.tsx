@@ -54,6 +54,8 @@ export type PortfolioCopy = {
     }>;
 };
 
+const CONTACT_EMAIL = 'hello@basezero.dev';
+
 type PortfolioExperienceProps = {
     copy: PortfolioCopy;
     projects: PortfolioProject[];
@@ -88,9 +90,13 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
     }
 
     async function copyEmailAddress() {
-        await navigator.clipboard.writeText('hello@basezero.dev');
+        await navigator.clipboard.writeText(CONTACT_EMAIL);
         setEmailCopied(true);
         window.setTimeout(() => setEmailCopied(false), 1800);
+    }
+
+    function openMailComposer() {
+        window.location.href = `mailto:${CONTACT_EMAIL}`;
     }
 
     return (
@@ -163,7 +169,7 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                     >
                         @basbravo
                     </a>
-                    <a className={styles.contactAction} href="mailto:hello@basezero.dev">
+                    <a className={styles.contactAction} href={`mailto:${CONTACT_EMAIL}`}>
                         <span>{copy.contactAction}</span>
                         <Icon name="arrow_outward" />
                     </a>
@@ -250,16 +256,19 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                     <section id="contact" className={styles.farewellSection}>
                         <FadeInTitle className={styles.farewellTitle}>{copy.farewellTitle}</FadeInTitle>
                         <p className={styles.farewellBody}>{copy.farewellBody}</p>
-                        <div className={styles.farewellActions}>
-                            <a className={styles.farewellAction} href="mailto:hello@basezero.dev">
-                                <span>{copy.contactAction}</span>
-                                <Icon name="arrow_outward" />
-                            </a>
+                        <div className={styles.farewellActions} role="group">
                             <button
-                                className={styles.copyEmailAction}
+                                className={`${styles.farewellAction} ${styles.farewellContact}`}
+                                type="button"
+                                onClick={openMailComposer}
+                            >
+                                {copy.contactAction}
+                            </button>
+                            <button
+                                className={`${styles.farewellAction} ${styles.farewellCopy}`}
                                 type="button"
                                 aria-label={emailCopied ? copy.emailCopied : copy.copyEmail}
-                                title={emailCopied ? copy.emailCopied : copy.copyEmail}
+                                aria-live="polite"
                                 onClick={() => void copyEmailAddress()}
                             >
                                 {emailCopied

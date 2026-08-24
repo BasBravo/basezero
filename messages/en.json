@@ -4,7 +4,6 @@
     "homeLabel": "Basezero — Home",
     "backToStudio": "Back to the studio",
     "themeToggle": "Toggle theme",
-    "articleIndex": "Article 01",
     "readingTime": "{minutes} min read",
     "authorLabel": "Author",
     "writtenBy": "Written by",
@@ -58,7 +57,7 @@
     "farewell": {
       "title": "Let’s talk about what you want to build.",
       "body": "Tell me what you want to achieve, where the project stands and whether you have a target date. I’ll reply personally so we can decide if we are a good fit.",
-      "copyEmail": "Copy email address",
+      "copyEmail": "Copy email",
       "emailCopied": "Email copied"
     },
     "projectDialog": {
@@ -73,7 +72,7 @@
       },
       "shape": {
         "title": "Design the direction",
-        "body": "I use AI to model different product directions and turn the framework into a concrete proposal: scope, architecture, experience and visual identity, with explicit priorities."
+        "body": "We model different product directions and together convert the framework into a concrete proposal: scope, architecture, experience and visual identity, with explicit priorities."
       },
       "launch": {
         "title": "Build the product",
@@ -81,7 +80,7 @@
       },
       "learn": {
         "title": "Validate with evidence",
-        "body": "We validate the solution with the business and its users. AI helps organise the evidence and turn what we learn into concrete decisions and priorities for the next iteration."
+        "body": "We validate the solution with the business and its users transforming what we learn into concrete decisions and priorities for the next iteration."
       },
       "grow": {
         "title": "Evolve with purpose",

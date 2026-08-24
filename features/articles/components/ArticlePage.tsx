@@ -2,7 +2,6 @@ import Image from 'next/image';
 import type { ComponentPropsWithoutRef } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Icon } from '@/components/ui/icon';
 import { PortfolioScrollbar } from '@/features/portfolio/components/PortfolioScrollbar';
 import type { Article, ArticleSummary } from '../types';
 import { ArticleSidebar } from './ArticleSidebar';
@@ -10,18 +9,43 @@ import { ArticleTitleBreadcrumb } from './ArticleTitleBreadcrumb';
 import styles from './article.module.css';
 
 const markdownComponents: Components = {
-    a: ({ href = '', children, node, ...props }) => {
+    a: ({ href = '', children, node, className, ...props }) => {
         void node;
+        const isBackref = className?.includes('footnote-backref') === true
+            || href.includes('fnref');
+        if (isBackref) return null;
+
         const isExternal = href.startsWith('http://') || href.startsWith('https://');
         return (
             <a
                 href={href}
+                className={className}
                 {...props}
                 {...(isExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
             >
                 {children}
-                {isExternal ? <Icon name="arrow_outward" /> : null}
             </a>
+        );
+    },
+    hr: () => null,
+    li: ({ children, node, ...props }) => {
+        void node;
+        return (
+            <li {...props}>
+                <div className={styles.listContent}>{children}</div>
+            </li>
+        );
+    },
+    section: ({ className, children, node, ...props }) => {
+        void node;
+        const isFootnotes = className?.includes('footnotes') === true;
+        return (
+            <section
+                className={isFootnotes ? styles.footnotes : className}
+                {...props}
+            >
+                {children}
+            </section>
         );
     },
     table: ({ children }: ComponentPropsWithoutRef<'table'>) => (
@@ -58,7 +82,6 @@ export type ArticlePageCopy = {
     homeLabel: string;
     backToStudio: string;
     themeToggle: string;
-    articleIndex: string;
     readingTime: string;
     authorLabel: string;
     writtenBy: string;
@@ -107,6 +130,8 @@ export function ArticlePage({
                 copy={copy}
             />
 
+            <div className={styles.headerScrim} aria-hidden="true" />
+
             <ArticleTitleBreadcrumb
                 title={article.title}
                 sectionLabel={copy.menuArticles}
@@ -117,7 +142,6 @@ export function ArticlePage({
             <main id="article-content" className={styles.articleMain}>
                 <article>
                     <header className={styles.articleHero}>
-                        <p className={styles.articleIndex}>{copy.articleIndex}</p>
                         <h1 id="article-title">{article.title}</h1>
                         <p className={styles.articleDescription}>{article.description}</p>
                     </header>
@@ -129,6 +153,7 @@ export function ArticlePage({
                                 remarkRehypeOptions={{
                                     footnoteLabel: copy.sourcesLabel,
                                     footnoteBackLabel: copy.footnoteBack,
+                                    footnoteLabelProperties: {},
                                 }}
                                 components={markdownComponents}
                             >

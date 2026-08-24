@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
     pushDragSample,
     releaseDragVelocity,
@@ -33,19 +33,22 @@ type NumericParticle = {
 
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 const smoothCurve = (value: number) => value * value * (3 - 2 * value);
-const ISOTYPE_VIEWBOX_WIDTH = 244;
+const ISOTYPE_VIEWBOX_WIDTH = 243;
 const ISOTYPE_VIEWBOX_HEIGHT = 243;
-const ISOTYPE_WORLD_WIDTH = 0.105;
+const ISOTYPE_SCALE = 2;
+const ISOTYPE_WORLD_WIDTH = 0.105 * ISOTYPE_SCALE;
 const ISOTYPE_WORLD_HEIGHT = ISOTYPE_WORLD_WIDTH * (ISOTYPE_VIEWBOX_HEIGHT / ISOTYPE_VIEWBOX_WIDTH);
 const ISOTYPE_CENTER_X = -0.015;
 const ISOTYPE_CENTER_Y = -0.79;
 const ISOTYPE_VISIBLE_PARTICLES = 650;
+const DESKTOP_ISOTYPE_SCALE = 0.7;
 const BLOOM_DENSITY_INCREASE = 0.35;
 const COMPACT_PARTICLE_RATIO = 0.48;
 const DEVICE_ROTATION_X_LIMIT = 0.11;
 const DEVICE_ROTATION_Y_LIMIT = 0.16;
-const DIGIT_CANVAS_FONT = "500 70px 'Space Grotesk Variable', sans-serif";
-const ISOTYPE_PATH = 'M237.726 62.4301C237.962 62.4539 238.194 62.4889 238.422 62.5354C238.876 62.6281 239.315 62.7639 239.732 62.9397C242.24 63.996 244 66.4687 244 69.3509V180.607H197.508C195.655 180.608 193.878 181.341 192.568 182.646L183.397 191.782C182.088 193.087 181.351 194.857 181.351 196.702V243H69.6363C69.1536 243 68.6825 242.95 68.2273 242.857C67.7731 242.765 67.3348 242.629 66.9173 242.453C64.4095 241.397 62.6497 238.924 62.6495 236.042V180.607H165.251C167.104 180.607 168.881 179.873 170.191 178.569L179.304 169.494C180.614 168.189 181.35 166.419 181.351 164.574V62.3927H237.013C237.254 62.3927 237.492 62.4064 237.726 62.4301ZM174.364 0C178.222 1.67984e-07 181.351 3.11529 181.351 6.95819V62.3927H78.7485C76.8959 62.393 75.1187 63.1266 73.8086 64.4313L64.6964 73.5061C63.3863 74.8108 62.6497 76.5807 62.6495 78.4258V180.607H6.98683C3.12818 180.607 0.000115232 177.492 0 173.649V62.3927H46.489C48.3417 62.3924 50.1189 61.6589 51.4289 60.3542L60.6026 51.2182C61.9125 49.9135 62.6491 48.1435 62.6495 46.2985V0H174.364Z';
+const DIGIT_CANVAS_FONT = "500 70px 'Bricolage Grotesque Variable', sans-serif";
+const ISOTYPE_SRC = '/isotipo.svg';
+const ISOTYPE_MASK_SCALE = 4;
 
 type IsotypeMask = {
     canvas: HTMLCanvasElement;
@@ -53,16 +56,26 @@ type IsotypeMask = {
     edge: Array<[number, number]>;
 };
 
-function createIsotypeMask(): IsotypeMask {
+function loadIsotypeImage() {
+    return new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image();
+        image.decoding = 'async';
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error(`Unable to load ${ISOTYPE_SRC}.`));
+        image.src = ISOTYPE_SRC;
+    });
+}
+
+async function createIsotypeMask(): Promise<IsotypeMask> {
+    const image = await loadIsotypeImage();
     const canvas = document.createElement('canvas');
-    canvas.width = ISOTYPE_VIEWBOX_WIDTH;
-    canvas.height = ISOTYPE_VIEWBOX_HEIGHT;
+    canvas.width = Math.round(ISOTYPE_VIEWBOX_WIDTH * ISOTYPE_MASK_SCALE);
+    canvas.height = Math.round(ISOTYPE_VIEWBOX_HEIGHT * ISOTYPE_MASK_SCALE);
     const context = canvas.getContext('2d', { willReadFrequently: true });
     if (!context) throw new Error('Unable to create the isotype mask.');
 
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = '#fff';
-    context.fill(new Path2D(ISOTYPE_PATH));
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
     const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
     const interior: Array<[number, number]> = [];
     const edge: Array<[number, number]> = [];
@@ -76,14 +89,18 @@ function createIsotypeMask(): IsotypeMask {
             if (alphaAt(x, y) < 128) continue;
             interior.push([x, y]);
             if (
-                alphaAt(x - 2, y) < 128 ||
-                alphaAt(x + 2, y) < 128 ||
-                alphaAt(x, y - 2) < 128 ||
-                alphaAt(x, y + 2) < 128
+                alphaAt(x - 2 * ISOTYPE_MASK_SCALE, y) < 128 ||
+                alphaAt(x + 2 * ISOTYPE_MASK_SCALE, y) < 128 ||
+                alphaAt(x, y - 2 * ISOTYPE_MASK_SCALE) < 128 ||
+                alphaAt(x, y + 2 * ISOTYPE_MASK_SCALE) < 128
             ) {
                 edge.push([x, y]);
             }
         }
+    }
+
+    if (interior.length === 0) {
+        throw new Error('The isotype mask is empty.');
     }
 
     return { canvas, interior, edge };
@@ -136,10 +153,14 @@ void main() {
     float breath = 1.0 + sin(uTime * 0.34 + aMeta.z) * 0.0035 * emergence;
     float logoPresence = 1.0 - smoothCurve(clamp(uProgress / 0.145, 0.0, 1.0));
     float logoRelease = smoothCurve(clamp((uProgress - aMeta.z * 0.0018) / 0.13, 0.0, 1.0));
+    float logoScale = mix(${DESKTOP_ISOTYPE_SCALE}, 1.0, uCompact);
 
     vec3 plantWorld = mix(aOrigin, aTarget, emergence);
     plantWorld.x *= breath;
-    vec3 world = mix(aLogo.xyz, plantWorld, logoRelease);
+    vec3 logoWorld = aLogo.xyz;
+    logoWorld.x = ${ISOTYPE_CENTER_X} + (logoWorld.x - ${ISOTYPE_CENTER_X}) * logoScale;
+    logoWorld.y = ${ISOTYPE_CENTER_Y} + (logoWorld.y - ${ISOTYPE_CENTER_Y}) * logoScale;
+    vec3 world = mix(logoWorld, plantWorld, logoRelease);
 
     float rotationPresence = 1.0 - logoPresence;
     float cosX = cos(uRotation.x * rotationPresence);
@@ -156,8 +177,9 @@ void main() {
     float logoWeight = aLogo.w * logoPresence;
     float visibleAlpha = max(aVisual.y * smoothProgress, logoWeight * 0.94);
     float alpha = visibleAlpha * uVisibility * (0.62 + depthTone * 0.38) * mix(1.0, 0.82, uCompact);
-    float baseSize = mix(aVisual.x, 3.45, logoWeight);
-    float size = baseSize * perspective * (0.78 + depthTone * 0.5) * uDpr * mix(1.0, 0.79, uCompact);
+    float baseSize = aVisual.x;
+    float size = baseSize * perspective * (0.78 + depthTone * 0.5) * uDpr
+        * mix(1.0, logoScale, logoPresence) * mix(1.0, 0.79, uCompact);
 
     float spriteRotation = aMeta.y + uRotation.y * 0.35;
     float cosine = cos(spriteRotation);
@@ -179,9 +201,11 @@ void main() {
         (screen.x - uCenter.x) / uScale.x,
         -(screen.y - uCenter.y) / uScale.y
     );
+    float logoWorldWidth = ${ISOTYPE_WORLD_WIDTH} * logoScale;
+    float logoWorldHeight = ${ISOTYPE_WORLD_HEIGHT} * logoScale;
     vLogoUv = vec2(
-        (screenWorld.x - (-0.015 - 0.105 * 0.5)) / 0.105,
-        ((-0.79 + 0.10456967 * 0.5) - screenWorld.y) / 0.10456967
+        (screenWorld.x - (${ISOTYPE_CENTER_X} - logoWorldWidth * 0.5)) / logoWorldWidth,
+        ((${ISOTYPE_CENTER_Y} + logoWorldHeight * 0.5) - screenWorld.y) / logoWorldHeight
     );
     vAlpha = alpha;
     vLogoPresence = logoPresence;
@@ -729,9 +753,10 @@ function createIsotypeParticleData(particleCount: number, mask: IsotypeMask) {
         const pool = isVisible && index % 3 === 0 && mask.edge.length > 0
             ? mask.edge
             : mask.interior;
-        const [pixelX, pixelY] = pool[Math.floor(random() * pool.length)] ?? [122, 121.5];
-        const u = (pixelX + (random() - 0.5) * 0.7) / ISOTYPE_VIEWBOX_WIDTH;
-        const v = (pixelY + (random() - 0.5) * 0.7) / ISOTYPE_VIEWBOX_HEIGHT;
+        const [pixelX, pixelY] = pool[Math.floor(random() * pool.length)]
+            ?? [mask.canvas.width / 2, mask.canvas.height / 2];
+        const u = (pixelX + (random() - 0.5) * 0.7) / mask.canvas.width;
+        const v = (pixelY + (random() - 0.5) * 0.7) / mask.canvas.height;
         const x = ISOTYPE_CENTER_X + (u - 0.5) * ISOTYPE_WORLD_WIDTH;
         const y = ISOTYPE_CENTER_Y + (0.5 - v) * ISOTYPE_WORLD_HEIGHT;
         const z = (random() - 0.5) * 0.004;
@@ -746,15 +771,30 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const particles = useMemo(() => createBloomParticles(), []);
     const activeProjectRef = useRef(activeProject);
+    const [isotypeMask, setIsotypeMask] = useState<IsotypeMask | null>(null);
 
     useEffect(() => {
         activeProjectRef.current = activeProject;
     }, [activeProject]);
 
     useEffect(() => {
+        let cancelled = false;
+        void createIsotypeMask()
+            .then((mask) => {
+                if (!cancelled) setIsotypeMask(mask);
+            })
+            .catch((error: unknown) => {
+                console.error(error);
+            });
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
+    useEffect(() => {
         const field = fieldRef.current;
         const canvas = canvasRef.current;
-        if (!field || !canvas) return;
+        if (!field || !canvas || !isotypeMask) return;
         const gl = canvas.getContext('webgl2', {
             alpha: true,
             antialias: false,
@@ -777,7 +817,6 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
 
         const program = createProgram(gl);
         const { texture, refresh: refreshDigitTexture } = createDigitTexture(gl);
-        const isotypeMask = createIsotypeMask();
         const logoTexture = createMaskTexture(gl, isotypeMask.canvas);
         const logoData = createIsotypeParticleData(renderedParticles.length, isotypeMask);
         const vertexArray = gl.createVertexArray();
@@ -1009,7 +1048,10 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
 
         function stopDrag(event: PointerEvent) {
             if (!isDragging || event.pointerId !== activePointerId) return;
-            pushDragSample(dragSamples, event.clientX, event.timeStamp);
+            const latestSample = dragSamples.at(-1);
+            if (!latestSample || latestSample.x !== event.clientX) {
+                pushDragSample(dragSamples, event.clientX, event.timeStamp);
+            }
             dragVelocityY = reducedMotion ? 0 : releaseDragVelocity(dragSamples);
             dragSamples.length = 0;
             isDragging = false;
@@ -1047,15 +1089,16 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
                 dragVelocityY = coast.velocity;
             }
 
-            const mobile = width <= 800;
+            const mobile = compactViewport;
             const growthPresence = smoothCurve(clamp01(progress / 0.66));
             const centerX = width * 0.5 * dpr;
             const centerStart = mobile ? 0.62 : 0.46;
             const centerEnd = mobile ? 0.66 : 0.55;
             const centerY = height * (centerStart + (centerEnd - centerStart) * growthPresence) * dpr;
+            const expandedHeightRatio = 0.6 + clamp01((window.innerWidth - 800) / 640) * 0.18;
             const finalWorldScale = mobile
                 ? Math.min(width * 0.72, height * 0.44)
-                : Math.min(width * 0.82, height * 0.78);
+                : Math.min(width * 0.82, height * expandedHeightRatio);
             const scalePresence = 0.68 + growthPresence * 0.32;
             const worldScale = finalWorldScale * scalePresence;
             const horizontalScale = worldScale;
@@ -1110,10 +1153,10 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
         window.addEventListener('scroll', updateProgress, { passive: true });
         window.addEventListener('orientationchange', resetDeviceOrientation, { passive: true });
         window.addEventListener('pointermove', updatePointer, { passive: true });
+        window.addEventListener('pointermove', dragFlower, { passive: true });
+        window.addEventListener('pointerup', stopDrag);
+        window.addEventListener('pointercancel', stopDrag);
         surface.addEventListener('pointerdown', startDrag);
-        surface.addEventListener('pointermove', dragFlower);
-        surface.addEventListener('pointerup', stopDrag);
-        surface.addEventListener('pointercancel', stopDrag);
         document.addEventListener('visibilitychange', handleVisibility);
         queueFrame();
 
@@ -1127,10 +1170,10 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
             window.removeEventListener('touchend', requestDeviceOrientation, true);
             if (orientationListening) window.removeEventListener('deviceorientation', handleDeviceOrientation);
             window.removeEventListener('pointermove', updatePointer);
+            window.removeEventListener('pointermove', dragFlower);
+            window.removeEventListener('pointerup', stopDrag);
+            window.removeEventListener('pointercancel', stopDrag);
             surface.removeEventListener('pointerdown', startDrag);
-            surface.removeEventListener('pointermove', dragFlower);
-            surface.removeEventListener('pointerup', stopDrag);
-            surface.removeEventListener('pointercancel', stopDrag);
             document.removeEventListener('visibilitychange', handleVisibility);
             themeObserver.disconnect();
             buffers.forEach((buffer) => gl.deleteBuffer(buffer));
@@ -1140,7 +1183,7 @@ export function BotanicalField({ activeProject }: BotanicalFieldProps) {
             gl.deleteVertexArray(vertexArray);
             gl.deleteProgram(program);
         };
-    }, [particles]);
+    }, [particles, isotypeMask]);
 
     return (
         <div ref={fieldRef} className={styles.field}>

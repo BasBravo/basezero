@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
     DRAG_INERTIA_DAMPING,
+    DRAG_INERTIA_MIN_DISTANCE,
     DRAG_INERTIA_MAX_SPEED,
     DRAG_SENSITIVITY,
     DRAG_VELOCITY_WINDOW_MS,
@@ -35,15 +36,24 @@ describe('drag-inertia', () => {
         ).toBeCloseTo(((-48 / 80) * 1000) * DRAG_SENSITIVITY, 8);
     });
 
-    it('ignora impulsos sin recorrido o demasiado cortos', () => {
+    it('ignora impulsos sin recorrido o por debajo del desplazamiento mínimo', () => {
         expect(releaseDragVelocity([])).toBe(0);
         expect(releaseDragVelocity([{ x: 10, time: 1 }])).toBe(0);
         expect(
             releaseDragVelocity([
                 { x: 0, time: 0 },
-                { x: 40, time: 10 },
+                { x: DRAG_INERTIA_MIN_DISTANCE - 0.1, time: 10 },
             ]),
         ).toBe(0);
+    });
+
+    it('conserva la inercia de un flick registrado dentro de un solo frame', () => {
+        expect(
+            releaseDragVelocity([
+                { x: 0, time: 100 },
+                { x: 40, time: 110 },
+            ]),
+        ).toBe(DRAG_INERTIA_MAX_SPEED);
     });
 
     it('descarta impulsos por debajo de la velocidad mínima', () => {

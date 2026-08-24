@@ -3,6 +3,8 @@ export const DRAG_VELOCITY_WINDOW_MS = 90;
 export const DRAG_INERTIA_DAMPING = 3.1;
 export const DRAG_INERTIA_MIN_SPEED = 0.04;
 export const DRAG_INERTIA_MAX_SPEED = 9;
+export const DRAG_INERTIA_MIN_DISTANCE = 2;
+export const DRAG_VELOCITY_MIN_DURATION_MS = 16;
 
 export type DragSample = {
     x: number;
@@ -32,9 +34,10 @@ export function releaseDragVelocity(samples: readonly DragSample[]) {
     if (samples.length < 2) return 0;
     const first = samples[0];
     const last = samples[samples.length - 1];
-    const dt = last.time - first.time;
-    if (dt < 16) return 0;
-    const velocity = ((last.x - first.x) / dt) * 1000 * DRAG_SENSITIVITY;
+    const distance = last.x - first.x;
+    if (Math.abs(distance) < DRAG_INERTIA_MIN_DISTANCE) return 0;
+    const dt = Math.max(last.time - first.time, DRAG_VELOCITY_MIN_DURATION_MS);
+    const velocity = (distance / dt) * 1000 * DRAG_SENSITIVITY;
     if (Math.abs(velocity) < DRAG_INERTIA_MIN_SPEED) return 0;
     return Math.max(-DRAG_INERTIA_MAX_SPEED, Math.min(DRAG_INERTIA_MAX_SPEED, velocity));
 }

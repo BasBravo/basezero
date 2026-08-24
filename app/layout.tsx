@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { routing } from '@/i18n/routing';
+import { ThemeBootstrap } from './theme-bootstrap';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -18,14 +19,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             data-scroll-behavior="smooth"
             suppressHydrationWarning
         >
-            <head>
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `(function(){try{var t=localStorage.getItem('basezero-theme');if(t!=='light'&&t!=='dark')t='dark';document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.style.colorScheme='dark'}})()`,
-                    }}
-                />
-            </head>
-            <body>{children}</body>
+            <body>
+                <ThemeBootstrap />
+                {children}
+            </body>
         </html>
     );
 }
