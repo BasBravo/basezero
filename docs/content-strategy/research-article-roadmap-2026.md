@@ -158,7 +158,7 @@ Basezero debería escribir desde la posición de **practicante que toma decision
 ### Principios
 
 1. **Empezar por una decisión, no por una herramienta.** “¿Qué debemos validar?” es mejor entrada que “Diez herramientas para crear un MVP”.
-2. **Utilizar evidencia de primera mano.** Incluir decisiones, alternativas descartadas, diagramas o aprendizajes de Signado, WeForm, Mappic, Mergeo y typos cuando sea posible.
+2. **Utilizar evidencia de primera mano.** Incluir decisiones, alternativas descartadas, diagramas o aprendizajes de Signado, WeForm, Mappic, Simplish y typos cuando sea posible.
 3. **Mostrar compensaciones.** Un artículo creíble explica cuándo su recomendación no aplica.
 4. **Separar hecho, experiencia e interpretación.** Las cifras externas deben citarse; la experiencia de Basezero debe identificarse como tal; las inferencias deben formularse con prudencia.
 5. **Escribir para una persona responsable del negocio.** El núcleo debe entenderse sin ser desarrollador, con profundidad técnica opcional donde ayude a evaluar riesgos.

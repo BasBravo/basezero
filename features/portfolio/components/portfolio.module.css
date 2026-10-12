@@ -681,6 +681,22 @@
 
 .aboutParagraph + .aboutParagraph { margin-top: 0.9rem; }
 
+.aboutMeLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 2.25rem;
+    color: var(--ink);
+    font-size: clamp(0.56rem, 0.62vw, 0.68rem);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.aboutMeLink svg { width: 0.85rem; height: 0.85rem; }
+.aboutMeLink:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
+
 .articlesSection {
     scroll-margin-top: clamp(2rem, 5vw, 4rem);
     margin-top: clamp(7rem, 12vw, 11rem);
@@ -871,6 +887,7 @@
 
     .socialLink:hover,
     .contactAction:hover { color: var(--ink); }
+    .aboutMeLink:hover { color: var(--muted); }
 
     .projectList:has(.project:hover) .project:not(:hover) { opacity: 0.38; }
 
@@ -1033,7 +1050,8 @@
     }
 
     .socialLink,
-    .contactAction { font-size: 0.6rem; }
+    .contactAction,
+    .aboutMeLink { font-size: 0.6rem; }
 
     .projectDialog {
         width: 100%;

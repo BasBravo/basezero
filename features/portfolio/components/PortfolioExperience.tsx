@@ -34,6 +34,9 @@ export type PortfolioCopy = {
     menuAbout: string;
     menuArticles: string;
     menuContact: string;
+    menuMe: string;
+    aboutMeLink: string;
+    aboutMeHref: string;
     scrollbar: string;
     aboutTitle: string;
     aboutParagraphs: string[];
@@ -155,6 +158,7 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                             { href: '#work', label: copy.menuWork },
                             ...(articles.length > 0 ? [{ href: '#articles', label: copy.menuArticles }] : []),
                             { href: '#about', label: copy.menuAbout },
+                            { href: copy.aboutMeHref, label: copy.menuMe },
                             { href: '#contact', label: copy.menuContact },
                         ]}
                         onNavigate={() => setMenuOpen(false)}
@@ -252,6 +256,10 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                         title={copy.aboutTitle}
                         paragraphs={copy.aboutParagraphs}
                     />
+                    <Link className={styles.aboutMeLink} href={copy.aboutMeHref}>
+                        <span>{copy.aboutMeLink}</span>
+                        <Icon name="arrow_outward" />
+                    </Link>
 
                     <section id="contact" className={styles.farewellSection}>
                         <FadeInTitle className={styles.farewellTitle}>{copy.farewellTitle}</FadeInTitle>

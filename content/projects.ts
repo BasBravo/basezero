@@ -27,11 +27,11 @@ export const projects: Project[] = [
         status: 'active',
     },
     {
-        id: 'mergeo',
-        name: 'Mergeo',
-        description: 'Visual GitHub portfolios for developers.',
-        logo: '/projects/mergeo/logo.svg',
-        url: 'https://mergeo.dev/',
+        id: 'simplish',
+        name: 'Simplish',
+        description: 'Small tools for the work that keeps a company running.',
+        logo: '/projects/simplish/logo.svg',
+        url: 'https://simplish.work/',
         status: 'active',
     },
     {

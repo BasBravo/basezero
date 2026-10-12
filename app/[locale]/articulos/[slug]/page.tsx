@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { ArticlePage } from '@/features/articles/components/ArticlePage';
+import { getFigureCopy } from '@/features/articles/figures/copy';
 import { getArticle, getArticleSlugs, getArticleSummaries } from '@/features/articles/lib/articles';
 import { routing } from '@/i18n/routing';
 
@@ -53,9 +54,10 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
     setRequestLocale(locale);
     const article = getArticle(locale, slug);
     if (!article) notFound();
-    const [t, portfolioT] = await Promise.all([
+    const [t, portfolioT, figures] = await Promise.all([
         getTranslations({ locale, namespace: 'Article' }),
         getTranslations({ locale, namespace: 'Portfolio' }),
+        getFigureCopy(locale),
     ]);
     const otherArticles = getArticleSummaries(locale).filter(candidate => candidate.slug !== article.slug);
 
@@ -89,6 +91,7 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
                 }}
             />
             <ArticlePage
+                figures={figures}
                 article={article}
                 otherArticles={otherArticles}
                 copy={{
@@ -116,6 +119,7 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
                     menuArticles: portfolioT('menu.articles'),
                     menuAbout: portfolioT('menu.about'),
                     menuContact: portfolioT('menu.contact'),
+                    menuMe: portfolioT('menu.me'),
                 }}
             />
         </>

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Icon } from '@/components/ui/icon';
+import { getAboutPath } from '@/features/about/lib/paths';
 import { ColumnMenuPanel, ColumnMenuToggle } from '@/features/portfolio/components/ColumnMenu';
 import type { Article, ArticleSummary } from '../types';
 import type { ArticlePageCopy } from './ArticlePage';
@@ -99,6 +100,7 @@ export function ArticleSidebar({ article, otherArticles, formattedDate, copy }: 
                         { href: `${localeRoot}#work`, label: copy.menuWork },
                         { href: `${localeRoot}#articles`, label: copy.menuArticles },
                         { href: `${localeRoot}#about`, label: copy.menuAbout },
+                        { href: getAboutPath(article.locale === 'es' ? 'es' : 'en'), label: copy.menuMe },
                         { href: `${localeRoot}#contact`, label: copy.menuContact },
                     ]}
                     onNavigate={() => setMenuOpen(false)}

@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getPortfolioProjects } from '@/content/portfolio-projects';
 import { getArticleSummaries } from '@/features/articles/lib/articles';
 import { PortfolioExperience, type PortfolioCopy } from '@/features/portfolio/components/PortfolioExperience';
+import { getAboutPath } from '@/features/about/lib/paths';
 import { routing } from '@/i18n/routing';
 
 export function generateStaticParams() {
@@ -33,6 +34,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         menuAbout: t('menu.about'),
         menuArticles: t('menu.articles'),
         menuContact: t('menu.contact'),
+        menuMe: t('menu.me'),
+        aboutMeLink: t('about.meLink'),
+        aboutMeHref: getAboutPath(locale === 'es' ? 'es' : 'en'),
         scrollbar: t('scrollbar'),
         aboutTitle: t('about.title'),
         aboutParagraphs: [t('about.paragraphOne'), t('about.paragraphTwo'), t('about.paragraphThree')],

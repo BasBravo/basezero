@@ -753,6 +753,14 @@
     width: 100%;
 }
 
+.prose > .proseFigure {
+    width: 100%;
+    max-width: var(--article-media-measure);
+    margin: clamp(4rem, 7vw, 6rem) 0;
+}
+
+.proseFigure :global(.iso-figure) { margin: 0; }
+
 .proseImageFrame {
     position: relative;
     display: block;

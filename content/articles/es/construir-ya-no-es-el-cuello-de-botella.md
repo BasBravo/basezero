@@ -15,7 +15,7 @@ Pero una aplicación que funciona no demuestra que haya un producto detrás. Dem
 
 Todavía necesitamos saber si el problema ocurre de verdad, a quién le importa lo suficiente, qué tendría que cambiar en su comportamiento y si podemos ofrecer la solución de forma responsable. **Cuando producir software cuesta menos, el criterio para decidir qué merece ser producido se convierte en el trabajo principal.**
 
-![Varias llaves distintas están terminadas sobre una mesa, pero solo una encaja en la cerradura real.](/articles/construir-ya-no-es-el-cuello-de-botella/llaves-y-cerradura.png "Podemos fabricar muchas soluciones; la evidencia nos permite descubrir cuál encaja con el problema real.")
+![Una cerradura de cinco pernos y cuatro llaves bien cortadas: solo una hace girar el cilindro.](figure:lock)
 
 ---
 
@@ -97,7 +97,7 @@ Un prototipo es mejor cuando la duda está en la comprensión o el recorrido. Un
 
 La mejor prueba no es la más barata en términos absolutos. Es la forma menos costosa de obtener evidencia suficiente para la siguiente decisión.
 
-![Una sección de ala se prueba dentro de un túnel de viento sin necesidad de construir el avión completo.](/articles/construir-ya-no-es-el-cuello-de-botella/prueba-tunel-de-viento.png "Cuando la duda es concreta, una prueba enfocada puede resolverla antes de construir el producto entero.")
+![Una sección de ala se prueba dentro de un túnel de viento sin necesidad de construir el avión completo.](figure:tunnel)
 
 ## De una demostración atractiva a un sistema de aprendizaje
 

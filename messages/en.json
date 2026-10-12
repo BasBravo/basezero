@@ -16,6 +16,131 @@
     "otherArticles": "Other articles",
     "noOtherArticles": "More articles coming soon"
   },
+  "About": {
+    "meta": {
+      "title": "Bas Bravo — Product designer and developer",
+      "description": "I'm Bas Bravo, a product designer and developer with over twenty years on the web. Founder of Basezero, an independent AI-first studio. My background, how I work and where to find me."
+    },
+    "skip": "Skip to content",
+    "homeLabel": "Basezero — Home",
+    "backToStudio": "Back to the studio",
+    "detailsLabel": "About Bas Bravo",
+    "title": "Bas Bravo",
+    "lead": "Product designer and developer. I've been building for the web since 2005, and today I do it with AI as part of the craft.",
+    "roleLabel": "Focus",
+    "role": "Product design and development",
+    "locationLabel": "Based in",
+    "location": "Spain",
+    "studioLabel": "Studio",
+    "studio": "Basezero",
+    "portraitAlt": "Portrait of Bas Bravo, wearing glasses and a grey sweater, against a blue-grey background.",
+    "intro": [
+      "I started in web design and development in 2005 and haven't stopped since. I'm a creative at heart who tries not to get lost in all the code: I enjoy deciding how a product looks and feels as much as writing what makes it work.",
+      "Today I work with founders and teams through Basezero, my independent AI-first studio. I take responsibility for the whole journey, from understanding the problem to launching something real and keeping it improving with what we learn."
+    ],
+    "do": {
+      "title": "What I do",
+      "items": [
+        {
+          "title": "Define",
+          "body": "Understand the challenge, the people who live it and the real constraints, to decide what deserves to be built and what doesn't."
+        },
+        {
+          "title": "Design",
+          "body": "Give the product its shape: scope, experience and visual identity, with explicit priorities and no noise."
+        },
+        {
+          "title": "Build",
+          "body": "Develop the whole product, from interface to server, in short cycles of design, code and testing."
+        },
+        {
+          "title": "Launch and evolve",
+          "body": "Put a first version in the hands of real people and grow it with judgment, adding no complexity before it's needed."
+        }
+      ]
+    },
+    "path": {
+      "title": "Background",
+      "intro": "Twenty years is enough to go through several technologies, several ways of working and a few useful mistakes. Here is the short version.",
+      "items": [
+        {
+          "period": "2005",
+          "title": "From Flash to the real web",
+          "body": "I left my programming vocational training determined never to go back to enterprise apps, and became a Flash and ActionScript devotee, working for agencies such as Acuarel and VisualPublinet. Those sites are gone, but they taught me to care about detail."
+        },
+        {
+          "period": "8 years",
+          "title": "Freelance and coworking",
+          "body": "With PHP, HTML, CSS and JavaScript I worked independently from the EspacioNido coworking, where I built a small team. I collaborated with studios like NiceMondays on projects for Plan International, Cisco and Puig, and created Builder, a headless CMS ahead of its time that taught me more than any course."
+        },
+        {
+          "period": "2016",
+          "title": "Prensa Ibérica, Faro de Vigo",
+          "body": "At the EPI publishing group I built an online store in Prestashop integrated with internal systems, a corporate CMS in Laravel that centralises content, landing pages and tools, and the design and layout of books, events and a mobile app."
+        },
+        {
+          "period": "2022",
+          "title": "Pleg, Paradigma Digital",
+          "body": "I led the development of web applications with Vue, Nuxt and Node: data modelling, design, backend and frontend. Among them, the labelling application for the Rioja Regulatory Council, a Paradigma success story, and a Nuxt archetype for scaling CMSs quickly and maintainably."
+        },
+        {
+          "period": "Today",
+          "title": "Basezero",
+          "body": "My independent AI-first studio. I define, design and build products of my own and for clients, with AI driving the core of the work and experience providing the judgment."
+        }
+      ]
+    },
+    "how": {
+      "title": "How I work",
+      "quote": "AI gives me speed. Experience tells me where to point it.",
+      "items": [
+        {
+          "title": "I take initiative and finish what I start",
+          "body": "However hard it gets, I commit to taking every project to its goals."
+        },
+        {
+          "title": "I work in teams, remotely too",
+          "body": "I care about the working atmosphere and communication so the people beside me, even virtually, keep moving with energy."
+        },
+        {
+          "title": "I share what I learn",
+          "body": "If others can learn from what I do and how I do it, even better. That's why I write articles."
+        },
+        {
+          "title": "I listen before deciding",
+          "body": "I assume others do many things better than I do. It's how I learn from anyone."
+        }
+      ]
+    },
+    "work": {
+      "title": "Products I've worked on",
+      "body": "A few of the products I've defined, designed and built under the Basezero brand.",
+      "visit": "Visit"
+    },
+    "stack": {
+      "title": "Tools of the trade",
+      "body": "They change fast, but this is my toolbox today.",
+      "groups": [
+        {
+          "label": "Interface",
+          "items": "HTML, CSS, Tailwind, React, Next.js, Vue and Nuxt, with a pixel-perfect approach"
+        },
+        {
+          "label": "Server and data",
+          "items": "Node, TypeScript, Firebase and Google Cloud, Laravel and PHP"
+        },
+        {
+          "label": "Product and AI",
+          "items": "Product design, AI-assisted prototyping and AI-first development"
+        }
+      ]
+    },
+    "contact": {
+      "title": "Where to find me",
+      "body": "If you have something in mind, write to me and I'll reply personally.",
+      "action": "Tell me about your project"
+    }
+  },
   "Portfolio": {
     "navWork": "Selected work",
     "work": {
@@ -39,14 +164,16 @@
       "work": "Work",
       "about": "Studio",
       "articles": "Articles",
-      "contact": "Contact"
+      "contact": "Contact",
+      "me": "About me"
     },
     "scrollbar": "Page position",
     "about": {
       "title": "An independent, AI-first studio.",
       "paragraphOne": "I’m Bas Bravo, a product designer and developer. Basezero is my independent, AI-first studio: I work directly with you and own the complete journey, from understanding the problem and defining the strategy through design, development and the launch of a real solution.",
       "paragraphTwo": "AI guides the core of my work. It is not an add-on: I use it to explore more directions, shape the product, write code, test and learn at a pace that was not possible before. My experience provides the judgment to decide what to build, what to leave out and how to turn that speed into a solid foundation.",
-      "paragraphThree": "I work in short, open cycles instead of imposing a fixed definition or rigid management model from the start. Each version incorporates what we learn, allowing the software to grow organically and fluidly. This method works best with founders and teams who take part in decisions and want to put a useful product in front of real people early."
+      "paragraphThree": "I work in short, open cycles instead of imposing a fixed definition or rigid management model from the start. Each version incorporates what we learn, allowing the software to grow organically and fluidly. This method works best with founders and teams who take part in decisions and want to put a useful product in front of real people early.",
+      "meLink": "Learn more about me"
     },
     "articles": {
       "title": "Articles",
@@ -86,6 +213,52 @@
         "title": "Evolve with purpose",
         "body": "The software evolves organically: AI lets us shape each next step around what we learn, without relying on rigid planning or adding complexity before it is needed."
       }
+    }
+  },
+  "Figures": {
+    "lock": {
+      "fig": "Fig 1",
+      "title": "Key and lock",
+      "hint": "Try a key",
+      "keys": [
+        "The shear line: where every pin has to rest",
+        "A well-cut key"
+      ],
+      "caption": "Five pins, five hypotheses: problem, person, proposal, behaviour and viability. Cutting all four keys cost about the same; only the lock says which one fits. Here the one that turns is the third.",
+      "aria": "A five-pin lock with a tray of four keys. Press a key to try it, use the arrow keys to change key, space to put it in or take it out and Escape to withdraw it.",
+      "idle": "Choose a key",
+      "moving": "Key {key}",
+      "settled": "Key {key} · {count}/{total} · {result}",
+      "turns": "turns",
+      "stuck": "won't turn",
+      "spoken": "Key {key}: {count} of {total} pins on the shear line; {result}.",
+      "fails": "Not fitting: {names}.",
+      "pins": [
+        "problem",
+        "person",
+        "proposal",
+        "behaviour",
+        "viability"
+      ]
+    },
+    "tunnel": {
+      "fig": "Fig 2",
+      "title": "Wind tunnel",
+      "hint": "Move the angle ← →",
+      "keys": [
+        "The test wing",
+        "The threshold we set beforehand: 25 N",
+        "Where the threshold goes up to"
+      ],
+      "caption": "A wing with a 20 cm chord in a tunnel at 30 m/s. You don't need to build the aircraft to know whether the section can carry its weight: you measure one thing against a threshold set beforehand. Past about 15° the flow separates and the lift falls.",
+      "idle": "α 0.0° · 0.0 N · under the threshold",
+      "aria": "A wind tunnel with a wing section on a balance. Change the angle with the pointer, the arrow keys or by dragging; the gauge reads the lift and a lamp lights when it passes the threshold.",
+      "decimal": ".",
+      "readout": "α {alpha}° · {lift} N · {status}",
+      "spoken": "Angle {alpha} degrees, lift {lift} newtons, threshold {threshold} newtons: {status}.",
+      "over": "over the threshold",
+      "under": "under the threshold",
+      "stalled": "stalled"
     }
   }
 }

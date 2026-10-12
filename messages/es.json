@@ -16,6 +16,131 @@
     "otherArticles": "Otros artículos",
     "noOtherArticles": "Nuevos artículos próximamente"
   },
+  "About": {
+    "meta": {
+      "title": "Bas Bravo — Diseñador y desarrollador de producto",
+      "description": "Soy Bas Bravo, diseñador y desarrollador de producto con más de veinte años en la web. Fundador de Basezero, estudio independiente AI-first. Mi trayectoria, cómo trabajo y dónde encontrarme."
+    },
+    "skip": "Saltar al contenido",
+    "homeLabel": "Basezero — Inicio",
+    "backToStudio": "Volver al estudio",
+    "detailsLabel": "Sobre Bas Bravo",
+    "title": "Bas Bravo",
+    "lead": "Diseñador y desarrollador de producto. Llevo desde 2005 construyendo cosas para la web y hoy lo hago con la IA como parte del oficio.",
+    "roleLabel": "Dedicación",
+    "role": "Diseño y desarrollo de producto",
+    "locationLabel": "Desde",
+    "location": "España",
+    "studioLabel": "Estudio",
+    "studio": "Basezero",
+    "portraitAlt": "Retrato de Bas Bravo, con gafas y jersey gris, sobre fondo azul grisáceo.",
+    "intro": [
+      "Empecé en el diseño y el desarrollo web en 2005 y no he parado desde entonces. Soy una persona con alma creativa que intenta no perderse entre tanto código: me gusta tanto decidir cómo se ve y se siente un producto como escribir lo que lo hace funcionar.",
+      "Hoy trabajo con fundadores y equipos desde Basezero, mi estudio independiente y AI-first. Me responsabilizo del recorrido completo, desde entender el problema hasta lanzar algo real y seguir mejorándolo con lo que se aprende."
+    ],
+    "do": {
+      "title": "Qué hago",
+      "items": [
+        {
+          "title": "Definir",
+          "body": "Entender el reto, a las personas que lo viven y las restricciones reales, para decidir qué merece construirse y qué no."
+        },
+        {
+          "title": "Diseñar",
+          "body": "Dar forma al producto: alcance, experiencia e identidad visual, con prioridades explícitas y sin ruido."
+        },
+        {
+          "title": "Desarrollar",
+          "body": "Construir el producto completo, de la interfaz al servidor, en ciclos cortos de diseño, código y prueba."
+        },
+        {
+          "title": "Lanzar y evolucionar",
+          "body": "Poner una primera versión en manos de personas reales y hacerla crecer con criterio, sin añadir complejidad antes de necesitarla."
+        }
+      ]
+    },
+    "path": {
+      "title": "Trayectoria",
+      "intro": "Veinte años dan para pasar por varias tecnologías, varios modelos de trabajo y unos cuantos errores útiles. Este es el resumen.",
+      "items": [
+        {
+          "period": "2005",
+          "title": "Del Flash a la web de verdad",
+          "body": "Salí de la FP de programación decidido a no volver a las aplicaciones de empresa y me hice maestro del Flash y ActionScript, trabajando para agencias como Acuarel y VisualPublinet. Aquellas webs ya no existen, pero me enseñaron a cuidar el detalle."
+        },
+        {
+          "period": "8 años",
+          "title": "Autónomo y coworking",
+          "body": "Con PHP, HTML, CSS y JavaScript trabajé por cuenta propia desde EspacioNido, donde monté un pequeño equipo. Colaboré con estudios como NiceMondays en proyectos para Plan International, Cisco o Puig, y creé Builder, un CMS headless adelantado a su época que me enseñó más que cualquier curso."
+        },
+        {
+          "period": "2016",
+          "title": "Prensa Ibérica, Faro de Vigo",
+          "body": "Desde el grupo editorial EPI construí una tienda online en Prestashop integrada con sistemas internos, un CMS corporativo en Laravel que centraliza contenidos, landings y herramientas, y el diseño y la maquetación de libros, eventos y una app móvil."
+        },
+        {
+          "period": "2022",
+          "title": "Pleg, Paradigma Digital",
+          "body": "Lideré el desarrollo de aplicaciones web con Vue, Nuxt y Node: modelado de datos, diseño, backend y frontend. Entre otros, la aplicación de etiquetado del Consejo Regulador de la Rioja, un caso de éxito de Paradigma, y un arquetipo en Nuxt con el que escalar CMS de forma rápida y mantenible."
+        },
+        {
+          "period": "Hoy",
+          "title": "Basezero",
+          "body": "Mi estudio independiente y AI-first. Defino, diseño y desarrollo productos propios y de clientes, con la IA guiando el núcleo del trabajo y la experiencia aportando el criterio."
+        }
+      ]
+    },
+    "how": {
+      "title": "Cómo trabajo",
+      "quote": "La IA me da velocidad. La experiencia me dice hacia dónde usarla.",
+      "items": [
+        {
+          "title": "Tomo la iniciativa y termino lo que empiezo",
+          "body": "Por difícil que se ponga, me comprometo a llevar cada proyecto hasta los objetivos marcados."
+        },
+        {
+          "title": "Trabajo en equipo, también a distancia",
+          "body": "Cuido el ambiente de trabajo y la comunicación para que quienes están a mi lado, aunque sea virtualmente, avancen con ganas."
+        },
+        {
+          "title": "Comparto lo que aprendo",
+          "body": "Si otras personas pueden aprender de lo que hago y de cómo lo hago, mejor. Por eso escribo artículos."
+        },
+        {
+          "title": "Escucho antes de decidir",
+          "body": "Doy por hecho que los demás saben hacer muchas cosas mejor que yo. Es mi forma de aprender de cualquiera."
+        }
+      ]
+    },
+    "work": {
+      "title": "Productos en los que he trabajado",
+      "body": "Algunos de los productos que he definido, diseñado y construido bajo la marca Basezero.",
+      "visit": "Visitar"
+    },
+    "stack": {
+      "title": "Herramientas del oficio",
+      "body": "Cambian rápido, pero hoy esta es mi caja de herramientas.",
+      "groups": [
+        {
+          "label": "Interfaz",
+          "items": "HTML, CSS, Tailwind, React, Next.js, Vue y Nuxt, con enfoque pixel perfect"
+        },
+        {
+          "label": "Servidor y datos",
+          "items": "Node, TypeScript, Firebase y Google Cloud, Laravel y PHP"
+        },
+        {
+          "label": "Producto e IA",
+          "items": "Diseño de producto, prototipado asistido por IA y desarrollo AI-first"
+        }
+      ]
+    },
+    "contact": {
+      "title": "Dónde encontrarme",
+      "body": "Si tienes algo en mente, escríbeme y te respondo personalmente.",
+      "action": "Cuéntame tu proyecto"
+    }
+  },
   "Portfolio": {
     "navWork": "Proyectos",
     "work": {
@@ -39,14 +164,16 @@
       "work": "Proyectos",
       "about": "Estudio",
       "articles": "Artículos",
-      "contact": "Contacto"
+      "contact": "Contacto",
+      "me": "Sobre mí"
     },
     "scrollbar": "Posición de la página",
     "about": {
       "title": "Un estudio independiente, AI-first.",
       "paragraphOne": "Soy Bas Bravo, diseñador y desarrollador de producto. Basezero es mi estudio independiente y AI-first: trabajo directamente contigo y me responsabilizo del recorrido completo, desde entender el problema y definir la estrategia hasta diseñar, desarrollar y lanzar una solución real.",
       "paragraphTwo": "La IA guía el núcleo de mi trabajo. No es un complemento: la utilizo para explorar más direcciones, modelar el producto, escribir código, probar y aprender a una velocidad que antes no era posible. Mi experiencia aporta el criterio para decidir qué construir, qué dejar fuera y cómo convertir esa velocidad en una base sólida.",
-      "paragraphThree": "Trabajo en ciclos cortos y abiertos, sin imponer una definición cerrada ni una gestión rígida desde el principio. Cada versión incorpora lo aprendido y el software crece de forma orgánica y fluida. Este método funciona mejor con fundadores y equipos que participan en las decisiones y quieren poner pronto un producto útil en manos de personas reales."
+      "paragraphThree": "Trabajo en ciclos cortos y abiertos, sin imponer una definición cerrada ni una gestión rígida desde el principio. Cada versión incorpora lo aprendido y el software crece de forma orgánica y fluida. Este método funciona mejor con fundadores y equipos que participan en las decisiones y quieren poner pronto un producto útil en manos de personas reales.",
+      "meLink": "Conoce más sobre mí"
     },
     "articles": {
       "title": "Artículos",
@@ -86,6 +213,52 @@
         "title": "Evolucionar con criterio",
         "body": "El software evoluciona de forma orgánica: la IA permite modelar cada siguiente paso sobre lo aprendido, sin depender de una planificación rígida ni añadir complejidad antes de necesitarla."
       }
+    }
+  },
+  "Figures": {
+    "lock": {
+      "fig": "Fig 1",
+      "title": "Llave y cerradura",
+      "hint": "Prueba una llave",
+      "keys": [
+        "La línea de corte: donde debe quedar cada perno",
+        "Una llave bien hecha"
+      ],
+      "caption": "Cinco pernos, cinco hipótesis: problema, persona, propuesta, comportamiento y viabilidad. Cortar las cuatro llaves costó casi lo mismo; solo la cerradura dice cuál encaja. Aquí la que gira es la tercera.",
+      "aria": "Cerradura de cinco pernos con una bandeja de cuatro llaves. Pulsa una llave para probarla, usa las flechas para cambiar de llave, espacio para meterla o sacarla y Escape para retirarla.",
+      "idle": "Elige una llave",
+      "moving": "Llave {key}",
+      "settled": "Llave {key} · {count}/{total} · {result}",
+      "turns": "gira",
+      "stuck": "no gira",
+      "spoken": "Llave {key}: {count} de {total} pernos sobre la línea de corte; {result}.",
+      "fails": "No encajan: {names}.",
+      "pins": [
+        "problema",
+        "persona",
+        "propuesta",
+        "comportamiento",
+        "viabilidad"
+      ]
+    },
+    "tunnel": {
+      "fig": "Fig 2",
+      "title": "Túnel de viento",
+      "hint": "Mueve el ángulo ← →",
+      "keys": [
+        "El ala de prueba",
+        "El umbral que fijamos antes: 25 N",
+        "Hasta dónde sube el umbral"
+      ],
+      "caption": "Un ala de 20 cm de cuerda en un túnel a 30 m/s. No hace falta construir el avión para saber si el perfil sostiene su peso: se mide una sola cosa, con un umbral fijado antes. Pasados unos 15° el flujo se desprende y la sustentación cae.",
+      "idle": "α 0,0° · 0,0 N · bajo el umbral",
+      "aria": "Túnel de viento con un perfil de ala sobre una balanza. Cambia el ángulo con el ratón, con las flechas o arrastrando; el reloj marca la sustentación y se enciende una luz al pasar el umbral.",
+      "decimal": ",",
+      "readout": "α {alpha}° · {lift} N · {status}",
+      "spoken": "Ángulo {alpha} grados, sustentación {lift} newtons, umbral {threshold} newtons: {status}.",
+      "over": "sobre el umbral",
+      "under": "bajo el umbral",
+      "stalled": "en pérdida"
     }
   }
 }

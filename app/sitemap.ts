@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { getAboutPath } from '@/features/about/lib/paths';
 import { getArticleSummaries } from '@/features/articles/lib/articles';
 
 export const dynamic = 'force-static';
@@ -35,5 +36,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
         })),
     );
 
-    return [...landingPages, ...articlePages];
+    const aboutLanguages = {
+        'es-ES': `${siteUrl}${getAboutPath('es')}`,
+        en: `${siteUrl}${getAboutPath('en')}`,
+        'x-default': `${siteUrl}${getAboutPath('en')}`,
+    };
+    const aboutPages: MetadataRoute.Sitemap = (['es', 'en'] as const).map(locale => ({
+        url: `${siteUrl}${getAboutPath(locale)}`,
+        changeFrequency: 'monthly' as const,
+        priority: 0.8,
+        alternates: { languages: aboutLanguages },
+    }));
+
+    return [...landingPages, ...aboutPages, ...articlePages];
 }

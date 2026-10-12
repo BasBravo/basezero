@@ -11,6 +11,17 @@
                     "type": 301
                 }
             ]
+        },
+        {
+            "site": "basbravo",
+            "public": "hosting/basbravo",
+            "redirects": [
+                {
+                    "source": "**",
+                    "destination": "https://basezero.dev/es/sobre-mi",
+                    "type": 301
+                }
+            ]
         }
     ]
 }
