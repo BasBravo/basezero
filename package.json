@@ -19,6 +19,7 @@
         "test": "vitest run",
         "test:watch": "vitest",
         "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+        "deploy:site": "pnpm check && firebase deploy --only hosting:zero-18081 --project zero-18081",
         "migrate:env": "node scripts/migrate-legacy-env.mjs"
     },
     "dependencies": {

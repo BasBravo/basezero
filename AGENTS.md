@@ -31,6 +31,10 @@ Las ilustraciones interactivas de los artículos siguen la guía de [docs/articl
 
 Antes de cerrar un cambio, ejecutar `pnpm check`.
 
+## Despliegue
+
+Desplegar siempre con `pnpm deploy:site`: ejecuta `pnpm check` y publica el export estático (`out/`) en el sitio `zero-18081` de Firebase Hosting (basezero.dev), fijando el proyecto con `--project`. No usar `firebase deploy` sin `--project`: la CLI guarda un proyecto activo por carpeta que puede apuntar a otro proyecto.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
