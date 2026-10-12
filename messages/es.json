@@ -391,6 +391,65 @@
       "pause": "Pausar",
       "zoomIn": "Acercar",
       "zoomOut": "Alejar"
+    },
+    "gauge": {
+      "fig": "Fig 1",
+      "title": "Tres salidas",
+      "hint": "Cambia los equipos · arrastra para girar",
+      "keys": [
+        "La aguja: lo que pasó",
+        "Los límites fijados antes"
+      ],
+      "caption": "Antes de lanzar se atornillan los límites: si menos de la mitad de los equipos sigue usándolo en la tercera semana, se cambia; si son menos de dos, se para. Cuando llega la fecha marcada en el calendario, la aguja solo tiene que señalar una zona.",
+      "status": "{n} de {total} equipos · {decision}",
+      "names": [
+        "Parar",
+        "Cambiar",
+        "Seguir"
+      ],
+      "aria": "Un indicador redondo con tres zonas y una aguja que señala cuántos equipos siguen usando la herramienta.",
+      "spoken": "{n} de {total} equipos siguen usándolo: {decision}.",
+      "active": "Equipos",
+      "less": "Un equipo menos",
+      "more": "Un equipo más",
+      "controls": "Cambia cuántos equipos siguen usándolo",
+      "reset": "Restablecer vista",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
+    },
+    "scale": {
+      "fig": "Fig 2",
+      "title": "Qué pesa más",
+      "hint": "Añade señales · arrastra para girar",
+      "keys": [
+        "La aguja de la balanza",
+        "Opiniones y uso real"
+      ],
+      "caption": "Las opiniones y las visitas abultan mucho y pesan poco. Volver sin que te lo pidan, compartirlo o echarlo de menos pesa mucho más: en esta balanza, cada señal de uso real pesa como cuatro opiniones. Dos bastan para superar seis.",
+      "idle": "Añade señales a cada platillo",
+      "status": "{opinions} opiniones · {uses} de uso real · {verdict}",
+      "verdicts": [
+        "pesan más las opiniones",
+        "en equilibrio",
+        "pesa más el uso real"
+      ],
+      "chips": [
+        "Opiniones",
+        "Equilibrio",
+        "Uso real"
+      ],
+      "aria": "Una balanza con pesas grandes y huecas a un lado y pesas pequeñas y macizas al otro.",
+      "controls": "Añade señales a la balanza",
+      "opinion": "Añadir opinión",
+      "use": "Añadir uso real",
+      "empty": "Vaciar",
+      "reset": "Restablecer vista",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
     }
   }
 }

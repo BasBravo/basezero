@@ -19,8 +19,13 @@ describe('article content', () => {
         expect(getArticleSlugs('es')).toEqual([
             'construir-ya-no-es-el-cuello-de-botella',
             'de-ejecutar-tareas-a-responder-por-el-resultado',
+            'lanzar-no-es-el-final-de-la-prueba',
             'minimo-no-significa-incompleto',
         ]);
+        expect(getArticle('es', 'lanzar-no-es-el-final-de-la-prueba')).toMatchObject({
+            title: 'Lanzar no es el final de la prueba',
+            date: '2026-09-28',
+        });
         expect(getArticle('es', 'construir-ya-no-es-el-cuello-de-botella')).toMatchObject({
             title: 'Construir ya no es el cuello de botella',
             date: '2026-08-24',

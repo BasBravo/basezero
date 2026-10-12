@@ -1,6 +1,6 @@
 # Figuras interactivas de los artículos
 
-Guía para crear y mantener las ilustraciones dinámicas de los artículos. El estado actual de las dos primeras figuras (clasificador de formas y prueba de carga) y de las cuatro de los artículos sobre resultados y primeras versiones (cambio de vía, depósito con fuga, circuito completo y recorrido de punta a punta) es la referencia: toda figura nueva debe comportarse y verse igual.
+Guía para crear y mantener las ilustraciones dinámicas de los artículos. El estado actual de las dos primeras figuras (clasificador de formas y prueba de carga) y de las cuatro de los artículos sobre resultados y primeras versiones (cambio de vía, depósito con fuga, circuito completo y recorrido de punta a punta), y las dos de «Lanzar no es el final de la prueba» (indicador de decisión y balanza de señales), es la referencia: toda figura nueva debe comportarse y verse igual.
 
 ## Principios
 

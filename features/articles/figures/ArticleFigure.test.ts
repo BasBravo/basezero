@@ -9,6 +9,8 @@ describe('article figures', () => {
         expect(figureIdOf('figure:tank')).toBe('tank');
         expect(figureIdOf('figure:circuit')).toBe('circuit');
         expect(figureIdOf('figure:pipeline')).toBe('pipeline');
+        expect(figureIdOf('figure:gauge')).toBe('gauge');
+        expect(figureIdOf('figure:scale')).toBe('scale');
     });
 
     it('ignores ordinary images and unknown figures', () => {

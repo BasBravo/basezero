@@ -13,6 +13,8 @@ export async function getFigureCopy(locale: string): Promise<FigureCopy> {
         rails: group('rails', ['fig', 'title', 'hint', 'keys', 'caption', 'idle', 'going', 'wrong', 'right', 'chipWrong', 'chipRight', 'aria', 'names', 'branches', 'send', 'controls', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['rails'],
         tank: group('tank', ['fig', 'title', 'hint', 'keys', 'caption', 'idle', 'status', 'stuck', 'chipYes', 'chipNo', 'aria', 'controls', 'pour', 'plug', 'unplug', 'empty', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['tank'],
         circuit: group('circuit', ['fig', 'title', 'hint', 'keys', 'caption', 'full', 'small', 'cutStatus', 'chipWhole', 'chipCut', 'aria', 'extrasOn', 'extrasOff', 'cut', 'fix', 'controls', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['circuit'],
+        gauge: group('gauge', ['fig', 'title', 'hint', 'keys', 'caption', 'status', 'names', 'aria', 'spoken', 'active', 'less', 'more', 'controls', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['gauge'],
+        scale: group('scale', ['fig', 'title', 'hint', 'keys', 'caption', 'idle', 'status', 'verdicts', 'chips', 'aria', 'controls', 'opinion', 'use', 'empty', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['scale'],
         pipeline: group('pipeline', ['fig', 'title', 'hint', 'keys', 'caption', 'ok', 'broken', 'chipYes', 'chipNo', 'aria', 'steps', 'names', 'controls', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['pipeline'],
     };
 }

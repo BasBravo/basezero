@@ -391,6 +391,65 @@
       "pause": "Pause",
       "zoomIn": "Zoom in",
       "zoomOut": "Zoom out"
+    },
+    "gauge": {
+      "fig": "Fig 1",
+      "title": "Three ways out",
+      "hint": "Change the teams · drag to turn",
+      "keys": [
+        "The needle: what happened",
+        "The limits set beforehand"
+      ],
+      "caption": "Before launch the limits are screwed in: if fewer than half the teams still use it in the third week, change it; if fewer than two do, stop. When the date ringed on the calendar arrives, the needle only has to point at a zone.",
+      "status": "{n} of {total} teams · {decision}",
+      "names": [
+        "Stop",
+        "Change",
+        "Keep going"
+      ],
+      "aria": "A round gauge with three zones and a needle showing how many teams still use the tool.",
+      "spoken": "{n} of {total} teams still use it: {decision}.",
+      "active": "Teams",
+      "less": "One team fewer",
+      "more": "One team more",
+      "controls": "Change how many teams still use it",
+      "reset": "Reset view",
+      "play": "Play",
+      "pause": "Pause",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    },
+    "scale": {
+      "fig": "Fig 2",
+      "title": "What weighs more",
+      "hint": "Add signals · drag to turn",
+      "keys": [
+        "The balance pointer",
+        "Opinions and real use"
+      ],
+      "caption": "Opinions and visits are bulky and light. Coming back unprompted, sharing it or missing it weighs far more: on this balance, each sign of real use weighs as much as four opinions. Two are enough to outweigh six.",
+      "idle": "Add signals to each pan",
+      "status": "{opinions} opinions · {uses} real use · {verdict}",
+      "verdicts": [
+        "opinions weigh more",
+        "balanced",
+        "real use weighs more"
+      ],
+      "chips": [
+        "Opinions",
+        "Balanced",
+        "Real use"
+      ],
+      "aria": "A balance with big hollow weights on one side and small solid weights on the other.",
+      "controls": "Add signals to the balance",
+      "opinion": "Add opinion",
+      "use": "Add real use",
+      "empty": "Empty",
+      "reset": "Reset view",
+      "play": "Play",
+      "pause": "Pause",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
     }
   }
 }
