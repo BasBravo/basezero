@@ -21,19 +21,18 @@ export const mostPlates = () => {
     return plates;
 };
 
-export const WIDTH = 640;
-export const HEIGHT = 300;
-export const GROUND = 256;
-export const PLANK = { x0: 150, x1: 490, top: 150, thick: 14 };
-export const PX_PER_MM = 7;
-export const MID_X = (PLANK.x0 + PLANK.x1) / 2;
+// World units: the drawing exaggerates the sag so it can be seen.
+export const UNITS_PER_MM = 4;
+export const HALF = 135;
+export const REST_Z = 56;
+export const THICK = 8;
+export const DEPTH = 24;
+export const limitZ = REST_Z - LIMIT_MM * UNITS_PER_MM;
 
-export const sagPx = (mm: number) => mm * PX_PER_MM;
-export const limitY = PLANK.top + PLANK.thick + LIMIT_MM * PX_PER_MM;
+export const dropOf = (mm: number) => mm * UNITS_PER_MM;
 
-/** Height of the plank's top face at `x`, with the middle sagging `drop` px (a parabola, as the real curve is close to one). */
-export function topAt(x: number, drop: number) {
-    const half = (PLANK.x1 - PLANK.x0) / 2;
-    const k = (x - MID_X) / half;
-    return PLANK.top + drop * (1 - k * k);
+/** Height of the plank's underside at `x`, with the middle sagging `drop` units (a parabola, close to the real curve). */
+export function undersideAt(x: number, drop: number) {
+    const k = x / HALF;
+    return REST_Z - drop * (1 - k * k);
 }

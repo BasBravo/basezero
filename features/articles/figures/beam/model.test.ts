@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { LIMIT_MM, limitY, loadOf, mostPlates, passes, PLANK, PLATES, sagOf, topAt } from './model';
+import { HALF, LIMIT_MM, limitZ, loadOf, mostPlates, passes, PLATES, REST_Z, sagOf, undersideAt } from './model';
 
 describe('plank under load', () => {
     it('gives no sag without load and grows in a straight line with it', () => {
@@ -21,9 +21,9 @@ describe('plank under load', () => {
     });
 
     it('keeps the plank on its supports and sags only in the middle', () => {
-        expect(topAt(PLANK.x0, 30)).toBe(PLANK.top);
-        expect(topAt(PLANK.x1, 30)).toBe(PLANK.top);
-        expect(topAt((PLANK.x0 + PLANK.x1) / 2, 30)).toBe(PLANK.top + 30);
-        expect(limitY).toBeGreaterThan(PLANK.top + PLANK.thick);
+        expect(undersideAt(-HALF, 30)).toBe(REST_Z);
+        expect(undersideAt(HALF, 30)).toBe(REST_Z);
+        expect(undersideAt(0, 30)).toBe(REST_Z - 30);
+        expect(limitZ).toBeLessThan(REST_Z);
     });
 });

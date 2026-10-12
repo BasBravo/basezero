@@ -23,6 +23,10 @@ Responder en español. Código, commits e identificadores técnicos permanecen e
 - Los textos visibles viven en `messages/{es,en}.json`.
 - Las variables privadas nunca llevan el prefijo `NEXT_PUBLIC_`.
 
+## Figuras de artículos
+
+Las ilustraciones interactivas de los artículos siguen la guía de [docs/article-figures.md](docs/article-figures.md): isométricas con la skill `anatomy`, controles de interfaz visibles y los cuatro botones de esquina (pausa/play, −, +, restablecer) con giro ±50° y zoom. Léela antes de crear o tocar una figura.
+
 ## Validación
 
 Antes de cerrar un cambio, ejecutar `pnpm check`.

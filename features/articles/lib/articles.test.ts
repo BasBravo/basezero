@@ -12,7 +12,7 @@ describe('article content', () => {
             href: '/es/articulos/minimo-no-significa-incompleto',
         });
         expect(article?.readingMinutes).toBeGreaterThanOrEqual(1);
-        expect(article?.content).toContain('## Decidir qué entra no consiste en tachar funciones');
+        expect(article?.content).toContain('## Pensar en un camino, no en una lista');
     });
 
     it('discovers every published Spanish article', () => {

@@ -11,7 +11,7 @@
     --paper: #f2f2ef;
     --paper-deep: #e9e9e5;
     --ink: #111210;
-    --muted: rgba(17, 18, 16, 0.52);
+    --muted: rgba(17, 18, 16, 0.6);
     --line: rgba(17, 18, 16, 0.16);
     --line-strong: rgba(17, 18, 16, 0.3);
     --paper-dot-dark: rgba(0, 0, 0, 0.12);
@@ -135,7 +135,7 @@
     font-family: var(--font-sans);
     font-size: clamp(2.15rem, 3.2vw, 3.45rem);
     font-weight: 380;
-    letter-spacing: -0.055em;
+    letter-spacing: -0.04em;
     line-height: 1.08;
     text-wrap: balance;
     text-shadow: none;
@@ -144,7 +144,7 @@
 
 .processStage:first-child .processStageTitle {
     font-size: clamp(2.9rem, 3.9vw, 4.15rem);
-    letter-spacing: -0.06em;
+    letter-spacing: -0.045em;
     line-height: 1.02;
 }
 
@@ -168,7 +168,7 @@
     align-items: center;
     gap: 0.55rem;
     color: var(--ink);
-    font-size: clamp(0.64rem, 0.72vw, 0.76rem);
+    font-size: clamp(0.72rem, 0.8vw, 0.8rem);
     font-weight: 650;
     letter-spacing: 0.08em;
     opacity: 0;
@@ -193,8 +193,8 @@
     margin: clamp(1rem, 1.5vw, 1.35rem) 0 0;
     color: var(--ink);
     font-family: var(--font-sans);
-    font-size: clamp(0.9rem, 1.05vw, 1.08rem);
-    font-weight: 360;
+    font-size: clamp(1rem, 0.5vw + 0.9rem, 1.125rem);
+    font-weight: 370;
     letter-spacing: -0.012em;
     line-height: 1.5;
     text-wrap: pretty;
@@ -409,7 +409,7 @@
 .socialLink,
 .contactAction {
     color: var(--muted);
-    font-size: clamp(0.56rem, 0.62vw, 0.68rem);
+    font-size: clamp(0.7rem, 0.75vw, 0.75rem);
     font-weight: 650;
     letter-spacing: 0.08em;
     text-decoration: none;
@@ -687,7 +687,7 @@
     gap: 0.35rem;
     margin-top: 2.25rem;
     color: var(--ink);
-    font-size: clamp(0.56rem, 0.62vw, 0.68rem);
+    font-size: clamp(0.7rem, 0.75vw, 0.75rem);
     font-weight: 650;
     letter-spacing: 0.08em;
     text-decoration: none;
@@ -847,8 +847,8 @@
     width: 100%;
     color: var(--ink);
     font-family: var(--font-sans);
-    font-size: clamp(0.9rem, 1.05vw, 1.08rem);
-    font-weight: 360;
+    font-size: clamp(1rem, 0.5vw + 0.9rem, 1.125rem);
+    font-weight: 370;
     letter-spacing: -0.012em;
     line-height: 1.5;
     text-wrap: pretty;
@@ -984,7 +984,7 @@
     }
 
     .introScrollCta {
-        font-size: 0.64rem;
+        font-size: 0.7rem;
     }
 
     .themeToggle,
@@ -1045,13 +1045,13 @@
 
     :is(.processStageBody, .projectsBody, .aboutParagraph, .articlesBody, .farewellBody) {
         margin-top: 1rem;
-        font-size: 0.89rem;
-        line-height: 1.48;
+        font-size: 1rem;
+        line-height: 1.5;
     }
 
     .socialLink,
     .contactAction,
-    .aboutMeLink { font-size: 0.6rem; }
+    .aboutMeLink { font-size: 0.68rem; }
 
     .projectDialog {
         width: 100%;

@@ -216,49 +216,181 @@
     }
   },
   "Figures": {
-    "lock": {
+    "sorter": {
       "fig": "Fig 1",
-      "title": "Llave y cerradura",
-      "hint": "Prueba una llave",
+      "title": "Clasificador de formas",
+      "hint": "Elige una pieza · arrastra para girar",
       "keys": [
-        "La línea de corte: donde debe quedar cada perno",
-        "Una llave bien hecha"
+        "La pieza que encaja",
+        "Una pieza que no encaja"
       ],
-      "caption": "Cinco pernos, cinco hipótesis: problema, persona, propuesta, comportamiento y viabilidad. Cortar las cuatro llaves costó casi lo mismo; solo la cerradura dice cuál encaja. Aquí la que gira es la tercera.",
-      "aria": "Cerradura de cinco pernos con una bandeja de cuatro llaves. Pulsa una llave para probarla, usa las flechas para cambiar de llave, espacio para meterla o sacarla y Escape para retirarla.",
-      "idle": "Elige una llave",
-      "moving": "Llave {key}",
-      "settled": "Llave {key} · {count}/{total} · {result}",
-      "turns": "gira",
-      "stuck": "no gira",
-      "spoken": "Llave {key}: {count} de {total} pernos sobre la línea de corte; {result}.",
-      "fails": "No encajan: {names}.",
-      "pins": [
-        "problema",
-        "persona",
-        "propuesta",
-        "comportamiento",
-        "viabilidad"
-      ]
+      "caption": "Fabricar piezas cuesta cada vez menos. Lo que sigue costando es saber cuál encaja, y eso solo lo dice probarlas contra el agujero real.",
+      "idle": "Elige una pieza para probarla",
+      "trying": "Probando la pieza {n}…",
+      "no": "La pieza {n} no encaja",
+      "yes": "La pieza {n} encaja",
+      "aria": "Un clasificador de formas con cuatro piezas y un solo agujero hexagonal.",
+      "controls": "Elige la pieza que quieres probar",
+      "pieces": [
+        "Probar la pieza 1, un círculo",
+        "Probar la pieza 2, un cuadrado",
+        "Probar la pieza 3, un triángulo",
+        "Probar la pieza 4, un hexágono"
+      ],
+      "names": [
+        "Círculo",
+        "Cuadrado",
+        "Triángulo",
+        "Hexágono"
+      ],
+      "reset": "Restablecer vista",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
     },
-    "tunnel": {
+    "beam": {
       "fig": "Fig 2",
-      "title": "Túnel de viento",
-      "hint": "Mueve el ángulo ← →",
+      "title": "Prueba de carga",
+      "hint": "Añade peso · arrastra para girar",
       "keys": [
-        "El ala de prueba",
-        "El umbral que fijamos antes: 25 N",
-        "Hasta dónde sube el umbral"
+        "El límite fijado antes",
+        "La tabla de prueba"
       ],
-      "caption": "Un ala de 20 cm de cuerda en un túnel a 30 m/s. No hace falta construir el avión para saber si el perfil sostiene su peso: se mide una sola cosa, con un umbral fijado antes. Pasados unos 15° el flujo se desprende y la sustentación cae.",
-      "idle": "α 0,0° · 0,0 N · bajo el umbral",
-      "aria": "Túnel de viento con un perfil de ala sobre una balanza. Cambia el ángulo con el ratón, con las flechas o arrastrando; el reloj marca la sustentación y se enciende una luz al pasar el umbral.",
+      "caption": "Para saber si un puente aguantará no hace falta construirlo: basta probar una tabla con un límite fijado antes. Hasta 100 kg pasa; con 120 kg, no. La flecha está dibujada exagerada.",
+      "idle": "Añade peso a la tabla",
+      "status": "{kg} kg · flecha {sag} mm · {result}",
+      "pass": "pasa",
+      "fail": "no pasa",
       "decimal": ",",
-      "readout": "α {alpha}° · {lift} N · {status}",
-      "spoken": "Ángulo {alpha} grados, sustentación {lift} newtons, umbral {threshold} newtons: {status}.",
-      "over": "sobre el umbral",
-      "under": "bajo el umbral",
-      "stalled": "en pérdida"
+      "aria": "Una tabla apoyada en dos bloques con pesas encima y un hilo que marca el límite.",
+      "spoken": "{kg} kilos, la tabla se dobla {sag} milímetros, el límite es {limit}: {result}.",
+      "load": "Peso",
+      "less": "Quitar una pesa",
+      "more": "Añadir una pesa",
+      "controls": "Cambia el peso sobre la tabla",
+      "reset": "Restablecer vista",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
+    },
+    "rails": {
+      "fig": "Fig 1",
+      "title": "Cambio de vía",
+      "hint": "Elige la vía · arrastra para girar",
+      "keys": [
+        "La estación de la bandera",
+        "El tren y las vías"
+      ],
+      "caption": "Cambiar la vía bien es una tarea. Que el tren llegue a la estación de la bandera es el resultado. Una puede salir perfecta sin la otra, y por eso conviene saber adónde queremos llegar antes de mover nada.",
+      "idle": "Elige una vía y envía el tren",
+      "going": "El tren va por la vía {name}…",
+      "wrong": "Tarea hecha, resultado no",
+      "right": "Ha llegado a la bandera",
+      "chipWrong": "No ha llegado",
+      "chipRight": "Ha llegado",
+      "aria": "Una pequeña vía de tren que se divide en dos ramales, cada uno con su estación; solo una tiene bandera.",
+      "names": [
+        "A",
+        "B"
+      ],
+      "branches": [
+        "Vía A",
+        "Vía B"
+      ],
+      "send": "Enviar el tren",
+      "controls": "Elige la vía y envía el tren",
+      "reset": "Restablecer vista",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
+    },
+    "tank": {
+      "fig": "Fig 2",
+      "title": "Depósito con fuga",
+      "hint": "Vierte cubos · arrastra para girar",
+      "keys": [
+        "El nivel que queremos",
+        "El depósito"
+      ],
+      "caption": "Verter cubos es trabajo hecho; el nivel es el resultado. Con una fuga abierta puedes seguir vertiendo y no llegar nunca a la marca. Mirar el nivel y buscar la causa vale más que vaciar otro cubo.",
+      "idle": "Vierte un cubo para empezar",
+      "status": "{n} cubos · nivel {level} % de {target} %",
+      "stuck": "{n} cubos y no sube: algo se escapa",
+      "chipYes": "Objetivo logrado",
+      "chipNo": "Sin llegar",
+      "aria": "Un depósito de cristal con una marca de nivel, un grifo encima que vierte cubos de agua y una pequeña fuga cerca del fondo.",
+      "controls": "Vierte agua en el depósito",
+      "pour": "Verter un cubo",
+      "plug": "Tapar la fuga",
+      "unplug": "Destapar la fuga",
+      "empty": "Vaciar",
+      "reset": "Restablecer vista",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
+    },
+    "circuit": {
+      "fig": "Fig 1",
+      "title": "Circuito completo",
+      "hint": "Quita piezas · arrastra para girar",
+      "keys": [
+        "El circuito esencial",
+        "Lo que se deja fuera"
+      ],
+      "caption": "Una primera versión pequeña puede dejar fuera las ampliaciones y seguir funcionando. Si le quitas un tramo del recorrido, el tren se para: ya no es más pequeña, es incompleta.",
+      "full": "Completo, con ampliaciones",
+      "small": "Más pequeño y completo",
+      "cutStatus": "Falta un tramo: el tren se para",
+      "chipWhole": "Funciona",
+      "chipCut": "Cortado",
+      "aria": "Un circuito de tren de juguete cerrado con tres edificios alrededor que el tren no necesita; se pueden quitar y el tren sigue, pero si falta un tramo de vía el tren se detiene.",
+      "extrasOn": "Poner ampliaciones",
+      "extrasOff": "Quitar ampliaciones",
+      "cut": "Quitar un tramo",
+      "fix": "Poner el tramo",
+      "controls": "Quita ampliaciones o un tramo de vía",
+      "reset": "Restablecer vista",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
+    },
+    "pipeline": {
+      "fig": "Fig 2",
+      "title": "Recorrido de punta a punta",
+      "hint": "Quita un paso · arrastra para girar",
+      "keys": [
+        "El agua que fluye",
+        "Los cuatro pasos"
+      ],
+      "caption": "Crear, revisar, decidir y avisar son un solo recorrido: el resultado tiene que volver a quien lo inició. Si falta un paso, el agua se derrama a medio camino y la persona se queda esperando.",
+      "ok": "El resultado vuelve a la persona",
+      "broken": "Se corta en «{name}»: no llega",
+      "chipYes": "Llega",
+      "chipNo": "No llega",
+      "aria": "Una tubería de cuatro pasos que sale de un depósito y vuelve a un vaso junto al inicio; si falta un paso el agua se derrama.",
+      "steps": [
+        "1 · Crear",
+        "2 · Revisar",
+        "3 · Decidir",
+        "4 · Avisar"
+      ],
+      "names": [
+        "Crear",
+        "Revisar",
+        "Decidir",
+        "Avisar"
+      ],
+      "controls": "Quita o pon cada paso del recorrido",
+      "reset": "Restablecer vista",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
     }
   }
 }

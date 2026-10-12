@@ -5,37 +5,14 @@ export async function getFigureCopy(locale: string): Promise<FigureCopy> {
     const t = await getTranslations({ locale, namespace: 'Figures' });
     const raw = <T,>(key: string) => t.raw(key) as T;
 
+    const group = (name: string, keys: string[]) => Object.fromEntries(keys.map(key => [key, raw(`${name}.${key}`)]));
+
     return {
-        lock: {
-            fig: raw('lock.fig'),
-            title: raw('lock.title'),
-            hint: raw('lock.hint'),
-            keys: raw('lock.keys'),
-            caption: raw('lock.caption'),
-            aria: raw('lock.aria'),
-            idle: raw('lock.idle'),
-            moving: raw('lock.moving'),
-            settled: raw('lock.settled'),
-            turns: raw('lock.turns'),
-            stuck: raw('lock.stuck'),
-            spoken: raw('lock.spoken'),
-            fails: raw('lock.fails'),
-            pins: raw('lock.pins'),
-        },
-        tunnel: {
-            fig: raw('tunnel.fig'),
-            title: raw('tunnel.title'),
-            hint: raw('tunnel.hint'),
-            keys: raw('tunnel.keys'),
-            caption: raw('tunnel.caption'),
-            idle: raw('tunnel.idle'),
-            aria: raw('tunnel.aria'),
-            decimal: raw('tunnel.decimal'),
-            readout: raw('tunnel.readout'),
-            spoken: raw('tunnel.spoken'),
-            over: raw('tunnel.over'),
-            under: raw('tunnel.under'),
-            stalled: raw('tunnel.stalled'),
-        },
+        sorter: group('sorter', ['fig', 'title', 'hint', 'keys', 'caption', 'idle', 'trying', 'no', 'yes', 'aria', 'pieces', 'names', 'controls', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['sorter'],
+        beam: group('beam', ['fig', 'title', 'hint', 'keys', 'caption', 'idle', 'status', 'pass', 'fail', 'decimal', 'aria', 'spoken', 'load', 'less', 'more', 'controls', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['beam'],
+        rails: group('rails', ['fig', 'title', 'hint', 'keys', 'caption', 'idle', 'going', 'wrong', 'right', 'chipWrong', 'chipRight', 'aria', 'names', 'branches', 'send', 'controls', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['rails'],
+        tank: group('tank', ['fig', 'title', 'hint', 'keys', 'caption', 'idle', 'status', 'stuck', 'chipYes', 'chipNo', 'aria', 'controls', 'pour', 'plug', 'unplug', 'empty', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['tank'],
+        circuit: group('circuit', ['fig', 'title', 'hint', 'keys', 'caption', 'full', 'small', 'cutStatus', 'chipWhole', 'chipCut', 'aria', 'extrasOn', 'extrasOff', 'cut', 'fix', 'controls', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['circuit'],
+        pipeline: group('pipeline', ['fig', 'title', 'hint', 'keys', 'caption', 'ok', 'broken', 'chipYes', 'chipNo', 'aria', 'steps', 'names', 'controls', 'reset', 'play', 'pause', 'zoomIn', 'zoomOut']) as FigureCopy['pipeline'],
     };
 }

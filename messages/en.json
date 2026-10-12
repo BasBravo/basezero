@@ -216,49 +216,181 @@
     }
   },
   "Figures": {
-    "lock": {
+    "sorter": {
       "fig": "Fig 1",
-      "title": "Key and lock",
-      "hint": "Try a key",
+      "title": "Shape sorter",
+      "hint": "Choose a piece · drag to turn",
       "keys": [
-        "The shear line: where every pin has to rest",
-        "A well-cut key"
+        "The piece that fits",
+        "A piece that doesn't fit"
       ],
-      "caption": "Five pins, five hypotheses: problem, person, proposal, behaviour and viability. Cutting all four keys cost about the same; only the lock says which one fits. Here the one that turns is the third.",
-      "aria": "A five-pin lock with a tray of four keys. Press a key to try it, use the arrow keys to change key, space to put it in or take it out and Escape to withdraw it.",
-      "idle": "Choose a key",
-      "moving": "Key {key}",
-      "settled": "Key {key} · {count}/{total} · {result}",
-      "turns": "turns",
-      "stuck": "won't turn",
-      "spoken": "Key {key}: {count} of {total} pins on the shear line; {result}.",
-      "fails": "Not fitting: {names}.",
-      "pins": [
-        "problem",
-        "person",
-        "proposal",
-        "behaviour",
-        "viability"
-      ]
+      "caption": "Making pieces gets cheaper all the time. What stays expensive is knowing which one fits, and only trying them against the real hole tells you.",
+      "idle": "Pick a piece to try it",
+      "trying": "Trying piece {n}…",
+      "no": "Piece {n} doesn't fit",
+      "yes": "Piece {n} fits",
+      "aria": "A shape sorter with four pieces and a single hexagonal hole.",
+      "controls": "Choose the piece you want to try",
+      "pieces": [
+        "Try piece 1, a circle",
+        "Try piece 2, a square",
+        "Try piece 3, a triangle",
+        "Try piece 4, a hexagon"
+      ],
+      "names": [
+        "Circle",
+        "Square",
+        "Triangle",
+        "Hexagon"
+      ],
+      "reset": "Reset view",
+      "play": "Play",
+      "pause": "Pause",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
     },
-    "tunnel": {
+    "beam": {
       "fig": "Fig 2",
-      "title": "Wind tunnel",
-      "hint": "Move the angle ← →",
+      "title": "Load test",
+      "hint": "Add weight · drag to turn",
       "keys": [
-        "The test wing",
-        "The threshold we set beforehand: 25 N",
-        "Where the threshold goes up to"
+        "The limit set beforehand",
+        "The test plank"
       ],
-      "caption": "A wing with a 20 cm chord in a tunnel at 30 m/s. You don't need to build the aircraft to know whether the section can carry its weight: you measure one thing against a threshold set beforehand. Past about 15° the flow separates and the lift falls.",
-      "idle": "α 0.0° · 0.0 N · under the threshold",
-      "aria": "A wind tunnel with a wing section on a balance. Change the angle with the pointer, the arrow keys or by dragging; the gauge reads the lift and a lamp lights when it passes the threshold.",
+      "caption": "To know whether a bridge will hold you don't need to build it: test a plank against a limit set beforehand. Up to 100 kg it passes; at 120 kg it doesn't. The sag is drawn exaggerated.",
+      "idle": "Add weight to the plank",
+      "status": "{kg} kg · sag {sag} mm · {result}",
+      "pass": "passes",
+      "fail": "fails",
       "decimal": ".",
-      "readout": "α {alpha}° · {lift} N · {status}",
-      "spoken": "Angle {alpha} degrees, lift {lift} newtons, threshold {threshold} newtons: {status}.",
-      "over": "over the threshold",
-      "under": "under the threshold",
-      "stalled": "stalled"
+      "aria": "A plank resting on two blocks with weights on top and a wire marking the limit.",
+      "spoken": "{kg} kilos, the plank bends {sag} millimetres, the limit is {limit}: {result}.",
+      "load": "Weight",
+      "less": "Remove a weight",
+      "more": "Add a weight",
+      "controls": "Change the weight on the plank",
+      "reset": "Reset view",
+      "play": "Play",
+      "pause": "Pause",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    },
+    "rails": {
+      "fig": "Fig 1",
+      "title": "Track switch",
+      "hint": "Pick the track · drag to turn",
+      "keys": [
+        "The station with the flag",
+        "The train and the tracks"
+      ],
+      "caption": "Setting the switch is a task. The train reaching the station with the flag is the result. One can go perfectly without the other, which is why it pays to know where we want to end up before moving anything.",
+      "idle": "Pick a track and send the train",
+      "going": "The train is on track {name}…",
+      "wrong": "Task done, result not",
+      "right": "Reached the flag",
+      "chipWrong": "Not there",
+      "chipRight": "Arrived",
+      "aria": "A small railway that splits into two branches, each with its own station; only one has a flag.",
+      "names": [
+        "A",
+        "B"
+      ],
+      "branches": [
+        "Track A",
+        "Track B"
+      ],
+      "send": "Send the train",
+      "controls": "Pick the track and send the train",
+      "reset": "Reset view",
+      "play": "Play",
+      "pause": "Pause",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    },
+    "tank": {
+      "fig": "Fig 2",
+      "title": "Leaky tank",
+      "hint": "Pour buckets · drag to turn",
+      "keys": [
+        "The level we want",
+        "The tank"
+      ],
+      "caption": "Pouring buckets is work done; the level is the result. With a leak open you can keep pouring and never reach the mark. Reading the level and finding the cause beats emptying one more bucket.",
+      "idle": "Pour a bucket to start",
+      "status": "{n} buckets · level {level}% of {target}%",
+      "stuck": "{n} buckets and it won't rise: a leak",
+      "chipYes": "Goal reached",
+      "chipNo": "Not there",
+      "aria": "A glass tank with a level mark, a tap above it pouring buckets of water and a small leak near the bottom.",
+      "controls": "Pour water into the tank",
+      "pour": "Pour a bucket",
+      "plug": "Plug the leak",
+      "unplug": "Unplug the leak",
+      "empty": "Empty it",
+      "reset": "Reset view",
+      "play": "Play",
+      "pause": "Pause",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    },
+    "circuit": {
+      "fig": "Fig 1",
+      "title": "A whole circuit",
+      "hint": "Take pieces away · drag to turn",
+      "keys": [
+        "The essential circuit",
+        "What is left out"
+      ],
+      "caption": "A small first version can leave out the extras and keep working. Take a stretch out of the route and the train stops: it is no longer smaller, it is incomplete.",
+      "full": "Whole, with extras",
+      "small": "Smaller and whole",
+      "cutStatus": "A tile is missing: the train stops",
+      "chipWhole": "Works",
+      "chipCut": "Cut",
+      "aria": "A closed toy railway circuit with three buildings around it that the train does not need; they can be removed and the train keeps going, but if a tile of track is missing the train stops.",
+      "extrasOn": "Add the extras",
+      "extrasOff": "Remove the extras",
+      "cut": "Take a tile away",
+      "fix": "Put the tile back",
+      "controls": "Remove the extras or a tile of track",
+      "reset": "Reset view",
+      "play": "Play",
+      "pause": "Pause",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    },
+    "pipeline": {
+      "fig": "Fig 2",
+      "title": "End to end",
+      "hint": "Remove a step · drag to turn",
+      "keys": [
+        "The water flowing",
+        "The four steps"
+      ],
+      "caption": "Create, review, decide and notify are one route: the result has to get back to whoever started it. If a step is missing, the water spills halfway and the person is left waiting.",
+      "ok": "The result gets back to the person",
+      "broken": "Cut at “{name}”: it doesn't arrive",
+      "chipYes": "Arrives",
+      "chipNo": "Doesn't arrive",
+      "aria": "A four-step pipe route leaving a tank and coming back to a cup next to the start; if a step is missing the water spills.",
+      "steps": [
+        "1 · Create",
+        "2 · Review",
+        "3 · Decide",
+        "4 · Notify"
+      ],
+      "names": [
+        "Create",
+        "Review",
+        "Decide",
+        "Notify"
+      ],
+      "controls": "Remove or put back each step of the route",
+      "reset": "Reset view",
+      "play": "Play",
+      "pause": "Pause",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
     }
   }
 }
