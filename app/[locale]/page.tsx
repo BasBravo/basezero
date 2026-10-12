@@ -1,12 +1,27 @@
+import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getPortfolioProjects } from '@/content/portfolio-projects';
 import { getArticleSummaries } from '@/features/articles/lib/articles';
 import { PortfolioExperience, type PortfolioCopy } from '@/features/portfolio/components/PortfolioExperience';
 import { getAboutPath } from '@/features/about/lib/paths';
 import { routing } from '@/i18n/routing';
+import { ogImageOf, pageMetadata } from '@/features/seo/lib/metadata';
 
 export function generateStaticParams() {
     return routing.locales.map(locale => ({ locale }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: 'Portfolio' });
+    return pageMetadata({
+        locale,
+        path: `/${locale}`,
+        title: t('meta.title'),
+        description: t('meta.description'),
+        languages: { es: '/es', en: '/en' },
+        image: ogImageOf(locale, 'home'),
+    });
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {

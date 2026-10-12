@@ -5,6 +5,7 @@ date: "2026-08-24"
 author: "Bas Bravo"
 locale: "es"
 category: "Producto"
+keywords: ["validar una idea de producto", "experimentos de producto", "desarrollo con IA", "product discovery", "qué construir primero"]
 ---
 
 Hace no mucho, lo más difícil de un producto digital era conseguir que existiera. Hacían falta meses, un equipo grande y mucho dinero antes de poder enseñar una idea a alguien.

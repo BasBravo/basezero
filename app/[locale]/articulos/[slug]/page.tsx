@@ -4,9 +4,10 @@ import { notFound } from 'next/navigation';
 import { ArticlePage } from '@/features/articles/components/ArticlePage';
 import { getFigureCopy } from '@/features/articles/figures/copy';
 import { getArticle, getArticleSlugs, getArticleSummaries } from '@/features/articles/lib/articles';
+import { ogImageOf, pageMetadata } from '@/features/seo/lib/metadata';
+import { aboutUrl, articleMarkdownPath } from '@/features/seo/lib/site';
+import { articleGraph, jsonLd } from '@/features/seo/lib/structured-data';
 import { routing } from '@/i18n/routing';
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://basezero.dev';
 
 type ArticlePageProps = {
     params: Promise<{ locale: string; slug: string }>;
@@ -24,29 +25,25 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     const { locale, slug } = await params;
     const article = getArticle(locale, slug);
     if (!article) notFound();
-    const canonical = article.href;
 
-    return {
+    const metadata = pageMetadata({
+        locale,
+        path: article.href,
         title: `${article.title} — Basezero`,
         description: article.description,
-        authors: [{ name: article.author, url: `${siteUrl}/es` }],
-        alternates: { canonical },
+        image: { ...ogImageOf(locale, article.slug), alt: article.title },
+        types: { 'text/markdown': articleMarkdownPath(locale, article.slug) },
         openGraph: {
             type: 'article',
-            url: `${siteUrl}${canonical}`,
-            siteName: 'Basezero',
             title: article.title,
-            description: article.description,
-            locale: 'es_ES',
             publishedTime: article.date,
-            authors: [article.author],
+            modifiedTime: article.updated ?? article.date,
+            section: article.category,
+            tags: article.keywords,
+            authors: [aboutUrl(locale)],
         },
-        twitter: {
-            card: 'summary',
-            title: article.title,
-            description: article.description,
-        },
-    };
+    });
+    return { ...metadata, authors: [{ name: article.author, url: aboutUrl(locale) }], keywords: article.keywords };
 }
 
 export default async function ArticleRoute({ params }: ArticlePageProps) {
@@ -61,33 +58,12 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
     ]);
     const otherArticles = getArticleSummaries(locale).filter(candidate => candidate.slug !== article.slug);
 
-    const structuredData = {
-        '@context': 'https://schema.org',
-        '@type': 'Article',
-        headline: article.title,
-        description: article.description,
-        datePublished: article.date,
-        dateModified: article.date,
-        inLanguage: article.locale,
-        mainEntityOfPage: `${siteUrl}${article.href}`,
-        author: {
-            '@type': 'Person',
-            name: article.author,
-            url: `${siteUrl}/es`,
-        },
-        publisher: {
-            '@type': 'Organization',
-            name: 'Basezero',
-            url: `${siteUrl}/es`,
-        },
-    };
-
     return (
         <>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
+                    __html: jsonLd(articleGraph(article)),
                 }}
             />
             <ArticlePage

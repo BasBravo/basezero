@@ -36,7 +36,7 @@ function AboutContext({
                         />
                     </span>
                 ) : null}
-                <h2 className={articleStyles.mobileArticleTitle}>{copy.title}</h2>
+                <p className={articleStyles.mobileArticleTitle} aria-hidden="true">{copy.title}</p>
                 <p className={articleStyles.sidebarDescription}>{copy.lead}</p>
                 <dl className={articleStyles.articleFacts}>
                     <div className={articleStyles.articleByline}>

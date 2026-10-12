@@ -12,9 +12,12 @@ const languages = {
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
+    // The home lists the articles, so it changes when a new one is published.
+    const latest = (locale: string) => getArticleSummaries(locale)[0]?.date;
     const landingPages: MetadataRoute.Sitemap = [
         {
             url: `${siteUrl}/es`,
+            lastModified: latest('es'),
             changeFrequency: 'monthly',
             priority: 1,
             alternates: { languages },
@@ -30,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const articlePages: MetadataRoute.Sitemap = ['es', 'en'].flatMap(locale =>
         getArticleSummaries(locale).map(article => ({
             url: `${siteUrl}${article.href}`,
-            lastModified: article.date,
+            lastModified: article.updated ?? article.date,
             changeFrequency: 'yearly' as const,
             priority: 0.7,
         })),

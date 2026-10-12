@@ -5,6 +5,7 @@ date: "2026-07-03"
 author: "Bas Bravo"
 locale: "es"
 category: "Desarrollo"
+keywords: ["desarrollo de software con IA", "trabajo por resultados", "rol del desarrollador", "criterio técnico", "equipos de producto"]
 ---
 
 Un ticket pide añadir recordatorios automáticos a una herramienta para aprobar compras. La tarea parece clara: programar el envío, escribir el mensaje y anotar cuándo se envía. Con ayuda de la IA, un desarrollador puede tenerlo listo en muy poco tiempo.

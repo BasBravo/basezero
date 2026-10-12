@@ -27,6 +27,10 @@ Responder en español. Código, commits e identificadores técnicos permanecen e
 
 Las ilustraciones interactivas de los artículos siguen la guía de [docs/article-figures.md](docs/article-figures.md): isométricas con la skill `anatomy`, controles de interfaz visibles y los cuatro botones de esquina (pausa/play, −, +, restablecer) con giro ±50° y zoom. Léela antes de crear o tocar una figura.
 
+## SEO y agentes de IA
+
+Metadatos, datos estructurados, sitemap, `llms.txt`, Markdown de artículos, feed e imágenes sociales siguen [docs/seo.md](docs/seo.md). Cada página nueva usa `pageMetadata()` de `features/seo/lib/metadata.ts`.
+
 ## Validación
 
 Antes de cerrar un cambio, ejecutar `pnpm check`.

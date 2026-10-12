@@ -5,6 +5,7 @@ date: "2026-06-04"
 author: "Bas Bravo"
 locale: "es"
 category: "Producto"
+keywords: ["MVP", "producto mínimo viable", "primera versión de un producto", "alcance de un MVP", "desarrollo de MVP"]
 ---
 
 Al empezar un producto casi siempre pasa lo mismo. Hay una lista larga de funciones, alguien dice que hay que hacer un MVP, la versión más pequeña posible, y se tacha la mitad. Por un momento parece que el problema está resuelto.

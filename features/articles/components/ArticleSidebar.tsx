@@ -42,7 +42,7 @@ function ArticleContext({
     return (
         <>
             <section className={styles.articleDetails}>
-                <h2 className={styles.mobileArticleTitle}>{article.title}</h2>
+                <p className={styles.mobileArticleTitle} aria-hidden="true">{article.title}</p>
                 <p className={styles.sidebarDescription}>{article.description}</p>
                 <dl className={styles.articleFacts}>
                     <div className={styles.articleByline}>

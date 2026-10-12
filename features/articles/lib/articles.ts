@@ -13,9 +13,20 @@ function readRequiredString(value: unknown, field: string, filePath: string) {
     return value;
 }
 
+function getWordCount(content: string) {
+    return content.trim().split(/\s+/u).filter(Boolean).length;
+}
+
 function getReadingMinutes(content: string) {
-    const wordCount = content.trim().split(/\s+/u).filter(Boolean).length;
-    return Math.max(1, Math.ceil(wordCount / 210));
+    return Math.max(1, Math.ceil(getWordCount(content) / 210));
+}
+
+function readOptionalString(value: unknown) {
+    return typeof value === 'string' && value.trim() !== '' ? value : undefined;
+}
+
+function readOptionalList(value: unknown) {
+    return Array.isArray(value) && value.every(item => typeof item === 'string') && value.length > 0 ? (value as string[]) : undefined;
 }
 
 function getLocaleDirectory(locale: string) {
@@ -60,7 +71,10 @@ export function getArticle(locale: string, slug: string): Article | null {
         locale: articleLocale,
         category: readRequiredString(data.category, 'category', filePath),
         readingMinutes,
+        updated: readOptionalString(data.updated),
+        keywords: readOptionalList(data.keywords),
         content: normalizedContent,
+        wordCount: getWordCount(normalizedContent),
     };
 }
 
@@ -78,6 +92,8 @@ export function getArticleSummaries(locale: string): ArticleSummary[] {
             locale: article.locale,
             category: article.category,
             readingMinutes: article.readingMinutes,
+            updated: article.updated,
+            keywords: article.keywords,
         }))
         .sort((first, second) => second.date.localeCompare(first.date));
 }

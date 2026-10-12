@@ -213,6 +213,10 @@
         "title": "Evolucionar con criterio",
         "body": "El software evoluciona de forma orgánica: la IA permite modelar cada siguiente paso sobre lo aprendido, sin depender de una planificación rígida ni añadir complejidad antes de necesitarla."
       }
+    },
+    "meta": {
+      "title": "Basezero — Diseño y desarrollo de MVPs y productos digitales",
+      "description": "Estudio independiente de Bas Bravo: estrategia, diseño y desarrollo de MVPs, SaaS y herramientas web con un método AI-first, de la idea al lanzamiento."
     }
   },
   "Figures": {

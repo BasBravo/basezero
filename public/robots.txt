@@ -1,3 +1,26 @@
-User-Agent: *
-Disallow:
+# Basezero — basezero.dev
+# Todo el contenido público puede rastrearse e indexarse, también por buscadores y asistentes de IA.
+# Resumen para agentes de IA: https://basezero.dev/llms.txt
+# Artículos completos en Markdown: https://basezero.dev/llms-full.txt
+
+User-agent: *
+Allow: /
+
+# Buscadores y asistentes de IA, permitidos de forma explícita.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: meta-externalagent
+User-agent: CCBot
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+Allow: /
+
 Sitemap: https://basezero.dev/sitemap.xml

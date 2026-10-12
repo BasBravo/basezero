@@ -5,6 +5,7 @@ date: "2026-09-28"
 author: "Bas Bravo"
 locale: "es"
 category: "Producto"
+keywords: ["después de lanzar un MVP", "métricas de producto", "retención de usuarios", "criterios para abandonar un producto", "decisiones de producto"]
 ---
 
 El día que algo sale a la luz tiene algo de meta. Hay una fecha marcada, un último repaso, un mensaje al equipo y, por fin, la sensación de haber terminado.
