@@ -1,20 +1,23 @@
-import { getPortfolioProjects } from '@/content/portfolio-projects';
 import { getAboutPath } from '@/features/about/lib/paths';
 import { getArticle, getArticleSummaries } from '@/features/articles/lib/articles';
+import { getArticlesPath } from '@/features/articles/lib/paths';
 import type { Article } from '@/features/articles/types';
+import { getCaseStudy, getCaseStudySummaries } from '@/features/case-studies/lib/case-studies';
+import { getCaseStudyMarkdownPath } from '@/features/case-studies/lib/paths';
+import type { CaseStudy } from '@/features/case-studies/types';
 import { FEED_PATH } from './metadata';
 import { absolute, aboutUrl, articleMarkdownPath, authorName, contactEmail, services, siteName, socialProfiles } from './site';
 
 const llmsSummaryLine = 'Decisiones, métodos y aprendizajes sobre cómo convertir una idea en un producto digital útil: primeras versiones, MVPs, trabajo por resultados y desarrollo con IA.';
 
 const FIGURE = /!\[([^\]]*)\]\(figure:[a-z-]+\)/g;
-const RELATIVE_LINK = /\]\((\/[^)\s]*)\)/g;
+const RELATIVE_LINK = /\]\((\/[^)\s]*)(\s+"[^"]*")?\)/g;
 
 /** An article as plain Markdown: a short header with its facts, interactive figures described in words and links made absolute. */
 export function articleMarkdown(article: Article) {
     const figure = article.locale === 'es' ? 'Figura interactiva' : 'Interactive figure';
     const labels = article.locale === 'es' ? { author: 'Autor', date: 'Publicado', category: 'Categoría', source: 'Original' } : { author: 'Author', date: 'Published', category: 'Category', source: 'Original' };
-    const body = article.content.replace(FIGURE, (_, alt: string) => `*${figure}: ${alt}*`).replace(RELATIVE_LINK, (_, path: string) => `](${absolute(path)})`);
+    const body = article.content.replace(FIGURE, (_, alt: string) => `*${figure}: ${alt}*`).replace(RELATIVE_LINK, (_, path: string, title = '') => `](${absolute(path)}${title})`);
     return [
         `# ${article.title}`,
         '',
@@ -30,13 +33,36 @@ export function articleMarkdown(article: Article) {
     ].join('\n');
 }
 
+/** A case study as plain Markdown, with the project's facts on top. */
+export function caseStudyMarkdown(study: CaseStudy) {
+    const labels = study.locale === 'es'
+        ? { project: 'Proyecto', year: 'Año', role: 'Rol', type: 'Tipo', stack: 'Tecnología', status: 'Estado', source: 'Original' }
+        : { project: 'Project', year: 'Year', role: 'Role', type: 'Type', stack: 'Stack', status: 'Status', source: 'Original' };
+    const body = study.content.replace(RELATIVE_LINK, (_, path: string, title = '') => `](${absolute(path)}${title})`);
+    return [
+        `# ${study.title}`,
+        '',
+        `> ${study.description}`,
+        '',
+        `- ${labels.project}: [${study.name}](${study.url})`,
+        `- ${labels.year}: ${study.year}`,
+        `- ${labels.role}: ${study.role} (${authorName}, ${siteName})`,
+        `- ${labels.type}: ${study.facets.join(', ')}`,
+        `- ${labels.stack}: ${study.stack.join(', ')}`,
+        `- ${labels.status}: ${study.status}`,
+        `- ${labels.source}: ${absolute(study.href)}`,
+        '',
+        body,
+        '',
+    ].join('\n');
+}
+
 const articleLine = (locale: string) => (article: { slug: string; title: string; description: string }) =>
     `- [${article.title}](${absolute(articleMarkdownPath(locale, article.slug))}): ${article.description}`;
 
 /** /llms.txt: who this is, what the studio does, and where the useful content lives (llmstxt.org). */
 export function llmsTxt() {
     const articles = getArticleSummaries('es');
-    const projects = getPortfolioProjects('es');
     return [
         `# ${siteName}`,
         '',
@@ -56,18 +82,23 @@ export function llmsTxt() {
         `- [Basezero (English)](${absolute('/en')}): the studio, its process and projects.`,
         `- [Sobre Bas Bravo](${absolute(getAboutPath('es'))}): trayectoria, cómo trabaja y herramientas.`,
         `- [About Bas Bravo](${absolute(getAboutPath('en'))}): background, how he works and tools.`,
+        `- [Todos los artículos](${absolute(getArticlesPath('es'))}): el archivo completo, del más reciente al más antiguo.`,
         '',
         '## Artículos',
         '',
         ...articles.map(articleLine('es')),
         '',
-        '## Proyectos',
+        '## Casos de estudio',
         '',
-        ...projects.map(project => `- [${project.name}](${project.url}): ${project.description}`),
+        ...getCaseStudySummaries('es').map(study => `- [${study.name}](${absolute(getCaseStudyMarkdownPath('es', study.slug))}): ${study.description} Web: ${study.url}`),
+        '',
+        '## Case studies (English)',
+        '',
+        ...getCaseStudySummaries('en').map(study => `- [${study.name}](${absolute(getCaseStudyMarkdownPath('en', study.slug))}): ${study.description}`),
         '',
         '## Optional',
         '',
-        `- [Todos los artículos en un solo archivo](${absolute('/llms-full.txt')})`,
+        `- [Todos los artículos y casos de estudio en un solo archivo](${absolute('/llms-full.txt')})`,
         `- [Feed RSS de artículos](${absolute(FEED_PATH)})`,
         ...socialProfiles.map(profile => `- [${profile.label}](${profile.href})`),
         '',
@@ -79,7 +110,17 @@ export function llmsFullTxt() {
     const articles = getArticleSummaries('es')
         .map(summary => getArticle('es', summary.slug))
         .filter((article): article is Article => article !== null);
-    return [`# ${siteName} — artículos de ${authorName}`, '', `> ${llmsSummaryLine}`, '', ...articles.map(article => `${articleMarkdown(article)}\n---\n`)].join('\n');
+    const studies = getCaseStudySummaries('es')
+        .map(summary => getCaseStudy('es', summary.slug))
+        .filter((study): study is CaseStudy => study !== null);
+    return [
+        `# ${siteName} — artículos y casos de estudio de ${authorName}`,
+        '',
+        `> ${llmsSummaryLine}`,
+        '',
+        ...articles.map(article => `${articleMarkdown(article)}\n---\n`),
+        ...studies.map(study => `${caseStudyMarkdown(study)}\n---\n`),
+    ].join('\n');
 }
 
 const escapeXml = (text: string) => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');

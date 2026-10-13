@@ -16,6 +16,25 @@
     "otherArticles": "Other articles",
     "noOtherArticles": "More articles coming soon"
   },
+  "ArticlesIndex": {
+    "metaTitle": "Articles — Basezero",
+    "metaDescription": "Every article by Bas Bravo: decisions, methods and lessons on turning an idea into a useful product without adding needless complexity.",
+    "title": "Articles",
+    "lead": "Decisions, methods and lessons on turning an idea into a useful product without adding needless complexity.",
+    "skip": "Skip to the articles",
+    "homeLabel": "Basezero — Home",
+    "backToStudio": "Back to the studio",
+    "themeToggle": "Toggle theme",
+    "detailsLabel": "About the articles",
+    "archiveLabel": "Archive",
+    "count": "{count, plural, one {# article} other {# articles}}",
+    "latest": "Latest: {date}",
+    "listLabel": "All articles",
+    "read": "Read article",
+    "readingTime": "{minutes} min read",
+    "rss": "RSS feed",
+    "rssHint": "Subscribe"
+  },
   "About": {
     "meta": {
       "title": "Bas Bravo — Product designer and developer",
@@ -27,11 +46,7 @@
     "detailsLabel": "About Bas Bravo",
     "title": "Bas Bravo",
     "lead": "Product designer and developer. I've been building for the web since 2005, and today I do it with AI as part of the craft.",
-    "roleLabel": "Focus",
     "role": "Product design and development",
-    "locationLabel": "Based in",
-    "location": "Spain",
-    "studioLabel": "Studio",
     "studio": "Basezero",
     "portraitAlt": "Portrait of Bas Bravo, wearing glasses and a grey sweater, against a blue-grey background.",
     "intro": [
@@ -115,7 +130,8 @@
     "work": {
       "title": "Products I've worked on",
       "body": "A few of the products I've defined, designed and built under the Basezero brand.",
-      "visit": "Visit"
+      "visit": "Visit",
+      "caseStudy": "Read the case study"
     },
     "stack": {
       "title": "Tools of the trade",
@@ -177,6 +193,7 @@
     },
     "articles": {
       "title": "Articles",
+      "viewAll": "View all articles",
       "body": "Decisions, methods and lessons on turning an idea into a useful product without adding unnecessary complexity.",
       "read": "Read article",
       "readingTime": "{minutes} min read"
@@ -186,10 +203,6 @@
       "body": "Tell me what you want to achieve, where the project stands and whether you have a target date. I’ll reply personally so we can decide if we are a good fit.",
       "copyEmail": "Copy email",
       "emailCopied": "Email copied"
-    },
-    "projectDialog": {
-      "close": "Close project",
-      "visit": "Open live product"
     },
     "processLabel": "AI-first product process",
     "processSteps": {
@@ -455,5 +468,18 @@
       "zoomIn": "Zoom in",
       "zoomOut": "Zoom out"
     }
+  },
+  "CaseStudy": {
+    "skip": "Skip to the case study",
+    "backToWork": "Back to projects",
+    "detailsLabel": "Project details",
+    "projectLabel": "Project",
+    "yearLabel": "Year and status",
+    "roleLabel": "Role",
+    "typeLabel": "Type",
+    "stackLabel": "Stack",
+    "visit": "Visit {name}",
+    "otherProjects": "Other projects",
+    "readCase": "Read the case study"
   }
 }

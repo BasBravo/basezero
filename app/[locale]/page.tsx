@@ -2,10 +2,15 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getPortfolioProjects } from '@/content/portfolio-projects';
 import { getArticleSummaries } from '@/features/articles/lib/articles';
+import { getArticlesPath } from '@/features/articles/lib/paths';
 import { PortfolioExperience, type PortfolioCopy } from '@/features/portfolio/components/PortfolioExperience';
 import { getAboutPath } from '@/features/about/lib/paths';
+import { getCaseStudySlugs } from '@/features/case-studies/lib/case-studies';
+import { getCaseStudyPath } from '@/features/case-studies/lib/paths';
 import { routing } from '@/i18n/routing';
 import { ogImageOf, pageMetadata } from '@/features/seo/lib/metadata';
+
+const LATEST_ARTICLES = 3;
 
 export function generateStaticParams() {
     return routing.locales.map(locale => ({ locale }));
@@ -28,8 +33,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     const { locale } = await params;
     setRequestLocale(locale);
     const t = await getTranslations('Portfolio');
-    const projects = getPortfolioProjects(locale);
-    const articles = getArticleSummaries(locale);
+    const caseStudies = new Set(getCaseStudySlugs(locale));
+    const projects = getPortfolioProjects(locale).map(project => (caseStudies.has(project.id) ? { ...project, caseStudyHref: getCaseStudyPath(locale, project.id) } : project));
+    // The home shows the latest ones; the full archive lives on its own page.
+    const articles = getArticleSummaries(locale).slice(0, LATEST_ARTICLES);
     const copy: PortfolioCopy = {
         locale,
         navWork: t('navWork'),
@@ -58,12 +65,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         articlesTitle: t('articles.title'),
         articlesBody: t('articles.body'),
         readArticle: t('articles.read'),
+        articlesViewAll: t('articles.viewAll'),
+        articlesHref: getArticlesPath(locale),
         farewellTitle: t('farewell.title'),
         farewellBody: t('farewell.body'),
         copyEmail: t('farewell.copyEmail'),
         emailCopied: t('farewell.emailCopied'),
-        projectDialogClose: t('projectDialog.close'),
-        projectDialogVisit: t('projectDialog.visit'),
         processLabel: t('processLabel'),
         processSteps: [
             { number: '01', title: t('processSteps.understand.title'), body: t('processSteps.understand.body') },

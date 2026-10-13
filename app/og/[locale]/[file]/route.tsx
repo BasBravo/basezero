@@ -3,6 +3,7 @@ import path from 'node:path';
 import { ImageResponse } from 'next/og';
 import { getTranslations } from 'next-intl/server';
 import { getArticle, getArticleSlugs } from '@/features/articles/lib/articles';
+import { getCaseStudy, getCaseStudySlugs } from '@/features/case-studies/lib/case-studies';
 import { authorName } from '@/features/seo/lib/site';
 import { routing } from '@/i18n/routing';
 
@@ -11,9 +12,14 @@ export const dynamicParams = false;
 
 const SIZE = { width: 1200, height: 630 };
 
-/** One social image per page that is shared: the home in each language and every article, at /og/<locale>/<name>.png. */
+/** One social image per page that is shared: the home in each language, every article and every case study (`caso-<slug>`), at /og/<locale>/<name>.png. */
 export function generateStaticParams() {
-    return routing.locales.flatMap(locale => [{ locale, file: 'home.png' }, ...getArticleSlugs(locale).map(slug => ({ locale, file: `${slug}.png` }))]);
+    return routing.locales.flatMap(locale => [
+        { locale, file: 'home.png' },
+        ...(getArticleSlugs(locale).length > 0 ? [{ locale, file: 'articulos.png' }] : []),
+        ...getArticleSlugs(locale).map(slug => ({ locale, file: `${slug}.png` })),
+        ...getCaseStudySlugs(locale).map(slug => ({ locale, file: `caso-${slug}.png` })),
+    ]);
 }
 
 const fonts = async () => {
@@ -42,6 +48,19 @@ export async function GET(_request: Request, { params }: { params: Promise<{ loc
         kicker = locale === 'es' ? 'Estudio independiente de producto digital' : 'Independent digital product studio';
         title = t('intro.title').replace(/\s*\n\s*/g, ' ');
         footer = locale === 'es' ? 'MVPs · SaaS · Herramientas web · AI-first' : 'MVPs · SaaS · Web tools · AI-first';
+    } else if (name === 'articulos') {
+        const articles = getArticleSlugs(locale);
+        if (articles.length === 0) return new Response('Not found', { status: 404 });
+        kicker = 'Basezero';
+        title = locale === 'es' ? 'Artículos' : 'Articles';
+        footer = `${authorName} · ${locale === 'es' ? `${articles.length} artículos` : `${articles.length} articles`}`;
+    } else if (name.startsWith('caso-')) {
+        const study = getCaseStudy(locale, name.slice('caso-'.length));
+        if (!study) return new Response('Not found', { status: 404 });
+        kicker = `${locale === 'es' ? 'Caso de estudio' : 'Case study'} · ${study.name}`;
+        const headline = study.title.replace(/^[^:]+:\s*/, '');
+        title = headline.charAt(0).toUpperCase() + headline.slice(1);
+        footer = `${study.facets.join(' · ')} · ${study.year}`;
     } else {
         const article = getArticle(locale, name);
         if (!article) return new Response('Not found', { status: 404 });

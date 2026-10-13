@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { getAboutPath } from '@/features/about/lib/paths';
 import { getArticleSummaries } from '@/features/articles/lib/articles';
+import { getArticlesPath } from '@/features/articles/lib/paths';
+import { getCaseStudy, getCaseStudySummaries } from '@/features/case-studies/lib/case-studies';
+import { getCaseStudyPath } from '@/features/case-studies/lib/paths';
 
 export const dynamic = 'force-static';
 
@@ -39,6 +42,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
         })),
     );
 
+    const articleIndexPages: MetadataRoute.Sitemap = (['es', 'en'] as const)
+        .filter(locale => getArticleSummaries(locale).length > 0)
+        .map(locale => ({
+            url: `${siteUrl}${getArticlesPath(locale)}`,
+            lastModified: latest(locale),
+            changeFrequency: 'weekly' as const,
+            priority: 0.8,
+        }));
+
     const aboutLanguages = {
         'es-ES': `${siteUrl}${getAboutPath('es')}`,
         en: `${siteUrl}${getAboutPath('en')}`,
@@ -51,5 +63,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
         alternates: { languages: aboutLanguages },
     }));
 
-    return [...landingPages, ...aboutPages, ...articlePages];
+    const caseStudyPages: MetadataRoute.Sitemap = (['es', 'en'] as const).flatMap(locale =>
+        getCaseStudySummaries(locale).map(study => ({
+            url: `${siteUrl}${study.href}`,
+            lastModified: study.date,
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+            ...(getCaseStudy(locale === 'es' ? 'en' : 'es', study.slug)
+                ? { alternates: { languages: { 'es-ES': `${siteUrl}${getCaseStudyPath('es', study.slug)}`, en: `${siteUrl}${getCaseStudyPath('en', study.slug)}`, 'x-default': `${siteUrl}${getCaseStudyPath('en', study.slug)}` } } }
+                : {}),
+        })),
+    );
+
+    return [...landingPages, ...aboutPages, ...caseStudyPages, ...articleIndexPages, ...articlePages];
 }

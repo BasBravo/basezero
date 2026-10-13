@@ -25,11 +25,7 @@ export type AboutPageCopy = {
     scrollbar: string;
     title: string;
     lead: string;
-    roleLabel: string;
     role: string;
-    locationLabel: string;
-    location: string;
-    studioLabel: string;
     studio: string;
     portraitAlt: string;
     intro: string[];
@@ -44,6 +40,7 @@ export type AboutPageCopy = {
     workTitle: string;
     workBody: string;
     workVisit: string;
+    workCaseStudy: string;
     stackTitle: string;
     stackBody: string;
     stackGroups: Array<{ label: string; items: string }>;
@@ -163,16 +160,15 @@ export function AboutPage({
                                     <ListItem key={project.id}>
                                         <a
                                             className={styles.projectLink}
-                                            href={project.url}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            aria-label={`${copy.workVisit}: ${project.name}`}
+                                            href={project.caseStudyHref ?? project.url}
+                                            {...(project.caseStudyHref ? {} : { target: '_blank', rel: 'noreferrer' })}
+                                            aria-label={`${project.caseStudyHref ? copy.workCaseStudy : copy.workVisit}: ${project.name}`}
                                         >
+                                            <span className={styles.projectName}>{project.name}</span>
+                                            <span className={styles.projectDescription}>{project.description}</span>
                                             <span className={styles.projectMeta}>
                                                 {project.facets.join(' · ')} · {project.year}
                                             </span>
-                                            <span className={styles.projectName}>{project.name}</span>
-                                            <span className={styles.projectDescription}>{project.description}</span>
                                             <Icon name="arrow_outward" />
                                         </a>
                                     </ListItem>

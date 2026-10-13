@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Icon } from '@/components/ui/icon';
 import { getAboutPath } from '@/features/about/lib/paths';
 import { ColumnMenuPanel, ColumnMenuToggle } from '@/features/portfolio/components/ColumnMenu';
+import { getArticlesPath } from '../lib/paths';
 import type { Article, ArticleSummary } from '../types';
 import type { ArticlePageCopy } from './ArticlePage';
 import { ArticleThemeToggle } from './ArticleThemeToggle';
@@ -27,12 +28,32 @@ function BackLink({ href, label }: { href: string; label: string }) {
     );
 }
 
-function ArticleContext({
-    article,
-    otherArticles,
-    formattedDate,
-    copy,
-}: ArticleSidebarProps) {
+function ArticleFacts({ article, formattedDate, copy }: Omit<ArticleSidebarProps, 'otherArticles'>) {
+    return (
+        <dl className={styles.articleFacts}>
+            <div className={styles.articleByline}>
+                <dt>{copy.writtenBy}</dt>
+                <dd>{article.author}</dd>
+            </div>
+            <div className={styles.articleMeta}>
+                <div>
+                    <dt className={styles.visuallyHidden}>{copy.publishedLabel}</dt>
+                    <dd>{formattedDate}</dd>
+                </div>
+                <div>
+                    <dt className={styles.visuallyHidden}>{copy.readingLabel}</dt>
+                    <dd>{copy.readingTime}</dd>
+                </div>
+                <div>
+                    <dt className={styles.visuallyHidden}>{copy.categoryLabel}</dt>
+                    <dd>{article.category}</dd>
+                </div>
+            </div>
+        </dl>
+    );
+}
+
+function OtherArticles({ article, otherArticles, copy }: Pick<ArticleSidebarProps, 'article' | 'otherArticles' | 'copy'>) {
     const publicationNumberBySlug = new Map(
         [...otherArticles, article]
             .sort((first, second) => first.date.localeCompare(second.date) || first.slug.localeCompare(second.slug))
@@ -40,48 +61,48 @@ function ArticleContext({
     );
 
     return (
+        <nav className={styles.otherArticles} aria-label={copy.otherArticles}>
+            <p className={styles.sidebarLabel}>{copy.otherArticles}</p>
+            {otherArticles.length > 0 ? (
+                <ul>
+                    {otherArticles.map(otherArticle => (
+                        <li key={otherArticle.slug}>
+                            <Link href={otherArticle.href}>
+                                <span>{publicationNumberBySlug.get(otherArticle.slug)}</span>
+                                <strong>{otherArticle.title}</strong>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            ) : <p className={styles.emptyArticles}>{copy.noOtherArticles}</p>}
+        </nav>
+    );
+}
+
+/** Desktop sidebar content: the facts and the other articles. On mobile these move to the end of the article. */
+function ArticleContext(props: ArticleSidebarProps) {
+    const { article, formattedDate, copy } = props;
+
+    return (
         <>
             <section className={styles.articleDetails}>
-                <p className={styles.mobileArticleTitle} aria-hidden="true">{article.title}</p>
-                <p className={styles.sidebarDescription}>{article.description}</p>
-                <dl className={styles.articleFacts}>
-                    <div className={styles.articleByline}>
-                        <dt>{copy.writtenBy}</dt>
-                        <dd>{article.author}</dd>
-                    </div>
-                    <div className={styles.articleMeta}>
-                        <div>
-                            <dt className={styles.visuallyHidden}>{copy.publishedLabel}</dt>
-                            <dd>{formattedDate}</dd>
-                        </div>
-                        <div>
-                            <dt className={styles.visuallyHidden}>{copy.readingLabel}</dt>
-                            <dd>{copy.readingTime}</dd>
-                        </div>
-                        <div>
-                            <dt className={styles.visuallyHidden}>{copy.categoryLabel}</dt>
-                            <dd>{article.category}</dd>
-                        </div>
-                    </div>
-                </dl>
+                <ArticleFacts article={article} formattedDate={formattedDate} copy={copy} />
             </section>
-
-            <nav className={styles.otherArticles} aria-label={copy.otherArticles}>
-                <p className={styles.sidebarLabel}>{copy.otherArticles}</p>
-                {otherArticles.length > 0 ? (
-                    <ul>
-                        {otherArticles.map(otherArticle => (
-                            <li key={otherArticle.slug}>
-                                <Link href={otherArticle.href}>
-                                    <span>{publicationNumberBySlug.get(otherArticle.slug)}</span>
-                                    <strong>{otherArticle.title}</strong>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                ) : <p className={styles.emptyArticles}>{copy.noOtherArticles}</p>}
-            </nav>
+            <OtherArticles article={article} otherArticles={props.otherArticles} copy={copy} />
         </>
+    );
+}
+
+/** Mobile only: the facts, the other articles and the way back, after the last line of the article. */
+export function ArticleEnd({ article, otherArticles, formattedDate, copy }: ArticleSidebarProps) {
+    return (
+        <footer className={styles.mobileArticleEnd}>
+            <section className={styles.articleDetails}>
+                <ArticleFacts article={article} formattedDate={formattedDate} copy={copy} />
+            </section>
+            <OtherArticles article={article} otherArticles={otherArticles} copy={copy} />
+            <BackLink href={`/${article.locale}#articles`} label={copy.backToStudio} />
+        </footer>
     );
 }
 
@@ -98,7 +119,7 @@ export function ArticleSidebar({ article, otherArticles, formattedDate, copy }: 
                     items={[
                         { href: `${localeRoot}#top`, label: copy.menuHome },
                         { href: `${localeRoot}#work`, label: copy.menuWork },
-                        { href: `${localeRoot}#articles`, label: copy.menuArticles },
+                        { href: getArticlesPath(article.locale), label: copy.menuArticles },
                         { href: `${localeRoot}#about`, label: copy.menuAbout },
                         { href: getAboutPath(article.locale === 'es' ? 'es' : 'en'), label: copy.menuMe },
                         { href: `${localeRoot}#contact`, label: copy.menuContact },
@@ -137,13 +158,10 @@ export function ArticleSidebar({ article, otherArticles, formattedDate, copy }: 
             </aside>
 
             <div className={styles.mobileArticleIntro}>
-                <ArticleContext
-                    article={article}
-                    otherArticles={otherArticles}
-                    formattedDate={formattedDate}
-                    copy={copy}
-                />
-                <BackLink href={`${localeRoot}#articles`} label={copy.backToStudio} />
+                <section className={styles.articleDetails}>
+                    <p className={styles.mobileArticleTitle} aria-hidden="true">{article.title}</p>
+                    <p className={styles.sidebarDescription}>{article.description}</p>
+                </section>
             </div>
         </>
     );

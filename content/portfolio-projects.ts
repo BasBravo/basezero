@@ -6,6 +6,8 @@ export type PortfolioProject = {
     year: string;
     url: string;
     story: string[];
+    /** The case study page for this project, when there is one. */
+    caseStudyHref?: string;
 };
 
 const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
@@ -13,24 +15,24 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
         {
             id: 'signado',
             name: 'Signado',
-            description: 'Vídeo interactivo accesible que escucha, pregunta y se adapta a cada persona.',
-            facets: ['Vídeo interactivo', 'Accesibilidad'],
+            description: 'Trámites completos en lengua de signos para que las personas sordas los terminen solas.',
+            facets: ['Plataforma SaaS', 'Accesibilidad'],
             year: '2026',
             url: 'https://signado.es/',
             story: [
-                'Signado es un vídeo interactivo accesible que escucha, pregunta y se adapta a cada persona. En lugar de un recorrido cerrado, convierte el vídeo en una conversación y abre caminos distintos según las respuestas.',
-                'El producto reúne vídeo, preguntas y lógica adaptativa en una experiencia diseñada desde la accesibilidad. El resultado es una forma más cercana de acompañar, explicar y descubrir qué necesita cada usuario.',
+                'Signado convierte un trámite escrito en un recorrido interactivo en lengua de signos. Cada paso es un vídeo signado por una persona real: explica, pregunta, y la respuesta decide el siguiente paso hasta que el trámite termina.',
+                'Se abre desde un QR o un enlace, sin instalar nada ni registrarse, y está construido sobre el motor de Weform. Las personas sordas signantes participan en cada decisión del producto.',
             ],
         },
         {
             id: 'weform',
-            name: 'WeForm',
+            name: 'Weform',
             description: 'Una plataforma completa para crear experiencias de vídeo interactivas.',
             facets: ['Plataforma SaaS', 'IA'],
             year: '2026',
             url: 'https://weform.app/',
             story: [
-                'WeForm es una plataforma completa para crear experiencias de vídeo interactivas. Nació para que construir recorridos no lineales no exigiera encadenar herramientas ni sostener un proceso técnico difícil de mantener.',
+                'Weform es una plataforma completa para crear experiencias de vídeo interactivas. Nació para que construir recorridos no lineales no exigiera encadenar herramientas ni sostener un proceso técnico difícil de mantener.',
                 'Desde un único entorno se puede diseñar la estructura, configurar cada recorrido y publicar la experiencia. La IA se integra como parte del flujo de creación para hacer el proceso más ágil sin restarle control a quien crea.',
             ],
         },
@@ -75,24 +77,24 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
         {
             id: 'signado',
             name: 'Signado',
-            description: 'Accessible interactive video that listens, asks and adapts to each person.',
-            facets: ['Interactive video', 'Accessibility'],
+            description: 'Whole processes in sign language, so deaf people can complete them on their own.',
+            facets: ['SaaS platform', 'Accessibility'],
             year: '2026',
             url: 'https://signado.es/',
             story: [
-                'Signado is accessible interactive video that listens, asks and adapts to each person. Instead of a closed, linear path, it turns video into a conversation and opens different routes according to the answers.',
-                'The product brings together video, questions and adaptive logic in an experience designed around accessibility. The result is a more human way to guide, explain and understand what each user needs.',
+                'Signado turns a written process into an interactive journey in sign language. Each step is a video signed by a real person: it explains, asks, and the answer decides the next step until the process is done.',
+                'It opens from a QR code or a link, with nothing to install and no sign-up, and it is built on the Weform engine. Deaf signers take part in every product decision.',
             ],
         },
         {
             id: 'weform',
-            name: 'WeForm',
+            name: 'Weform',
             description: 'A complete platform for building interactive video experiences.',
             facets: ['SaaS platform', 'AI'],
             year: '2026',
             url: 'https://weform.app/',
             story: [
-                'WeForm is a complete platform for building interactive video experiences. It was created so constructing non-linear paths would no longer mean stitching together separate tools or maintaining a fragile technical process.',
+                'Weform is a complete platform for building interactive video experiences. It was created so constructing non-linear paths would no longer mean stitching together separate tools or maintaining a fragile technical process.',
                 'One environment holds the structure, every path and the publishing flow. AI is woven into the creative process to make it faster while keeping the creator firmly in control.',
             ],
         },

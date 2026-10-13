@@ -11,7 +11,6 @@ import { ColumnMenuPanel, ColumnMenuToggle } from './ColumnMenu';
 import { FadeInTitle } from './FadeInTitle';
 import { GrowthNarrative } from './GrowthNarrative';
 import { PortfolioScrollbar } from './PortfolioScrollbar';
-import { ProjectDialog } from './ProjectDialog';
 import { TerminalAbout } from './TerminalAbout';
 import styles from './portfolio.module.css';
 
@@ -43,12 +42,12 @@ export type PortfolioCopy = {
     articlesTitle: string;
     articlesBody: string;
     readArticle: string;
+    articlesViewAll: string;
+    articlesHref: string;
     farewellTitle: string;
     farewellBody: string;
     copyEmail: string;
     emailCopied: string;
-    projectDialogClose: string;
-    projectDialogVisit: string;
     processLabel: string;
     processSteps: Array<{
         number: string;
@@ -76,7 +75,6 @@ function formatArticleDate(date: string, locale: string) {
 
 export function PortfolioExperience({ copy, projects, articles }: PortfolioExperienceProps) {
     const [activeProject, setActiveProject] = useState(-1);
-    const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const [emailCopied, setEmailCopied] = useState(false);
 
@@ -204,12 +202,10 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                     <ul id="projects" className={styles.projectList} aria-label={copy.navWork}>
                         {projects.map((project, index) => (
                             <li key={project.id}>
-                                <button
-                                    type="button"
+                                <Link
                                     className={styles.project}
+                                    href={project.caseStudyHref ?? project.url}
                                     aria-label={`${copy.openProject}: ${project.name}`}
-                                    aria-haspopup="dialog"
-                                    onClick={() => setSelectedProject(project)}
                                     onPointerEnter={() => setActiveProject(index)}
                                     onPointerLeave={() => setActiveProject(-1)}
                                     onFocus={() => setActiveProject(index)}
@@ -220,8 +216,8 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                                     <span className={styles.projectMeta}>
                                         {project.facets.join(' · ')} · {project.year}
                                     </span>
-                                    <Icon name="add" className={styles.projectArrow} />
-                                </button>
+                                    <Icon name="arrow_outward" className={styles.articleArrow} />
+                                </Link>
                             </li>
                         ))}
                     </ul>
@@ -249,6 +245,10 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                                     </li>
                                 ))}
                             </ul>
+                            <Link className={styles.aboutMeLink} href={copy.articlesHref}>
+                                {copy.articlesViewAll}
+                                <Icon name="arrow_forward" />
+                            </Link>
                         </section>
                     ) : null}
 
@@ -287,17 +287,6 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                     </section>
                 </section>
             </main>
-
-            {selectedProject ? (
-                <ProjectDialog
-                    project={selectedProject}
-                    copy={{
-                        close: copy.projectDialogClose,
-                        visit: copy.projectDialogVisit,
-                    }}
-                    onClose={() => setSelectedProject(null)}
-                />
-            ) : null}
         </div>
     );
 }

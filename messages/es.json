@@ -16,6 +16,25 @@
     "otherArticles": "Otros artículos",
     "noOtherArticles": "Nuevos artículos próximamente"
   },
+  "ArticlesIndex": {
+    "metaTitle": "Artículos — Basezero",
+    "metaDescription": "Todos los artículos de Bas Bravo: decisiones, métodos y aprendizajes sobre cómo convertir una idea en un producto útil sin añadir complejidad innecesaria.",
+    "title": "Artículos",
+    "lead": "Decisiones, métodos y aprendizajes sobre cómo convertir una idea en un producto útil sin añadir complejidad innecesaria.",
+    "skip": "Saltar a los artículos",
+    "homeLabel": "Basezero — Inicio",
+    "backToStudio": "Volver al estudio",
+    "themeToggle": "Cambiar tema",
+    "detailsLabel": "Sobre los artículos",
+    "archiveLabel": "Archivo",
+    "count": "{count, plural, one {# artículo} other {# artículos}}",
+    "latest": "Última publicación: {date}",
+    "listLabel": "Todos los artículos",
+    "read": "Leer artículo",
+    "readingTime": "{minutes} min de lectura",
+    "rss": "Feed RSS",
+    "rssHint": "Suscribirse"
+  },
   "About": {
     "meta": {
       "title": "Bas Bravo — Diseñador y desarrollador de producto",
@@ -27,11 +46,7 @@
     "detailsLabel": "Sobre Bas Bravo",
     "title": "Bas Bravo",
     "lead": "Diseñador y desarrollador de producto. Llevo desde 2005 construyendo cosas para la web y hoy lo hago con la IA como parte del oficio.",
-    "roleLabel": "Dedicación",
     "role": "Diseño y desarrollo de producto",
-    "locationLabel": "Desde",
-    "location": "España",
-    "studioLabel": "Estudio",
     "studio": "Basezero",
     "portraitAlt": "Retrato de Bas Bravo, con gafas y jersey gris, sobre fondo azul grisáceo.",
     "intro": [
@@ -115,7 +130,8 @@
     "work": {
       "title": "Productos en los que he trabajado",
       "body": "Algunos de los productos que he definido, diseñado y construido bajo la marca Basezero.",
-      "visit": "Visitar"
+      "visit": "Visitar",
+      "caseStudy": "Leer el caso de estudio"
     },
     "stack": {
       "title": "Herramientas del oficio",
@@ -177,6 +193,7 @@
     },
     "articles": {
       "title": "Artículos",
+      "viewAll": "Ver todos los artículos",
       "body": "Decisiones, métodos y aprendizajes sobre cómo convertir una idea en un producto útil sin añadir complejidad innecesaria.",
       "read": "Leer artículo",
       "readingTime": "{minutes} min de lectura"
@@ -186,10 +203,6 @@
       "body": "Cuéntame qué quieres conseguir, en qué punto está el proyecto y si tienes una fecha objetivo. Te responderé personalmente para valorar si podemos construirlo juntos.",
       "copyEmail": "Copiar correo",
       "emailCopied": "Correo copiado"
-    },
-    "projectDialog": {
-      "close": "Cerrar proyecto",
-      "visit": "Abrir producto real"
     },
     "processLabel": "Proceso de producto AI-first",
     "processSteps": {
@@ -455,5 +468,18 @@
       "zoomIn": "Acercar",
       "zoomOut": "Alejar"
     }
+  },
+  "CaseStudy": {
+    "skip": "Saltar al caso de estudio",
+    "backToWork": "Volver a los proyectos",
+    "detailsLabel": "Ficha del proyecto",
+    "projectLabel": "Proyecto",
+    "yearLabel": "Año y estado",
+    "roleLabel": "Rol",
+    "typeLabel": "Tipo",
+    "stackLabel": "Tecnología",
+    "visit": "Visitar {name}",
+    "otherProjects": "Otros proyectos",
+    "readCase": "Leer el caso de estudio"
   }
 }

@@ -1,5 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getPortfolioProjects } from '@/content/portfolio-projects';
+import { getCaseStudySlugs } from '@/features/case-studies/lib/case-studies';
+import { getCaseStudyPath } from '@/features/case-studies/lib/paths';
 import { buildAboutStructuredData, aboutSocialLinks, contactEmail } from '../lib/about-seo';
 import type { AboutLocale } from '../lib/paths';
 import { AboutPage, type AboutPageCopy } from './AboutPage';
@@ -20,11 +22,7 @@ export async function AboutRoute({ locale }: { locale: AboutLocale }) {
         scrollbar: portfolioT('scrollbar'),
         title: t('title'),
         lead: t('lead'),
-        roleLabel: t('roleLabel'),
         role: t('role'),
-        locationLabel: t('locationLabel'),
-        location: t('location'),
-        studioLabel: t('studioLabel'),
         studio: t('studio'),
         portraitAlt: t('portraitAlt'),
         intro: t.raw('intro') as string[],
@@ -39,6 +37,7 @@ export async function AboutRoute({ locale }: { locale: AboutLocale }) {
         workTitle: t('work.title'),
         workBody: t('work.body'),
         workVisit: t('work.visit'),
+        workCaseStudy: t('work.caseStudy'),
         stackTitle: t('stack.title'),
         stackBody: t('stack.body'),
         stackGroups: t.raw('stack.groups') as AboutPageCopy['stackGroups'],
@@ -56,6 +55,7 @@ export async function AboutRoute({ locale }: { locale: AboutLocale }) {
         menuMe: portfolioT('menu.me'),
     };
 
+    const caseStudies = new Set(getCaseStudySlugs(locale));
     const structuredData = buildAboutStructuredData(locale, t('meta.title'), t('meta.description'), copy.role);
 
     return (
@@ -69,7 +69,7 @@ export async function AboutRoute({ locale }: { locale: AboutLocale }) {
             <AboutPage
                 locale={locale}
                 copy={copy}
-                projects={getPortfolioProjects(locale)}
+                projects={getPortfolioProjects(locale).map(project => (caseStudies.has(project.id) ? { ...project, caseStudyHref: getCaseStudyPath(locale, project.id) } : project))}
                 socialLinks={aboutSocialLinks}
                 email={contactEmail}
             />

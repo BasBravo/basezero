@@ -1,83 +1,11 @@
-import Image from 'next/image';
-import type { ComponentPropsWithoutRef } from 'react';
-import ReactMarkdown, { defaultUrlTransform, type Components } from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { PortfolioScrollbar } from '@/features/portfolio/components/PortfolioScrollbar';
-import { ArticleFigure, figureIdOf, type FigureCopy } from '../figures/ArticleFigure';
+import type { FigureCopy } from '../figures/ArticleFigure';
+import { getArticlesPath } from '../lib/paths';
+import { ArticleProse } from './ArticleProse';
 import type { Article, ArticleSummary } from '../types';
-import { ArticleSidebar } from './ArticleSidebar';
+import { ArticleEnd, ArticleSidebar } from './ArticleSidebar';
 import { ArticleTitleBreadcrumb } from './ArticleTitleBreadcrumb';
 import styles from './article.module.css';
-
-function markdownComponentsOf(figures: FigureCopy): Components {
-    return {
-        a: ({ href = '', children, node, className, ...props }) => {
-            void node;
-            const isBackref = className?.includes('footnote-backref') === true
-                || href.includes('fnref');
-            if (isBackref) return null;
-
-            const isExternal = href.startsWith('http://') || href.startsWith('https://');
-            return (
-                <a
-                    href={href}
-                    className={className}
-                    {...props}
-                    {...(isExternal ? { target: '_blank', rel: 'noreferrer' } : {})}
-                >
-                    {children}
-                </a>
-            );
-        },
-        hr: () => null,
-        li: ({ children, node, ...props }) => {
-            void node;
-            return (
-                <li {...props}>
-                    <div className={styles.listContent}>{children}</div>
-                </li>
-            );
-        },
-        section: ({ className, children, node, ...props }) => {
-            void node;
-            const isFootnotes = className?.includes('footnotes') === true;
-            return (
-                <section
-                    className={isFootnotes ? styles.footnotes : className}
-                    {...props}
-                >
-                    {children}
-                </section>
-            );
-        },
-        table: ({ children }: ComponentPropsWithoutRef<'table'>) => (
-            <div className={styles.tableFrame} tabIndex={0}>
-                <table>{children}</table>
-            </div>
-        ),
-        p: ({ children, node, ...props }) => {
-            const [first] = node?.children ?? [];
-            const src = first?.type === 'element' && first.tagName === 'img' ? first.properties?.src : null;
-            if (typeof src === 'string' && figureIdOf(src)) return <div className={styles.proseFigure}>{children}</div>;
-            return <p {...props}>{children}</p>;
-        },
-        img: ({ src, alt = '', title, node }) => {
-            void node;
-            if (typeof src !== 'string') return null;
-            const figure = figureIdOf(src);
-            if (figure) return <ArticleFigure id={figure} copy={figures} />;
-
-            return (
-                <span className={styles.proseImage}>
-                    <span className={styles.proseImageFrame}>
-                        <Image src={src} alt={alt} fill sizes="(max-width: 800px) 100vw, 70vw" />
-                    </span>
-                    {title ? <span className={styles.proseImageCaption}>{title}</span> : null}
-                </span>
-            );
-        },
-    };
-}
 
 function formatArticleDate(date: string) {
     return new Intl.DateTimeFormat('es-ES', {
@@ -149,7 +77,7 @@ export function ArticlePage({
             <ArticleTitleBreadcrumb
                 title={article.title}
                 sectionLabel={copy.menuArticles}
-                sectionHref={`/${article.locale}#articles`}
+                sectionHref={getArticlesPath(article.locale)}
                 targetId="article-title"
             />
 
@@ -161,23 +89,11 @@ export function ArticlePage({
                     </header>
 
                     <div className={styles.articleBody}>
-                        <div className={styles.prose}>
-                            <ReactMarkdown
-                                remarkPlugins={[remarkGfm]}
-                                remarkRehypeOptions={{
-                                    footnoteLabel: copy.sourcesLabel,
-                                    footnoteBackLabel: copy.footnoteBack,
-                                    footnoteLabelProperties: {},
-                                }}
-                                components={markdownComponentsOf(figures)}
-                                urlTransform={url => (figureIdOf(url) ? url : defaultUrlTransform(url))}
-                            >
-                                {article.content}
-                            </ReactMarkdown>
-                        </div>
+                        <ArticleProse content={article.content} figures={figures} sourcesLabel={copy.sourcesLabel} footnoteBack={copy.footnoteBack} />
                     </div>
                 </article>
 
+                <ArticleEnd article={article} otherArticles={otherArticles} formattedDate={formattedDate} copy={copy} />
             </main>
         </div>
     );

@@ -40,18 +40,7 @@ function AboutContext({
                 <p className={articleStyles.sidebarDescription}>{copy.lead}</p>
                 <dl className={articleStyles.articleFacts}>
                     <div className={articleStyles.articleByline}>
-                        <dt>{copy.roleLabel}</dt>
                         <dd>{copy.role}</dd>
-                    </div>
-                    <div className={articleStyles.articleMeta}>
-                        <div>
-                            <dt className={articleStyles.visuallyHidden}>{copy.locationLabel}</dt>
-                            <dd>{copy.location}</dd>
-                        </div>
-                        <div>
-                            <dt className={articleStyles.visuallyHidden}>{copy.studioLabel}</dt>
-                            <dd>{copy.studio}</dd>
-                        </div>
                     </div>
                 </dl>
             </section>
