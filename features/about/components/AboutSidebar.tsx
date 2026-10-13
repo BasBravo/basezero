@@ -17,27 +17,11 @@ type AboutSidebarProps = {
     socialLinks: AboutSocialLink[];
 };
 
-function AboutContext({
-    copy,
-    socialLinks,
-    showPortrait = false,
-}: Omit<AboutSidebarProps, 'locale'> & { showPortrait?: boolean }) {
+/** The role and the social links: the sidebar on desktop, the end of the page on mobile. */
+function AboutDetails({ copy, socialLinks }: Omit<AboutSidebarProps, 'locale'>) {
     return (
         <>
             <section className={articleStyles.articleDetails}>
-                {showPortrait ? (
-                    <span className={styles.portrait}>
-                        <Image
-                            src="/about/bas-bravo.jpg"
-                            alt={copy.portraitAlt}
-                            width={288}
-                            height={288}
-                            sizes="6rem"
-                        />
-                    </span>
-                ) : null}
-                <p className={articleStyles.mobileArticleTitle} aria-hidden="true">{copy.title}</p>
-                <p className={articleStyles.sidebarDescription}>{copy.lead}</p>
                 <dl className={articleStyles.articleFacts}>
                     <div className={articleStyles.articleByline}>
                         <dd>{copy.role}</dd>
@@ -48,9 +32,9 @@ function AboutContext({
             <ul className={styles.sidebarLinks}>
                 {socialLinks.map(link => (
                     <li key={link.href}>
-                        <a href={link.href} target="_blank" rel="noreferrer me">
+                        <a href={link.href} target="_blank" rel="noreferrer me" aria-label={`${link.label}: ${link.handle}`}>
                             {link.label}
-                            <span>{link.handle}</span>
+                            <Icon name="arrow_outward" />
                         </a>
                     </li>
                 ))}
@@ -65,6 +49,16 @@ function BackLink({ href, label }: { href: string; label: string }) {
             <Icon name="arrow_back" />
             <span>{label}</span>
         </Link>
+    );
+}
+
+/** Mobile only: the role, the social links and the way back, after the last section. */
+export function AboutEnd({ locale, copy, socialLinks }: AboutSidebarProps) {
+    return (
+        <footer className={articleStyles.mobileArticleEnd}>
+            <AboutDetails copy={copy} socialLinks={socialLinks} />
+            <BackLink href={`/${locale}`} label={copy.backToStudio} />
+        </footer>
     );
 }
 
@@ -110,7 +104,7 @@ export function AboutSidebar({ locale, copy, socialLinks }: AboutSidebarProps) {
                 </header>
 
                 <div className={articleStyles.sidebarBody}>
-                    <AboutContext copy={copy} socialLinks={socialLinks} />
+                    <AboutDetails copy={copy} socialLinks={socialLinks} />
                 </div>
 
                 <div className={articleStyles.sidebarFooter}>
@@ -119,8 +113,19 @@ export function AboutSidebar({ locale, copy, socialLinks }: AboutSidebarProps) {
             </aside>
 
             <div className={articleStyles.mobileArticleIntro}>
-                <AboutContext copy={copy} socialLinks={socialLinks} showPortrait />
-                <BackLink href={localeRoot} label={copy.backToStudio} />
+                <section className={articleStyles.articleDetails}>
+                    <span className={styles.portrait}>
+                        <Image
+                            src="/about/bas-bravo.jpg"
+                            alt={copy.portraitAlt}
+                            width={336}
+                            height={336}
+                            sizes="7rem"
+                        />
+                    </span>
+                    <p className={articleStyles.mobileArticleTitle} aria-hidden="true">{copy.title}</p>
+                    <p className={articleStyles.sidebarDescription}>{copy.lead}</p>
+                </section>
             </div>
         </>
     );

@@ -74,6 +74,7 @@ export default async function ArticleRoute({ params }: ArticlePageProps) {
                     skip: t('skip'),
                     homeLabel: t('homeLabel'),
                     backToStudio: t('backToStudio'),
+                    backToArticles: t('backToArticles'),
                     themeToggle: t('themeToggle'),
                     readingTime: t('readingTime', { minutes: article.readingMinutes }),
                     authorLabel: t('authorLabel'),

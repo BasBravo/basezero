@@ -50,7 +50,7 @@ function Archive({ copy, count, latest, rssHref }: Omit<Props, 'locale'>) {
                     <li>
                         <a href={rssHref} type="application/rss+xml">
                             {copy.rss}
-                            <span>{copy.rssHint}</span>
+                            <Icon name="arrow_outward" />
                         </a>
                     </li>
                 </ul>

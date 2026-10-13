@@ -20,6 +20,7 @@ export type ArticlePageCopy = {
     skip: string;
     homeLabel: string;
     backToStudio: string;
+    backToArticles: string;
     themeToggle: string;
     readingTime: string;
     authorLabel: string;

@@ -3,6 +3,7 @@
     "skip": "Skip to article",
     "homeLabel": "Basezero — Home",
     "backToStudio": "Back to the studio",
+    "backToArticles": "All articles",
     "themeToggle": "Toggle theme",
     "readingTime": "{minutes} min read",
     "authorLabel": "Author",
@@ -32,8 +33,7 @@
     "listLabel": "All articles",
     "read": "Read article",
     "readingTime": "{minutes} min read",
-    "rss": "RSS feed",
-    "rssHint": "Subscribe"
+    "rss": "RSS feed"
   },
   "About": {
     "meta": {

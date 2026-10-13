@@ -62,7 +62,6 @@ export default async function ArticlesIndexRoute({ params }: Props) {
         listLabel: t('listLabel'),
         read: t('read'),
         rss: t('rss'),
-        rssHint: t('rssHint'),
         menuOpen: portfolioT('menu.open'),
         menuClose: portfolioT('menu.close'),
         menuLabel: portfolioT('menu.label'),

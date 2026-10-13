@@ -20,7 +20,6 @@ export type ArticlesIndexCopy = {
     listLabel: string;
     read: string;
     rss: string;
-    rssHint: string;
     menuOpen: string;
     menuClose: string;
     menuLabel: string;

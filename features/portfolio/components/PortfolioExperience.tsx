@@ -163,14 +163,9 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                     />
                 </div>
                 <div className={styles.sidebarBottom}>
-                    <a
-                        className={styles.socialLink}
-                        href="https://x.com/basbravo_"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        @basbravo
-                    </a>
+                    <Link className={styles.socialLink} href={copy.aboutMeHref}>
+                        Bas Bravo
+                    </Link>
                     <a className={styles.contactAction} href={`mailto:${CONTACT_EMAIL}`}>
                         <span>{copy.contactAction}</span>
                         <Icon name="arrow_outward" />

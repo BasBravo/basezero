@@ -3,6 +3,7 @@
     "skip": "Saltar al artículo",
     "homeLabel": "Basezero — Inicio",
     "backToStudio": "Volver al estudio",
+    "backToArticles": "Todos los artículos",
     "themeToggle": "Cambiar tema",
     "readingTime": "{minutes} min de lectura",
     "authorLabel": "Autor",
@@ -32,8 +33,7 @@
     "listLabel": "Todos los artículos",
     "read": "Leer artículo",
     "readingTime": "{minutes} min de lectura",
-    "rss": "Feed RSS",
-    "rssHint": "Suscribirse"
+    "rss": "Feed RSS"
   },
   "About": {
     "meta": {

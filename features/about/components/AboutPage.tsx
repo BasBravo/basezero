@@ -4,7 +4,7 @@ import articleStyles from '@/features/articles/components/article.module.css';
 import { ArticleTitleBreadcrumb } from '@/features/articles/components/ArticleTitleBreadcrumb';
 import { PortfolioScrollbar } from '@/features/portfolio/components/PortfolioScrollbar';
 import type { PortfolioProject } from '@/content/portfolio-projects';
-import { AboutSidebar } from './AboutSidebar';
+import { AboutEnd, AboutSidebar } from './AboutSidebar';
 import portfolioStyles from '@/features/portfolio/components/portfolio.module.css';
 import styles from './about.module.css';
 
@@ -206,6 +206,8 @@ export function AboutPage({
                         </a>
                     </div>
                 </article>
+
+                <AboutEnd locale={locale} copy={copy} socialLinks={socialLinks} />
             </main>
         </div>
     );

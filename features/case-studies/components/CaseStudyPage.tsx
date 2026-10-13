@@ -3,7 +3,7 @@ import { ArticleTitleBreadcrumb } from '@/features/articles/components/ArticleTi
 import styles from '@/features/articles/components/article.module.css';
 import { PortfolioScrollbar } from '@/features/portfolio/components/PortfolioScrollbar';
 import type { CaseStudy, CaseStudySummary } from '../types';
-import { CaseStudySidebar } from './CaseStudySidebar';
+import { CaseStudyEnd, CaseStudySidebar } from './CaseStudySidebar';
 
 export type CaseStudyPageCopy = {
     skip: string;
@@ -58,6 +58,8 @@ export function CaseStudyPage({ study, others, copy }: { study: CaseStudy; other
                         <ArticleProse content={study.content} screenshots={study.images} sourcesLabel={copy.sourcesLabel} footnoteBack={copy.footnoteBack} />
                     </div>
                 </article>
+
+                <CaseStudyEnd study={study} others={others} copy={copy} />
             </main>
         </div>
     );

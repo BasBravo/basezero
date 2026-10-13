@@ -28,6 +28,16 @@ function BackLink({ href, label }: { href: string; label: string }) {
     );
 }
 
+/** The two ways out of an article: the list of all articles and the home. */
+function BackLinks({ locale, copy }: { locale: string; copy: ArticlePageCopy }) {
+    return (
+        <div className={styles.backLinks}>
+            <BackLink href={getArticlesPath(locale)} label={copy.backToArticles} />
+            <BackLink href={`/${locale}`} label={copy.backToStudio} />
+        </div>
+    );
+}
+
 function ArticleFacts({ article, formattedDate, copy }: Omit<ArticleSidebarProps, 'otherArticles'>) {
     return (
         <dl className={styles.articleFacts}>
@@ -101,7 +111,7 @@ export function ArticleEnd({ article, otherArticles, formattedDate, copy }: Arti
                 <ArticleFacts article={article} formattedDate={formattedDate} copy={copy} />
             </section>
             <OtherArticles article={article} otherArticles={otherArticles} copy={copy} />
-            <BackLink href={`/${article.locale}#articles`} label={copy.backToStudio} />
+            <BackLinks locale={article.locale} copy={copy} />
         </footer>
     );
 }
@@ -153,7 +163,7 @@ export function ArticleSidebar({ article, otherArticles, formattedDate, copy }: 
                 </div>
 
                 <div className={styles.sidebarFooter}>
-                    <BackLink href={`${localeRoot}#articles`} label={copy.backToStudio} />
+                    <BackLinks locale={article.locale} copy={copy} />
                 </div>
             </aside>
 
