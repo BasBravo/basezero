@@ -1,6 +1,8 @@
 'use client';
 
 import type { SolidPaths } from '@/components/iso/iso-kit';
+import { Line, Solid } from '@/components/iso/draw';
+import type { Part } from './parts';
 
 export const fill = (text: string, values: Record<string, string | number>) => text.replace(/\{(\w+)\}/g, (_, name: string) => `${values[name] ?? ''}`);
 
@@ -25,6 +27,26 @@ export function LiveSolid({ gref, tone = 'mid' }: { gref: (node: SVGGElement | n
             <path className="iso-top" />
             <path className="iso-line iso-crease" data-tone="faint" />
             <path className="iso-line iso-edge" data-tone={tone} />
+        </g>
+    );
+}
+
+/** An assembly already in painter's order: solids, discs (wheels, windows) and the lines on them. */
+export function PartsNode({ parts, lit = false }: { parts: Part[]; lit?: boolean }) {
+    return (
+        <g>
+            {parts.map(part => (
+                <g key={part.id}>
+                    {part.solid && <Solid paths={part.solid} tone={part.tone ?? 'mid'} crease="faint" lit={lit && part.lit} />}
+                    {part.discs?.map((disc, index) => (
+                        <g key={index}>
+                            <path className="iso-fill" d={disc.d} />
+                            <Line d={disc.d} tone={disc.tone} />
+                        </g>
+                    ))}
+                    {part.lines?.map((line, index) => <Line key={index} d={line.d} tone={line.tone} />)}
+                </g>
+            ))}
         </g>
     );
 }

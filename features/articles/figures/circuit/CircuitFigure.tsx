@@ -6,7 +6,9 @@ import { useReadout } from '@/components/iso/live';
 import { BaseNode } from '../base';
 import { useInView, useReducedMotion } from '../hooks';
 import styles from '../figures.module.css';
-import { artOf, EXTRA_H, EXTRAS, TILES, type Art } from './geometry';
+import { artOf, EXTRAS, GAP_Z, headingAt, TILES, type Art } from './geometry';
+import { COUPLING, engineBox, wagonBox } from '../train';
+import { PartsNode } from '../shared';
 import { shiftOf } from '../orbit';
 import { useOrbit } from '../useOrbit';
 import { advance, pointAt } from './model';
@@ -27,10 +29,8 @@ export interface CircuitCopy {
     chipWhole: string;
     chipCut: string;
     aria: string;
-    extrasOn: string;
-    extrasOff: string;
-    cut: string;
-    fix: string;
+    extras: string;
+    track: string;
     controls: string;
     reset: string;
     play: string;
@@ -57,24 +57,17 @@ function nodesOf(art: Art) {
         <g key={`tile-${index}`}>
             <Solid paths={tile.slab} tone="lo" crease="faint" />
             <Line d={tile.sleepers} tone="faint" />
-            <Line d={tile.rails} tone="mid" />
         </g>
     ));
     const EXTRA_NODES = art.EXTRA_ART.map((extra, index) => (
         <g key={`extra-${index}`}>
             <path className="iso-halo" d={extra.halo} />
-            <Solid paths={extra.body} tone="mid" crease="faint" />
-            <Line d={extra.roof} tone="faint" />
+            <PartsNode parts={extra.parts} />
         </g>
     ));
-    const CART = (
-        <g key="cart">
-            <Solid paths={art.CART.body} tone="hi" crease="faint" />
-            <Solid paths={art.CART.cabin} tone="hi" crease="faint" />
-            <Solid paths={art.CART.chimney} tone="lo" crease="faint" />
-        </g>
-    );
-    return { BASE, TILE_NODES, EXTRA_NODES, CART };
+    const ENGINE = art.ENGINE.map((parts, heading) => <PartsNode key={`engine-${heading}`} parts={parts} lit />);
+    const WAGON = art.WAGON.map((parts, heading) => <PartsNode key={`wagon-${heading}`} parts={parts} />);
+    return { BASE, TILE_NODES, EXTRA_NODES, ENGINE, WAGON };
 }
 
 interface View {
@@ -151,24 +144,29 @@ export function CircuitFigure({ copy }: { copy: CircuitCopy }) {
         say(status);
     }, [say, status]);
 
-    const [x, y] = pointAt(view.distance);
+    const engineAt = pointAt(view.distance);
+    const wagonAt = pointAt(view.distance - COUPLING);
+    const engineHeading = headingAt(engineAt);
+    const wagonHeading = headingAt(wagonAt);
     const layers: Layer<ReactNode>[] = [
         { id: 'base', box: [BASE_PLAN.x, BASE_PLAN.x + BASE_PLAN.w, BASE_PLAN.y, BASE_PLAN.y + BASE_PLAN.d, -14, 0], node: nodes.BASE },
         ...TILES.map(({ id, plan, gap }, index): Layer<ReactNode> => ({
             id,
-            box: [plan.x, plan.x + plan.w, plan.y, plan.y + plan.d, 0, 2],
-            node: gap && view.cut ? <Line key={id} d={art.GAP_GHOST} tone="lit" dotted /> : nodes.TILE_NODES[index],
+            box: [plan.x, plan.x + plan.w, plan.y, plan.y + plan.d, 0, gap && view.cut ? GAP_Z : 2],
+            node: gap && view.cut ? <Line key={id} d={art.GAP_GHOST} tone="red" dotted /> : nodes.TILE_NODES[index],
         })),
-        ...EXTRAS.map((plan, index): Layer<ReactNode> => ({
+        { id: 'rails', box: [-90, 90, -46, 46, 2, 2], node: <Line key="rails" d={view.cut ? art.RAILS_CUT : art.RAILS} tone="hi" /> },
+        ...EXTRAS.map(({ plan, height }, index): Layer<ReactNode> => ({
             id: `extra-${index}`,
-            box: [plan.x, plan.x + plan.w, plan.y, plan.y + plan.d, 0, EXTRA_H],
+            box: [plan.x, plan.x + plan.w, plan.y, plan.y + plan.d, 0, height],
             node: view.extras ? nodes.EXTRA_NODES[index] : <Line key={`ghost-${index}`} d={art.EXTRA_ART[index]!.ghost} tone="mid" dotted />,
         })),
-        { id: 'cart', box: [x - 10, x + 10, y - 10, y + 10, 2, 19], node: <g key="cart" data-part="cart" transform={shift(x, y, 0)}>{nodes.CART}</g> },
+        { id: 'wagon', box: wagonBox(wagonHeading, wagonAt), node: <g key="wagon" transform={shift(wagonAt[0], wagonAt[1], 0)}>{nodes.WAGON[wagonHeading]}</g> },
+        { id: 'engine', box: engineBox(engineHeading, engineAt), node: <g key="engine" data-part="engine" transform={shift(engineAt[0], engineAt[1], 0)}>{nodes.ENGINE[engineHeading]}</g> },
     ];
 
     return (
-        <Plate fig={copy.fig} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
+        <Plate fig={copy.fig} status={{ state: view.cut ? 'fail' : 'pass', label: view.cut ? copy.chipCut : copy.chipWhole }} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
                 orbit.reset();
                 zoom.reset();
             } }} labels={copy} />} title={copy.title} hint={copy.hint} readout={copy.full} keys={copy.keys.map((label, index) => ({ mark: index ? 'dotted' : 'lit', label }))} caption={copy.caption}>
@@ -184,16 +182,13 @@ export function CircuitFigure({ copy }: { copy: CircuitCopy }) {
                 </div>
                 <div className={styles.controls} role="group" aria-label={copy.controls}>
                     <div className={styles.group}>
-                        <button type="button" className={styles.button} aria-pressed={!view.extras} onClick={() => act(view.extras ? 'small' : 'full', true)}>
-                            {view.extras ? copy.extrasOff : copy.extrasOn}
+                        <button type="button" className={styles.button} aria-pressed={view.extras} onClick={() => act(view.extras ? 'small' : 'full', true)}>
+                            {copy.extras}
                         </button>
-                        <button type="button" className={styles.button} aria-pressed={view.cut} onClick={() => act(view.cut ? 'fix' : 'cut', true)}>
-                            {view.cut ? copy.fix : copy.cut}
+                        <button type="button" className={styles.button} aria-pressed={!view.cut} onClick={() => act(view.cut ? 'fix' : 'cut', true)}>
+                            {copy.track}
                         </button>
                     </div>
-                    <span className={styles.chip} data-state={view.cut ? 'fail' : 'pass'} role="status">
-                        {view.cut ? copy.chipCut : copy.chipWhole}
-                    </span>
                 </div>
                 <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)' }} aria-live="polite">
                     {status}

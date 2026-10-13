@@ -1,4 +1,4 @@
-import { circleRing, extrude, insetPlan, pathOf, planOutline, slabOf, type Flat, type Plan, type Point3, type Projection } from '@/components/iso/iso-kit';
+import { circleRing, extrude, insetPlan, pathOf, planOutline, slabOf, towardViewer, type Flat, type Plan, type Point3, type Projection } from '@/components/iso/iso-kit';
 import { baseArtOf } from '../base';
 import { atOf } from '../orbit';
 import { CAP, TARGET } from './model';
@@ -33,12 +33,46 @@ export function artOf(P: Projection) {
         [TANK.x, TANK.y + TANK.d],
         [TANK.x + TANK.w, TANK.y + TANK.d],
     ];
+    // The glass is clear, but the water is not: whatever lies behind the water (the far corner, the far half of the mark)
+    // is drawn before it, and the rest after it.
+    const [vx, vy] = towardViewer(P);
+    const depth = ([x, y]: [number, number]) => x * vx + y * vy;
+    const far = corners.reduce((best, corner) => (depth(corner) < depth(best) ? corner : best));
+    const sides: { normal: [number, number]; from: [number, number]; to: [number, number] }[] = [
+        { normal: [0, -1], from: corners[0]!, to: corners[1]! },
+        { normal: [1, 0], from: corners[1]!, to: corners[3]! },
+        { normal: [0, 1], from: corners[3]!, to: corners[2]! },
+        { normal: [-1, 0], from: corners[2]!, to: corners[0]! },
+    ];
+    const markZ = waterZ(TARGET);
+    const markOf = (front: boolean) =>
+        sides
+            .filter(({ normal }) => normal[0] * vx + normal[1] * vy > 0 === front)
+            .map(({ from, to }) => line([from[0], from[1], markZ], [to[0], to[1], markZ]))
+            .join('');
+    // A level rule on the long wall that faces the viewer: a strip up the glass with a tick every 10 %, longer every 25 %.
+    const ruleY = vy >= 0 ? TANK.y + TANK.d : TANK.y;
+    const ruleX = TANK.x + 6;
+    const ticks: string[] = [];
+    for (let level = 10; level < CAP; level += 5) {
+        if (level === TARGET) continue;
+        const z = waterZ(level);
+        ticks.push(line([ruleX, ruleY, z], [ruleX + (level % 25 === 0 ? 5 : 2.6), ruleY, z]));
+    }
     const TANK_ART = {
         floor: solid(TANK, 0, FLOOR, 4, 0.6),
-        edges: corners.map(([x, y]) => line([x, y, FLOOR], [x, y, TANK_H])).join(''),
+        backEdge: line([far[0], far[1], FLOOR], [far[0], far[1], TANK_H]),
+        edges: corners
+            .filter(corner => corner !== far)
+            .map(([x, y]) => line([x, y, FLOOR], [x, y, TANK_H]))
+            .join(''),
+        markBack: markOf(false),
+        markFront: markOf(true),
+        rule: line([ruleX, ruleY, FLOOR], [ruleX, ruleY, TANK_H - 4]),
+        ticks: ticks.join(''),
+        targetTick: line([ruleX, ruleY, markZ], [ruleX + 8, ruleY, markZ]),
         rim: planOutline(TANK, TANK_H, P, 4),
         lip: planOutline(insetPlan(TANK, 2.4), TANK_H, P, 4),
-        target: planOutline(TANK, waterZ(TARGET), P, 4),
         waterOf: (level: number) => (level > 0.4 ? solid(insetPlan(TANK, 1.6), FLOOR, waterZ(level) - FLOOR, 4, 0) : null),
         streamOf: (level: number) => line([SPOUT.x, SPOUT.y, ARM_Z[0]], [SPOUT.x, SPOUT.y, waterZ(level)]),
     };

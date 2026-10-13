@@ -1,7 +1,7 @@
 'use client';
 
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Dots, Line, Plate, Solid, IsoFigure } from '@/components/iso/draw';
+import { Dots, IsoFigure, Line, Plate, Solid, type PlateStatus } from '@/components/iso/draw';
 import { useReadout } from '@/components/iso/live';
 import { fill } from '../shared';
 import { useInView, useReducedMotion } from '../hooks';
@@ -24,6 +24,10 @@ export interface SorterCopy {
     idle: string;
     trying: string;
     no: string;
+    chipIdle: string;
+    chipTrying: string;
+    chipYes: string;
+    chipNo: string;
     yes: string;
     aria: string;
     pieces: string[];
@@ -208,6 +212,13 @@ export function SorterFigure({ copy }: { copy: SorterCopy }) {
         return () => cancelAnimationFrame(frame.current);
     }, [inView, calm, choose, snapshot]);
 
+    const verdict: PlateStatus = !view.result
+        ? { state: 'idle', label: copy.chipIdle }
+        : view.result.state === 'trying'
+          ? { state: 'idle', label: copy.chipTrying }
+          : fits(view.result.piece)
+            ? { state: 'pass', label: copy.chipYes }
+            : { state: 'fail', label: copy.chipNo };
     const status = (() => {
         const r = view.result;
         if (!r) return copy.idle;
@@ -248,7 +259,7 @@ export function SorterFigure({ copy }: { copy: SorterCopy }) {
     ];
 
     return (
-        <Plate fig={copy.fig} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
+        <Plate fig={copy.fig} status={verdict} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
                 orbit.reset();
                 zoom.reset();
             } }} labels={copy} />} title={copy.title} hint={copy.hint} readout={copy.idle} keys={copy.keys.map((label, index) => ({ mark: index ? 'raised' : 'lit', label }))} caption={copy.caption}>

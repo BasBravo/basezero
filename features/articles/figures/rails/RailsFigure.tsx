@@ -4,13 +4,15 @@ import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type React
 import { IsoFigure, Line, Plate, Solid } from '@/components/iso/draw';
 import { useReadout } from '@/components/iso/live';
 import { BaseNode } from '../base';
-import { fill } from '../shared';
+import { fill, PartsNode } from '../shared';
+import { COUPLING, engineBox, headingOf, wagonBox } from '../train';
+import { BED } from '../track';
 import { useInView, useReducedMotion } from '../hooks';
 import styles from '../figures.module.css';
 import { ARM_CLOSED, ARM_OPEN, ARM_H, artOf, BUFFER, BUFFER_H, GATE_POST_H, GATE_Y, STATION_X, TILES, FLAG_TOP, type Art } from './geometry';
 import { shiftOf } from '../orbit';
 import { useOrbit } from '../useOrbit';
-import { arrives, BRANCHES, durationOf, goTime, poseOf, type Branch, type Pose } from './model';
+import { arrives, BRANCHES, carAt, distanceOf, durationOf, goTime, poseOf, type Branch, type Pose } from './model';
 import { BASE as BASE_PLAN, CENTRE, HEIGHT, projectionFor, WIDTH } from './view';
 import { ordered, type Box, type Layer } from '../painter';
 import { CornerControls } from '../PlayButton';
@@ -28,6 +30,8 @@ export interface RailsCopy {
     right: string;
     chipWrong: string;
     chipRight: string;
+    chipIdle: string;
+    chipGoing: string;
     aria: string;
     names: string[];
     branches: string[];
@@ -55,7 +59,6 @@ function nodesOf(art: Art) {
         <g key={`tile-${index}`}>
             <Solid paths={tile.slab} tone="lo" crease="faint" />
             <Line d={tile.sleepers} tone="faint" />
-            <Line d={tile.rails} tone="mid" />
         </g>
     ));
 
@@ -80,6 +83,7 @@ function nodesOf(art: Art) {
             <path className="iso-halo" d={station.halo} />
             <Solid paths={station.body} tone={index ? 'lo' : 'mid'} crease="faint" />
             <Solid paths={station.roof} tone="hi" crease="faint" />
+            <Line d={station.openings} tone={index ? 'lo' : 'mid'} />
             <Line d={station.roofLine} tone="faint" />
             {index === 0 && (
                 <>
@@ -90,20 +94,18 @@ function nodesOf(art: Art) {
         </g>
     ));
 
-    const CART = (
-        <g key="cart">
-            <Solid paths={art.CART.body} tone="hi" crease="faint" />
-            <Solid paths={art.CART.cabin} tone="hi" crease="faint" />
-            <Solid paths={art.CART.chimney} tone="lo" crease="faint" />
-        </g>
-    );
+    const ENGINE = art.ENGINE.map((parts, heading) => <PartsNode key={`engine-${heading}`} parts={parts} lit />);
+    const WAGON = art.WAGON.map((parts, heading) => <PartsNode key={`wagon-${heading}`} parts={parts} />);
 
-    return { BASE, TILE_NODES, BUFFER_NODE, POSTS, STATION_NODES, CART };
+    return { BASE, TILE_NODES, BUFFER_NODE, POSTS, STATION_NODES, ENGINE, WAGON };
 }
 
 interface View {
     selected: Branch;
     pose: Pose;
+    /** The route the train is on and how far along it the engine is. */
+    route: Branch;
+    distance: number;
     gates: [number, number];
     state: 'idle' | 'going' | 'done';
     branch: Branch;
@@ -111,7 +113,7 @@ interface View {
 }
 
 const gateOf = (selected: Branch, gate: Branch) => (selected === gate ? ARM_OPEN : ARM_CLOSED);
-const REST: View = { selected: 1, pose: poseOf(1, 0), gates: [gateOf(1, 0), gateOf(1, 1)], state: 'idle', branch: 1, running: false };
+const REST: View = { selected: 1, pose: poseOf(1, 0), route: 1, distance: 0, gates: [gateOf(1, 0), gateOf(1, 1)], state: 'idle', branch: 1, running: false };
 
 export function RailsFigure({ copy }: { copy: RailsCopy }) {
     const { anchor, say } = useReadout<HTMLDivElement>();
@@ -144,7 +146,9 @@ export function RailsFigure({ copy }: { copy: RailsCopy }) {
         const result = outcome.current;
         const pose = now ? poseOf(now.branch, clock.current - now.start) : result && calm ? poseOf(result.branch, goTime(result.branch)) : poseOf(selected.current, 0);
         const state = !result ? 'idle' : now && !pose.arrived ? 'going' : 'done';
-        setView({ selected: selected.current, pose, gates: [gates.current[0], gates.current[1]], state, branch: result?.branch ?? selected.current, running: Boolean(now) });
+        const route = now ? now.branch : result && calm ? result.branch : selected.current;
+        const distance = now ? distanceOf(now.branch, clock.current - now.start) : result && calm ? distanceOf(result.branch, goTime(result.branch)) : 0;
+        setView({ selected: selected.current, pose, route, distance, gates: [gates.current[0], gates.current[1]], state, branch: result?.branch ?? selected.current, running: Boolean(now) });
     }, [calm]);
 
     const select = useCallback(
@@ -216,7 +220,10 @@ export function RailsFigure({ copy }: { copy: RailsCopy }) {
         say(status);
     }, [say, status]);
 
-    const { pose } = view;
+    const engine = carAt(view.route, view.distance);
+    const wagon = carAt(view.route, view.distance, COUPLING);
+    const engineHeading = headingOf(engine.dx, engine.dy);
+    const wagonHeading = headingOf(wagon.dx, wagon.dy);
     const layers: Layer<ReactNode>[] = [
         { id: 'base', box: [BASE_PLAN.x, BASE_PLAN.x + BASE_PLAN.w, BASE_PLAN.y, BASE_PLAN.y + BASE_PLAN.d, -14, 0], node: nodes.BASE },
         ...TILES.map(({ id, plan }, index): Layer<ReactNode> => ({ id, box: [plan.x, plan.x + plan.w, plan.y, plan.y + plan.d, 0, 2], node: nodes.TILE_NODES[index] })),
@@ -238,14 +245,16 @@ export function RailsFigure({ copy }: { copy: RailsCopy }) {
             const y0 = index ? 26 : -62;
             return { id: `station-${index}`, box: [STATION_X[0] - 4, STATION_X[1] + 4, y0 - 4, y0 + 40, 0, index ? 28 : FLAG_TOP], node: nodes.STATION_NODES[index] };
         }),
-        { id: 'cart', box: [pose.x - 10, pose.x + 10, pose.y - 10, pose.y + 10, 2, 19], node: <g key="cart" data-part="cart" transform={shift(pose.x, pose.y, 0)}>{nodes.CART}</g> },
+        { id: 'rails', box: [-165, 136, -55, 55, BED, BED], node: <Line key="rails" d={art.RAILS} tone="mid" /> },
+        { id: 'wagon', box: wagonBox(wagonHeading, [wagon.x, wagon.y]), node: <g key="wagon" transform={shift(wagon.x, wagon.y, 0)}>{nodes.WAGON[wagonHeading]}</g> },
+        { id: 'engine', box: engineBox(engineHeading, [engine.x, engine.y]), node: <g key="engine" data-part="engine" transform={shift(engine.x, engine.y, 0)}>{nodes.ENGINE[engineHeading]}</g> },
     ];
 
     const busy = view.running;
-    const chip = view.state === 'idle' ? '—' : view.state === 'going' ? '…' : arrives(view.branch) ? copy.chipRight : copy.chipWrong;
+    const chip = view.state === 'idle' ? copy.chipIdle : view.state === 'going' ? copy.chipGoing : arrives(view.branch) ? copy.chipRight : copy.chipWrong;
 
     return (
-        <Plate fig={copy.fig} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
+        <Plate fig={copy.fig} status={{ state: view.state === 'done' ? (arrives(view.branch) ? 'pass' : 'fail') : 'idle', label: chip }} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
                 orbit.reset();
                 zoom.reset();
             } }} labels={copy} />} title={copy.title} hint={copy.hint} readout={copy.idle} keys={copy.keys.map((label, index) => ({ mark: index ? 'raised' : 'lit', label }))} caption={copy.caption}>
@@ -270,9 +279,6 @@ export function RailsFigure({ copy }: { copy: RailsCopy }) {
                     <button type="button" className={styles.button} disabled={busy} onClick={() => send(true)}>
                         {copy.send}
                     </button>
-                    <span className={styles.chip} data-state={view.state === 'done' ? (arrives(view.branch) ? 'pass' : 'fail') : 'idle'} role="status">
-                        {chip}
-                    </span>
                 </div>
                 <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)' }} aria-live="polite">
                     {status}

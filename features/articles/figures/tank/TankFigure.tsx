@@ -26,11 +26,11 @@ export interface TankCopy {
     stuck: string;
     chipYes: string;
     chipNo: string;
+    chipIdle: string;
     aria: string;
     controls: string;
     pour: string;
     plug: string;
-    unplug: string;
     empty: string;
     reset: string;
     play: string;
@@ -160,6 +160,7 @@ export function TankFigure({ copy }: { copy: TankCopy }) {
     }, [say, status]);
 
     const water = art.TANK_ART.waterOf(now.level);
+    const reachedNow = reached(now);
     const layers: Layer<ReactNode>[] = [
         { id: 'base', box: [BASE_PLAN.x, BASE_PLAN.x + BASE_PLAN.w, BASE_PLAN.y, BASE_PLAN.y + BASE_PLAN.d, -14, 0], node: nodes.BASE },
         { id: 'pipe', box: [PIPE.x, PIPE.x + PIPE.w, PIPE.y, PIPE.y + PIPE.d, 0, ARM_Z[1]], node: nodes.TAP_PIPE },
@@ -170,12 +171,17 @@ export function TankFigure({ copy }: { copy: TankCopy }) {
             node: (
                 <g key="tank">
                     <Solid paths={art.TANK_ART.floor} tone="lo" crease="faint" />
+                    <Line d={art.TANK_ART.backEdge} tone="mid" />
+                    <Line d={art.TANK_ART.markBack} tone="lit" dotted />
                     {water && <Solid paths={water} tone="hi" crease="faint" />}
                     {pouring(now) && <Line d={art.TANK_ART.streamOf(now.level)} tone="hi" flow />}
                     <Line d={art.TANK_ART.edges} tone="mid" />
                     <Line d={art.TANK_ART.rim} tone="mid" />
                     <Line d={art.TANK_ART.lip} tone="faint" />
-                    <Line d={art.TANK_ART.target} tone="lit" dotted />
+                    <Line d={art.TANK_ART.markFront} tone="lit" dotted />
+                    <Line d={art.TANK_ART.rule} tone="lo" />
+                    <Line d={art.TANK_ART.ticks} tone="lo" />
+                    <Line d={art.TANK_ART.targetTick} tone={reachedNow ? 'green' : 'lit'} />
                 </g>
             ),
         },
@@ -185,18 +191,17 @@ export function TankFigure({ copy }: { copy: TankCopy }) {
             node: (
                 <g key="leak">
                     <Solid paths={art.LEAK.stub} tone="mid" crease="faint" />
-                    {view.plugged ? <Solid paths={art.LEAK.plug} tone="hi" crease="faint" lit /> : leaking && <Line d={art.LEAK.stream} tone="hi" flow />}
+                    {view.plugged ? <Solid paths={art.LEAK.plug} tone="hi" crease="faint" lit /> : leaking && <Line d={art.LEAK.stream} tone="red" flow />}
                     {leaking && <Solid paths={art.LEAK.puddle} tone="lo" crease="none" flat />}
                 </g>
             ),
         },
     ];
 
-    const reachedNow = reached(now);
-    const chip = now.buckets === 0 ? '—' : reachedNow ? copy.chipYes : copy.chipNo;
+    const chip = now.buckets === 0 ? copy.chipIdle : reachedNow ? copy.chipYes : copy.chipNo;
 
     return (
-        <Plate fig={copy.fig} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
+        <Plate fig={copy.fig} status={{ state: now.buckets === 0 ? 'idle' : reachedNow ? 'pass' : 'fail', label: chip }} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
                 orbit.reset();
                 zoom.reset();
             } }} labels={copy} />} title={copy.title} hint={copy.hint} readout={copy.idle} keys={copy.keys.map((label, index) => ({ mark: index ? 'raised' : 'lit', label }))} caption={copy.caption}>
@@ -216,15 +221,12 @@ export function TankFigure({ copy }: { copy: TankCopy }) {
                             {copy.pour}
                         </button>
                         <button type="button" className={styles.button} aria-pressed={view.plugged} onClick={() => act('plug', true)}>
-                            {view.plugged ? copy.unplug : copy.plug}
+                            {copy.plug}
                         </button>
                         <button type="button" className={styles.button} disabled={now.buckets === 0 && !view.plugged} onClick={() => act('drain', true)}>
                             {copy.empty}
                         </button>
                     </div>
-                    <span className={styles.chip} data-state={now.buckets === 0 ? 'idle' : reachedNow ? 'pass' : 'fail'} role="status">
-                        {chip}
-                    </span>
                 </div>
                 <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)' }} aria-live="polite">
                     {status}

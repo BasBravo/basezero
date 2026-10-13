@@ -158,28 +158,47 @@ interface PlateProps {
   title?: string;
   hint?: React.ReactNode;
   readout?: React.ReactNode;
+  /** The verdict of the figure, as a badge in the top right corner: green when it passes, amber in between, red when it does not. The title then moves beside the figure number. */
+  status?: PlateStatus;
   keys?: LegendKey[];
   caption?: React.ReactNode;
   children: React.ReactNode;
 }
 
-export function Plate({ fig, lead, title, hint, readout, keys = [], caption, children }: PlateProps) {
+export interface PlateStatus {
+  state: "pass" | "warn" | "fail" | "idle";
+  label: React.ReactNode;
+}
+
+export function Plate({ fig, lead, title, hint, readout, status, keys = [], caption, children }: PlateProps) {
+  const headed = Boolean(lead || status);
   return (
     <figure className="iso-figure">
-      <div className="iso-plate" data-lead={lead ? "" : undefined}>
-        {lead ? (
+      <div className="iso-plate" data-lead={headed ? "" : undefined} data-status={status ? "" : undefined}>
+        {headed ? (
           <div className="iso-plate-lead">
             {lead}
             <span className="iso-plate-fig">{fig}</span>
+            {status && title ? (
+              <span className="iso-plate-title" aria-hidden="true">
+                {title}
+              </span>
+            ) : null}
           </div>
         ) : null}
+        {status ? (
+          <span className="iso-plate-status" data-state={status.state} aria-hidden="true">
+            <span className="iso-plate-status-dot" />
+            {status.label}
+          </span>
+        ) : null}
         <div className="iso-plate-corners" aria-hidden="true">
-          {lead ? null : (
+          {headed ? null : (
             <span className="iso-plate-corner" data-corner="fig">
               {fig}
             </span>
           )}
-          {title ? (
+          {title && !status ? (
             <span className="iso-plate-corner" data-corner="title">
               {title}
             </span>

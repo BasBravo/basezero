@@ -1,13 +1,13 @@
 'use client';
 
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { IsoFigure, Line, Plate, Solid } from '@/components/iso/draw';
+import { Dots, IsoFigure, Line, Plate, Solid } from '@/components/iso/draw';
 import { useReadout } from '@/components/iso/live';
 import { BaseNode } from '../base';
 import { fill } from '../shared';
 import { useInView, useReducedMotion } from '../hooks';
 import styles from '../figures.module.css';
-import { artOf, CUP, PIPE_TOP, SOURCE, STEPS_ART, type Art } from './geometry';
+import { artOf, CUP, FLANGE_TOP, PIPE_TOP, SOURCE, STEPS_ART, type Art } from './geometry';
 import { useOrbit } from '../useOrbit';
 import { ALL, brokenAt, delivers, reachOf } from './model';
 import { BASE as BASE_PLAN, CENTRE, HEIGHT, projectionFor, WIDTH } from './view';
@@ -58,6 +58,15 @@ function nodesOf(art: Art) {
             </g>
         )),
     );
+    const INLETS = art.STEP_ART.map((step, index) =>
+        step.inlet ? (
+            <g key={`inlet-${index}`}>
+                <Solid paths={step.inlet.body} tone="hi" crease="faint" />
+                <Line d={step.inlet.rings} tone="mid" />
+                <Dots points={step.inlet.bolts} size={0.5} tone="hi" />
+            </g>
+        ) : null,
+    );
     const SOURCE_NODE = (
         <g key="source">
             <path className="iso-halo" d={art.SOURCE.halo} />
@@ -65,7 +74,7 @@ function nodesOf(art: Art) {
             <Line d={art.SOURCE.top} tone="faint" />
         </g>
     );
-    return { BASE, PIPES, SOURCE_NODE };
+    return { BASE, PIPES, INLETS, SOURCE_NODE };
 }
 
 export function PipelineFigure({ copy }: { copy: PipelineCopy }) {
@@ -128,7 +137,7 @@ export function PipelineFigure({ copy }: { copy: PipelineCopy }) {
 
     const flow = art.flowOf(reach);
     const spill = whole ? null : art.spillOf(reach);
-    const pipeIds = STEPS_ART.flatMap(step => step.pieces.map(piece => piece.id));
+    const pipeIds = STEPS_ART.flatMap(step => [...step.pieces.map(piece => piece.id), ...(step.inlet ? [step.inlet.id] : [])]);
     const layers: Layer<ReactNode>[] = [
         { id: 'base', box: [BASE_PLAN.x, BASE_PLAN.x + BASE_PLAN.w, BASE_PLAN.y, BASE_PLAN.y + BASE_PLAN.d, -14, 0], node: nodes.BASE },
         { id: 'source', box: [SOURCE.x - SOURCE.r, SOURCE.x + SOURCE.r, SOURCE.y - SOURCE.r, SOURCE.y + SOURCE.r, 0, SOURCE.h], node: nodes.SOURCE_NODE },
@@ -147,9 +156,22 @@ export function PipelineFigure({ copy }: { copy: PipelineCopy }) {
                 (piece, pieceIndex): Layer<ReactNode> => ({
                     id: piece.id,
                     box: [piece.plan.x, piece.plan.x + piece.plan.w, piece.plan.y, piece.plan.y + piece.plan.d, 0, PIPE_TOP],
-                    node: present[index] ? nodes.PIPES[index]![pieceIndex] : <Line key={piece.id} d={art.STEP_ART[index]!.pieces[pieceIndex]!.ghost} tone="lit" dotted />,
+                    node: present[index] ? nodes.PIPES[index]![pieceIndex] : <Line key={piece.id} d={art.STEP_ART[index]!.pieces[pieceIndex]!.ghost} tone={index === broken ? 'red' : 'mid'} dotted />,
                 }),
             ),
+        ),
+        ...STEPS_ART.flatMap((step, index): Layer<ReactNode>[] =>
+            step.inlet
+                ? [
+                      {
+                          id: step.inlet.id,
+                          box: [step.inlet.plan.x, step.inlet.plan.x + step.inlet.plan.w, step.inlet.plan.y, step.inlet.plan.y + step.inlet.plan.d, 0, FLANGE_TOP],
+                          // The water runs on the pipe tops and under each flange.
+                          after: ['flow'],
+                          node: present[index] ? nodes.INLETS[index] : <Line key={step.inlet.id} d={art.STEP_ART[index]!.inlet!.ghost} tone={index === broken ? 'red' : 'mid'} dotted />,
+                      },
+                  ]
+                : [],
         ),
         {
             id: 'flow',
@@ -172,7 +194,7 @@ export function PipelineFigure({ copy }: { copy: PipelineCopy }) {
     ];
 
     return (
-        <Plate fig={copy.fig} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
+        <Plate fig={copy.fig} status={{ state: whole ? 'pass' : 'fail', label: whole ? copy.chipYes : copy.chipNo }} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
                 orbit.reset();
                 zoom.reset();
             } }} labels={copy} />} title={copy.title} hint={copy.hint} readout={copy.ok} keys={copy.keys.map((label, index) => ({ mark: index ? 'raised' : 'lit', label }))} caption={copy.caption}>
@@ -194,9 +216,6 @@ export function PipelineFigure({ copy }: { copy: PipelineCopy }) {
                             </button>
                         ))}
                     </div>
-                    <span className={styles.chip} data-state={whole ? 'pass' : 'fail'} role="status">
-                        {whole ? copy.chipYes : copy.chipNo}
-                    </span>
                 </div>
                 <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)' }} aria-live="polite">
                     {status}

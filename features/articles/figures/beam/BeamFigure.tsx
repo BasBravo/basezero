@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { Dots, IsoFigure, Line, Plate, Solid } from '@/components/iso/draw';
 import { useReadout } from '@/components/iso/live';
 import { fill, LiveSolid, paintSolid } from '../shared';
@@ -25,6 +25,7 @@ export interface BeamCopy {
     status: string;
     pass: string;
     fail: string;
+    chipIdle: string;
     decimal: string;
     aria: string;
     spoken: string;
@@ -223,8 +224,9 @@ export function BeamFigure({ copy }: { copy: BeamCopy }) {
         },
         {
             id: 'plates',
-            box: [-22, 22, -18, 18, REST_Z, REST_Z + THICK + 70],
-            after: ['plank'],
+            box: [-22, 22, -18, 18, REST_Z, REST_Z + THICK + plates * 7],
+            // The bridge cable is imagined through the middle of the stack (y = 0), so the stack, solid, always covers it.
+            after: ['plank', 'cable'],
             node: (
                 <g ref={stack}>
                     {art.PLATE_ART.slice(0, plates).map((plate, index) => (
@@ -243,7 +245,7 @@ export function BeamFigure({ copy }: { copy: BeamCopy }) {
             ignore: ['support-left', 'support-right'],
             node: (
                 <g clipPath="url(#beam-front)">
-                    <Line d={art.WIRE} tone="lit" dotted={ok} />
+                    <Line d={art.WIRE} tone={ok ? 'lit' : 'red'} dotted={ok} />
                     <Dots points={art.WIRE_EYES} size={0.9} tone="hi" />
                 </g>
             ),
@@ -251,7 +253,7 @@ export function BeamFigure({ copy }: { copy: BeamCopy }) {
     ];
 
     return (
-        <Plate fig={copy.fig} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
+        <Plate fig={copy.fig} status={{ state: plates === 0 ? 'idle' : ok ? 'pass' : 'fail', label: plates === 0 ? copy.chipIdle : result }} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
                 orbit.reset();
                 zoom.reset();
             } }} labels={copy} />} title={copy.title} hint={copy.hint} readout={copy.idle} keys={copy.keys.map((label, index) => ({ mark: index ? 'raised' : 'lit', label }))} caption={copy.caption}>
@@ -271,7 +273,7 @@ export function BeamFigure({ copy }: { copy: BeamCopy }) {
                     </div>
                 </div>
                 <div className={styles.controls} role="group" aria-label={copy.controls}>
-                    <button type="button" className={styles.button} aria-label={copy.less} disabled={plates === 0} onClick={() => set(plates - 1)}>
+                    <button type="button" className={`${styles.button} ${styles.step}`} aria-label={copy.less} disabled={plates === 0} onClick={() => set(plates - 1)}>
                         −
                     </button>
                     <label className={styles.slider}>
@@ -283,17 +285,15 @@ export function BeamFigure({ copy }: { copy: BeamCopy }) {
                             max={PLATES}
                             step={1}
                             value={plates}
+                            style={{ '--fill': `${(plates / PLATES) * 100}%` } as CSSProperties}
                             aria-valuetext={fill(copy.spoken, { kg, sag: mm(sag, copy.decimal), limit: LIMIT_MM, result })}
                             onChange={event => set(Number(event.target.value))}
                         />
                         <span className={styles.value}>{kg} kg</span>
                     </label>
-                    <button type="button" className={styles.button} aria-label={copy.more} disabled={plates === PLATES} onClick={() => set(plates + 1)}>
+                    <button type="button" className={`${styles.button} ${styles.step}`} aria-label={copy.more} disabled={plates === PLATES} onClick={() => set(plates + 1)}>
                         +
                     </button>
-                    <span className={styles.chip} data-state={plates === 0 ? 'idle' : ok ? 'pass' : 'fail'} role="status">
-                        {plates === 0 ? '—' : result}
-                    </span>
                 </div>
             </div>
         </Plate>

@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { Dots, IsoFigure, Line, Plate, Solid } from '@/components/iso/draw';
 import { useReadout } from '@/components/iso/live';
 import { BaseNode } from '../base';
@@ -36,6 +36,8 @@ export interface GaugeCopy {
     zoomOut: string;
 }
 
+/** The zone the needle is in takes the colour of the verdict badge. */
+const ZONE_TONE = { keep: 'green', change: 'amber', stop: 'red' } as const;
 const IDLE_AFTER = 7;
 const START_TEAMS = 3;
 /** The demo: the reading after four weeks, from a clear yes down to a clear no and back. */
@@ -205,7 +207,7 @@ export function GaugeFigure({ copy }: { copy: GaugeCopy }) {
                 <g key="dial">
                     {nodes.DRUM}
                     {ORDER.map(zone => (
-                        <Line key={zone} d={art.ZONES[zone]} tone={zone === decision ? 'hi' : 'faint'} />
+                        <Line key={zone} d={art.ZONES[zone]} tone={zone === decision ? ZONE_TONE[zone] : 'faint'} />
                     ))}
                     {nodes.PINS}
                     <g className="iso-solid" data-lit="">
@@ -219,7 +221,7 @@ export function GaugeFigure({ copy }: { copy: GaugeCopy }) {
     ];
 
     return (
-        <Plate fig={copy.fig} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
+        <Plate fig={copy.fig} status={{ state: decision === 'keep' ? 'pass' : decision === 'stop' ? 'fail' : 'warn', label: name }} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
                 orbit.reset();
                 zoom.reset();
             } }} labels={copy} />} title={copy.title} hint={copy.hint} readout={status} keys={copy.keys.map((label, index) => ({ mark: index ? 'raised' : 'lit', label }))} caption={copy.caption}>
@@ -234,7 +236,7 @@ export function GaugeFigure({ copy }: { copy: GaugeCopy }) {
                     </div>
                 </div>
                 <div className={styles.controls} role="group" aria-label={copy.controls}>
-                    <button type="button" className={styles.button} aria-label={copy.less} disabled={teams === 0} onClick={() => set(teams - 1)}>
+                    <button type="button" className={`${styles.button} ${styles.step}`} aria-label={copy.less} disabled={teams === 0} onClick={() => set(teams - 1)}>
                         −
                     </button>
                     <label className={styles.slider}>
@@ -246,6 +248,7 @@ export function GaugeFigure({ copy }: { copy: GaugeCopy }) {
                             max={TEAMS}
                             step={1}
                             value={teams}
+                            style={{ '--fill': `${(teams / TEAMS) * 100}%` } as CSSProperties}
                             aria-valuetext={fill(copy.spoken, { n: teams, total: TEAMS, decision: name })}
                             onChange={event => set(Number(event.target.value))}
                         />
@@ -253,12 +256,9 @@ export function GaugeFigure({ copy }: { copy: GaugeCopy }) {
                             {teams} / {TEAMS}
                         </span>
                     </label>
-                    <button type="button" className={styles.button} aria-label={copy.more} disabled={teams === TEAMS} onClick={() => set(teams + 1)}>
+                    <button type="button" className={`${styles.button} ${styles.step}`} aria-label={copy.more} disabled={teams === TEAMS} onClick={() => set(teams + 1)}>
                         +
                     </button>
-                    <span className={styles.chip} data-state={decision === 'keep' ? 'pass' : decision === 'stop' ? 'fail' : 'idle'} role="status">
-                        {name}
-                    </span>
                 </div>
                 <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)' }} aria-live="polite">
                     {status}

@@ -1,65 +1,120 @@
+/* Controls under the drawing and in the card's corner. One quiet scale: 32px controls, 26px corner icons, 1px borders in
+   the kit's tones, a faint wash on hover and a lit square for whatever is switched on. */
+
 .controls {
+    --wash: color-mix(in srgb, var(--anatomy-hi) 4%, transparent);
+    --wash-hover: color-mix(in srgb, var(--anatomy-hi) 9%, transparent);
+    --wash-press: color-mix(in srgb, var(--anatomy-hi) 14%, transparent);
+
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem 0.75rem;
-    margin: 0.6rem 0 1.4rem;
+    gap: 8px 12px;
+    margin: 6px 0 34px;
     font-family: var(--anatomy-mono);
-    font-size: 11px;
-    letter-spacing: 0.06em;
+    font-size: 10.5px;
+    line-height: 1;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
 .group {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 6px;
 }
 
 .button {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.55rem 0.8rem;
-    border: 1px solid var(--anatomy-mid);
+    justify-content: center;
+    gap: 8px;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--anatomy-lo);
     border-radius: 0;
-    background: transparent;
+    background: var(--wash);
     color: var(--anatomy-text);
     font: inherit;
     letter-spacing: inherit;
     text-transform: inherit;
+    white-space: nowrap;
     cursor: pointer;
-    transition: background-color 160ms var(--anatomy-ease), color 160ms var(--anatomy-ease), border-color 160ms var(--anatomy-ease);
+    transition:
+        background-color 140ms var(--anatomy-ease),
+        color 140ms var(--anatomy-ease),
+        border-color 140ms var(--anatomy-ease);
 }
 
-.button:hover:not(:disabled) {
-    border-color: var(--anatomy-hi);
-    color: var(--anatomy-strong);
+@media (hover: hover) {
+    .button:hover:not(:disabled) {
+        border-color: var(--anatomy-mid);
+        background: var(--wash-hover);
+        color: var(--anatomy-strong);
+    }
+}
+
+.button:active:not(:disabled) {
+    background: var(--wash-press);
 }
 
 .button:focus-visible {
     outline: 1px solid var(--anatomy-hi);
-    outline-offset: 3px;
+    outline-offset: 2px;
+}
+
+/* A switch: a small square that is lit while it is on. */
+.button[aria-pressed]::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    flex: none;
+    border: 1px solid currentColor;
+    opacity: 0.55;
+    transition:
+        background-color 140ms var(--anatomy-ease),
+        opacity 140ms var(--anatomy-ease),
+        box-shadow 140ms var(--anatomy-ease);
+}
+
+/* A choice already shown by its own icon (a shape) needs no switch square. */
+.button:has(.glyph)::before {
+    display: none;
 }
 
 .button[aria-pressed='true'] {
-    border-color: var(--anatomy-hi);
-    background: var(--anatomy-hi);
-    color: var(--anatomy-card);
+    border-color: var(--anatomy-mid);
+    color: var(--anatomy-strong);
+}
+
+.button[aria-pressed='true']::before {
+    border-color: var(--anatomy-lit);
+    background: var(--anatomy-lit);
+    opacity: 1;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--anatomy-lit) 14%, transparent);
 }
 
 .button:disabled {
-    opacity: 0.35;
+    opacity: 0.38;
     cursor: default;
 }
 
+/* The − and + beside a slider. */
+.step {
+    width: 32px;
+    padding: 0;
+    font-size: 14px;
+    letter-spacing: 0;
+}
+
 .glyph {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
     flex: none;
     fill: none;
     stroke: currentColor;
-    stroke-width: 1.4;
+    stroke-width: 1.3;
     stroke-linejoin: round;
 }
 
@@ -67,27 +122,94 @@
     display: flex;
     flex: 1 1 14rem;
     align-items: center;
-    gap: 0.75rem;
+    gap: 12px;
     min-width: 14rem;
+    height: 32px;
     color: var(--anatomy-text);
 }
 
 .range {
+    --fill: 0%;
+
     flex: 1;
-    height: 1.5rem;
+    height: 32px;
     margin: 0;
     background: transparent;
-    accent-color: var(--anatomy-hi);
     cursor: pointer;
+    appearance: none;
+}
+
+.range::-webkit-slider-runnable-track {
+    height: 2px;
+    background: linear-gradient(to right, var(--anatomy-hi) var(--fill), var(--anatomy-lo) var(--fill));
+}
+
+.range::-moz-range-track {
+    height: 2px;
+    background: var(--anatomy-lo);
+}
+
+.range::-moz-range-progress {
+    height: 2px;
+    background: var(--anatomy-hi);
+}
+
+.range::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+    margin-top: -6px;
+    border: 1px solid var(--anatomy-hi);
+    border-radius: 50%;
+    background: var(--anatomy-card);
+    box-shadow: 0 0 0 3px var(--anatomy-card);
+    transition: box-shadow 140ms var(--anatomy-ease), background-color 140ms var(--anatomy-ease);
+    appearance: none;
+}
+
+.range::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: 1px solid var(--anatomy-hi);
+    border-radius: 50%;
+    background: var(--anatomy-card);
+    box-shadow: 0 0 0 3px var(--anatomy-card);
+    transition: box-shadow 140ms var(--anatomy-ease), background-color 140ms var(--anatomy-ease);
+}
+
+@media (hover: hover) {
+    .range:hover::-webkit-slider-thumb {
+        box-shadow: 0 0 0 3px var(--anatomy-card), 0 0 0 6px color-mix(in srgb, var(--anatomy-hi) 14%, transparent);
+    }
+
+    .range:hover::-moz-range-thumb {
+        box-shadow: 0 0 0 3px var(--anatomy-card), 0 0 0 6px color-mix(in srgb, var(--anatomy-hi) 14%, transparent);
+    }
+}
+
+.range:active::-webkit-slider-thumb {
+    background: var(--anatomy-hi);
+}
+
+.range:active::-moz-range-thumb {
+    background: var(--anatomy-hi);
 }
 
 .range:focus-visible {
+    outline: none;
+}
+
+.range:focus-visible::-webkit-slider-thumb {
+    outline: 1px solid var(--anatomy-hi);
+    outline-offset: 3px;
+}
+
+.range:focus-visible::-moz-range-thumb {
     outline: 1px solid var(--anatomy-hi);
     outline-offset: 3px;
 }
 
 .value {
-    min-width: 5ch;
+    min-width: 6ch;
     color: var(--anatomy-strong);
     font-variant-numeric: tabular-nums;
     text-align: right;
@@ -95,34 +217,21 @@
 
 @media (max-width: 560px) {
     .controls {
-        flex-direction: column;
-        align-items: stretch;
+        gap: 8px;
+        margin-bottom: 8px;
     }
 
-    .button {
-        flex: 1 1 calc(50% - 0.4rem);
-        justify-content: center;
+    .group {
+        flex: 1 1 100%;
     }
-}
 
-.chip {
-    min-width: 7ch;
-    padding: 0.55rem 0.8rem;
-    border: 1px solid var(--anatomy-lo);
-    color: var(--anatomy-muted);
-    text-align: center;
-    transition: background-color 160ms var(--anatomy-ease), color 160ms var(--anatomy-ease), border-color 160ms var(--anatomy-ease);
-}
+    .group .button {
+        flex: 1 1 calc(50% - 3px);
+    }
 
-.chip[data-state='pass'] {
-    border-color: var(--anatomy-hi);
-    color: var(--anatomy-strong);
-}
-
-.chip[data-state='fail'] {
-    border-color: var(--anatomy-hi);
-    background: var(--anatomy-hi);
-    color: var(--anatomy-card);
+    .slider {
+        min-width: 0;
+    }
 }
 
 .orbit {
@@ -136,53 +245,71 @@
     cursor: grabbing;
 }
 
+/* Corner icons: play/pause on its own, then zoom out, zoom in and reset as one segmented strip. */
 .play {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     padding: 0;
-    border: 1px solid var(--anatomy-mid);
+    border: 1px solid var(--anatomy-lo);
     border-radius: 0;
-    background: transparent;
+    background: color-mix(in srgb, var(--anatomy-hi) 4%, transparent);
     color: var(--anatomy-text);
     cursor: pointer;
-    transition: color 160ms var(--anatomy-ease);
+    transition:
+        background-color 140ms var(--anatomy-ease),
+        color 140ms var(--anatomy-ease),
+        border-color 140ms var(--anatomy-ease);
 }
 
 .play svg {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     fill: currentColor;
 }
 
-.play:hover:not(:disabled) {
-    border-color: var(--anatomy-hi);
-    color: var(--anatomy-strong);
+@media (hover: hover) {
+    .play:hover:not(:disabled) {
+        z-index: 1;
+        border-color: var(--anatomy-mid);
+        background: color-mix(in srgb, var(--anatomy-hi) 10%, transparent);
+        color: var(--anatomy-strong);
+    }
+}
+
+.play:active:not(:disabled) {
+    background: color-mix(in srgb, var(--anatomy-hi) 15%, transparent);
 }
 
 .play .stroke {
     fill: none;
     stroke: currentColor;
-    stroke-width: 1.4;
+    stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
 }
 
 .play:focus-visible {
+    z-index: 2;
     outline: 1px solid var(--anatomy-hi);
-    outline-offset: 3px;
+    outline-offset: 2px;
 }
 
 .tiny {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    margin-left: 4px;
+}
+
+.tiny .play + .play {
+    margin-left: -1px;
 }
 
 .play:disabled {
-    opacity: 0.3;
+    color: var(--anatomy-lo);
     cursor: default;
 }
 

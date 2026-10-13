@@ -26,6 +26,7 @@ export interface ScaleCopy {
     status: string;
     verdicts: string[];
     chips: string[];
+    chipIdle: string;
     aria: string;
     controls: string;
     opinion: string;
@@ -297,10 +298,10 @@ export function ScaleFigure({ copy }: { copy: ScaleCopy }) {
         },
     ];
 
-    const chip = total === 0 ? '—' : copy.chips[VERDICTS.indexOf(heavier)]!;
+    const chip = total === 0 ? copy.chipIdle : copy.chips[VERDICTS.indexOf(heavier)]!;
 
     return (
-        <Plate fig={copy.fig} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
+        <Plate fig={copy.fig} status={{ state: total === 0 ? 'idle' : heavier === 'right' ? 'pass' : heavier === 'left' ? 'fail' : 'idle', label: chip }} lead={<CornerControls playing={playing} onToggle={() => setPlaying(value => !value)} zoom={zoom} reset={{ disabled: !orbit.turned && zoom.zoom === 1, onReset: () => {
                 orbit.reset();
                 zoom.reset();
             } }} labels={copy} />} title={copy.title} hint={copy.hint} readout={copy.idle} keys={copy.keys.map((label, index) => ({ mark: index ? 'raised' : 'lit', label }))} caption={copy.caption}>
@@ -326,9 +327,6 @@ export function ScaleFigure({ copy }: { copy: ScaleCopy }) {
                             {copy.empty}
                         </button>
                     </div>
-                    <span className={styles.chip} data-state={total === 0 ? 'idle' : heavier === 'right' ? 'pass' : heavier === 'left' ? 'fail' : 'idle'} role="status">
-                        {chip}
-                    </span>
                 </div>
                 <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)' }} aria-live="polite">
                     {status}

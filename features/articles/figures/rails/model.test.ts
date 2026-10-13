@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { arrives, BRANCHES, DESTINATION, durationOf, goTime, poseOf, routeOf, START, STOP_X } from './model';
+import { arrives, BRANCHES, carAt, DESTINATION, distanceOf, durationOf, goTime, poseOf, routeOf, START, STOP_X } from './model';
 
 describe('train on the line', () => {
     it('only reaches the flag by the branch that leads to it', () => {
@@ -31,5 +31,18 @@ describe('train on the line', () => {
     it('goes through the junction before taking a branch', () => {
         const pose = poseOf(1, goTime(1) / 2);
         expect(pose.x).toBeGreaterThan(-150);
+    });
+
+    it('keeps the wagon on the track behind the engine, clear of the buffer, and the engine where poseOf says', () => {
+        for (const branch of BRANCHES) {
+            for (let t = 0; t <= durationOf(branch); t += 0.05) {
+                const engine = carAt(branch, distanceOf(branch, t));
+                const pose = poseOf(branch, t);
+                expect(engine.x).toBeCloseTo(pose.x, 6);
+                expect(engine.y).toBeCloseTo(pose.y, 6);
+                const wagon = carAt(branch, distanceOf(branch, t), 26);
+                expect(wagon.x - 10.5).toBeGreaterThan(-166);
+            }
+        }
     });
 });

@@ -27,4 +27,24 @@ describe('painter', () => {
         const cycle = [layer('a', [0, 1, 0, 1, 0, 1], { after: ['b'] }), layer('b', [0, 1, 0, 1, 0, 1], { after: ['a'] })];
         expect(ordered(cycle, P(50))).toHaveLength(2);
     });
+
+    it('ignores pairs that never cover each other, so they cannot scramble the rest (a train at a corner)', () => {
+        // The train at the back-left corner of a circuit, beside a building it never covers: planes x and y disagree about
+        // that pair, and ordering it anyway used to close a cycle that painted the train under its own track.
+        const scene = [
+            layer('track-back', [-90, 90, -46, -26, 0, 2]),
+            layer('track-left', [-90, -70, -26, 26, 0, 2]),
+            layer('building', [-70, -34, -70, -52, 0, 14]),
+            layer('train', [-90, -70, -46, -26, 2, 19]),
+        ];
+        const along = [...scene.slice(0, 3), layer('train', [-70, -50, -46, -26, 2, 19])];
+        for (const azimuth of [8, 30, 58, 90, 108]) {
+            for (const layers of [scene, along]) {
+                const order = ids(ordered(layers, P(azimuth, 38)));
+                expect(order.indexOf('train')).toBeGreaterThan(order.indexOf('track-back'));
+            }
+            const order = ids(ordered(along, P(azimuth, 38)));
+            expect(order.indexOf('train')).toBeGreaterThan(order.indexOf('building'));
+        }
+    });
 });

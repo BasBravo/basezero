@@ -22,7 +22,10 @@ features/articles/figures/
   painter.ts                     Orden de pintado general por planos separadores.
   PlayButton.tsx                 CornerControls: los cuatro botones de la esquina.
   base.tsx                       Placa sobre patas común (baseArtOf + BaseNode); úsala en las figuras nuevas.
-  track.ts                       Vía con raíles y traviesas, tren (cartArt) y ghostBox (contorno punteado de lo que falta).
+  track.ts                       Losetas de vía con traviesas y ghostBox (contorno punteado de lo que falta).
+  parts.ts                       Objetos compuestos: Part, sortedParts (orden propio con el pintor), facing y panel (puertas y ventanas en caras visibles).
+  train.ts                       Locomotora y vagón para las cuatro direcciones (trainArtOf, engineBox, wagonBox, headingOf).
+  shared.tsx                     PartsNode (dibuja un objeto compuesto), paintSolid, fill.
   hooks.ts                       useInView, useReducedMotion.
   figures.module.css             Controles, botones de esquina, viewport y zoom.
   <figura>/
@@ -57,8 +60,9 @@ Se montan con `<Plate lead={<CornerControls … />}>`; `Plate` coloca el grupo y
 - **Giro.** Arrastrar con ratón o dedo gira la cámara hasta ±50° del centro en azimut y en elevación. La elevación se limita a 8°–86° (por debajo no se ve nada útil). Arrastre horizontal → azimut; arrastre hacia abajo → más elevación. El contenedor lleva `touch-action: pan-y` para no bloquear el scroll vertical.
 - **Zoom.** Escala solo el dibujo (CSS `transform` dentro de un viewport con `overflow: hidden`), nunca los controles. Los botones se desactivan en los extremos.
 - **Restablecer** devuelve giro y zoom al centro; se desactiva si ya está ahí.
-- **Controles propios de la figura**, debajo del dibujo y dentro de la tarjeta, con la clase `controls` del módulo CSS: botones con texto (`button`, `aria-pressed` para el activo) o deslizador con botones − / + y una etiqueta de resultado.
-- **Esquinas de la tarjeta:** pista (`hint`, termina en «· arrastra para girar»), título, y lectura en vivo (`readout`) escrita con `useReadout().say()`. Además, una región `aria-live="polite"` oculta con el mismo texto.
+- **Controles propios de la figura**, debajo del dibujo y dentro de la tarjeta, con la clase `controls` del módulo CSS: botones de 32 px con texto (`button`) o deslizador (`range`, con `--fill` en porcentaje para la parte recorrida) entre botones − / + (`button step`). Un botón que activa o desactiva algo es un interruptor: etiqueta fija con el nombre de la pieza y `aria-pressed` cuando está puesta (pintan un cuadrado encendido); no cambies el texto al pulsarlo.
+- **Veredicto arriba a la derecha:** el estado (pasa / no pasa) va en `<Plate status={{ state: 'pass' | 'warn' | 'fail' | 'idle', label }}>`, una insignia verde, ámbar, roja o neutra; la etiqueta siempre es una palabra («Sin probar», «En camino»), nunca un guion. La pieza que muestra el veredicto en el dibujo puede tomar el mismo matiz (`tone="green" | "amber" | "red"`), como la zona activa del indicador o el hilo del límite cuando se supera. Con `status`, el título pasa junto a `Fig N` (y se oculta por debajo de 560 px). Lo que falta y rompe el resultado se dibuja en rojo punteado (`tone="red"`); lo que se deja fuera sin romper nada, punteado en `mid`.
+- **Esquinas de la tarjeta:** pista (`hint`, termina en «· arrastra para girar») y lectura en vivo (`readout`) escrita con `useReadout().say()`. Además, una región `aria-live="polite"` oculta con el mismo texto.
 - **Teclado y accesibilidad:** todos los controles son botones/inputs nativos; el SVG lleva `label` descriptivo; la leyenda (`keys`) usa como máximo dos marcas (`lit` para lo importante, `raised` para el resto).
 
 ## Reglas de diseño y de código
@@ -69,7 +73,7 @@ Se montan con `<Plate lead={<CornerControls … />}>`; `Plate` coloca el grupo y
 
 **Cámara.** `orbit.ts#projectionFor` ajusta la escena a la tarjeta en cada vista, así que al girar siempre llena el espacio. Incluye en `points` los extremos de todo lo que se pueda mover (piezas en vuelo, torres del fondo).
 
-**Orden de pintado.** No se fija a mano. Cada elemento es una capa `{ id, box, node }` con su caja en el mundo y `ordered(layers, P)` las ordena por planos separadores para cualquier giro. Para casos que no se resuelven con cajas:
+**Orden de pintado.** No se fija a mano. Cada elemento es una capa `{ id, box, node }` con su caja en el mundo y `ordered(layers, P)` las ordena por planos separadores para cualquier giro. Solo se ordenan los pares cuyas siluetas se solapan en pantalla: los que no se tapan no añaden restricciones, que antes cerraban ciclos y desordenaban el resto durante las animaciones. La caja tiene que cubrir todo lo que dibuja la capa (también un contorno punteado más alto que la pieza). Un objeto compuesto (una locomotora, un edificio) ordena sus propias piezas con el mismo `ordered` y entra en la escena como una sola capa con la caja que las envuelve. Para casos que no se resuelven con cajas:
 - `after: ['id']` fuerza el orden (una pieza hundida en el agujero va después del bloque; las pesas, después de la tabla).
 - `ignore: ['id']` excluye un par que se resuelve de otra forma (un hilo entre dos apoyos se recorta con `clipPath` y `evenodd` usando la silueta del apoyo que queda más cerca).
 Los elementos con cara visible variable (la tapa de la tabla) eligen el lado según `cos(azimut)`.
