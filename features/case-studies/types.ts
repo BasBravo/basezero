@@ -5,7 +5,7 @@ export type CaseStudySummary = {
     title: string;
     description: string;
     name: string;
-    url: string;
+    url?: string;
     year: string;
     role: string;
     facets: string[];
@@ -22,4 +22,8 @@ export type CaseStudy = CaseStudySummary & {
     wordCount: number;
     /** Real size of each screenshot in the body, so it is shown whole and without layout shift. */
     images: Record<string, { width: number; height: number }>;
+    carousels: CaseStudyCarousel[];
+    carouselFrame?: string;
 };
+
+export type CaseStudyCarousel = { id: string; slides: { src: string; title: string; body: string }[] };

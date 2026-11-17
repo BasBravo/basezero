@@ -19,6 +19,8 @@ export type PortfolioCopy = {
     navWork: string;
     workTitle: string;
     workBody: string;
+    projectsViewAll: string;
+    projectsHref: string;
     introTitle: string;
     introBody: string;
     introViewWork: string;
@@ -209,13 +211,18 @@ export function PortfolioExperience({ copy, projects, articles }: PortfolioExper
                                     <span className={styles.projectName}>{project.name}</span>
                                     <span className={styles.projectDescription}>{project.description}</span>
                                     <span className={styles.projectMeta}>
-                                        {project.facets.join(' · ')} · {project.year}
+                                        {project.facets.join(' · ')}
+                                        <span className={styles.projectYear}>{project.year}</span>
                                     </span>
                                     <Icon name="arrow_outward" className={styles.articleArrow} />
                                 </Link>
                             </li>
                         ))}
                     </ul>
+                    <Link className={styles.aboutMeLink} href={copy.projectsHref}>
+                        {copy.projectsViewAll}
+                        <Icon name="arrow_forward" />
+                    </Link>
 
                     {articles.length > 0 ? (
                         <section id="articles" className={styles.articlesSection}>

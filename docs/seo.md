@@ -39,6 +39,7 @@ Los `.md` llevan `X-Robots-Tag: noindex` (en `firebase.json`) para que Google no
 2. Capturas en `public/projects/<id>/case/*.webp` (1600 px de ancho; las de móvil, 780). Se muestran en color, enteras y con su proporción real.
 3. Cada imagen lleva texto alternativo y pie: `![alt](/projects/<id>/case/x.webp "pie")`. Un test lo comprueba.
 4. Solo datos verificables: lo publicado en la web del producto y lo que confirma su código.
+5. El enlace `url` es opcional. Para añadir carruseles de pantallas, define `carousels` en el frontmatter con un `id` y una lista `slides` (`src`, `title`, `body`), y coloca `<!-- carousel:id -->` en el cuerpo. Opcionalmente, `carouselFrame` indica el marco de teléfono. Conserva las imágenes en Markdown para su versión legible por agentes; la página no las repite cuando ya están en el carrusel.
 
 ## Tras desplegar
 

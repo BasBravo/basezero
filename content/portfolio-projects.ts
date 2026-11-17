@@ -13,6 +13,18 @@ export type PortfolioProject = {
 const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
     es: [
         {
+            id: 'ohana',
+            name: 'Ohana',
+            description: 'Un organizador familiar para compartir el día, las tareas y las responsabilidades.',
+            facets: ['App para iPhone', 'Organización familiar'],
+            year: '2026',
+            url: 'https://getohana.app/',
+            story: [
+                'Ohana reúne el calendario, las tareas de casa, la compra y el dinero en una vista compartida para que cada persona sepa qué pasa y cómo puede ayudar.',
+                'Es una app nativa para iPhone, disponible próximamente, que guarda los datos de la familia en sus dispositivos y cuentas de iCloud.',
+            ],
+        },
+        {
             id: 'signado',
             name: 'Signado',
             description: 'Trámites completos en lengua de signos para que las personas sordas los terminen solas.',
@@ -65,7 +77,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             name: 'typos',
             description: 'Un estudio de tipografía vectorial para convertir palabras en sistemas editables.',
             facets: ['Herramienta creativa', 'Tipografía'],
-            year: '2026',
+            year: '2025',
             url: 'https://typos.basezero.dev',
             story: [
                 'typos es un estudio de tipografía vectorial para convertir palabras en sistemas editables. Lleva la experimentación tipográfica a un espacio inmediato y accesible: una palabra deja de ser texto estático y se convierte en una materia visual que se puede deformar, ordenar y explorar.',
@@ -74,6 +86,18 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
         },
     ],
     en: [
+        {
+            id: 'ohana',
+            name: 'Ohana',
+            description: 'A family organizer for sharing the day, tasks and responsibilities.',
+            facets: ['iPhone app', 'Family organization'],
+            year: '2026',
+            url: 'https://getohana.app/',
+            story: [
+                'Ohana brings the calendar, household tasks, shopping and money together in a shared view, so everyone knows what is happening and how they can help.',
+                'It is a native iPhone app, coming soon, that keeps family data on their devices and in their iCloud accounts.',
+            ],
+        },
         {
             id: 'signado',
             name: 'Signado',
@@ -127,7 +151,7 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
             name: 'typos',
             description: 'A vector type studio for turning words into editable typographic systems.',
             facets: ['Creative tool', 'Typography'],
-            year: '2026',
+            year: '2025',
             url: 'https://typos.basezero.dev',
             story: [
                 'typos is a vector type studio for turning words into editable typographic systems. It brings typographic experimentation into an immediate, accessible space: a word stops being static text and becomes visual material that can be distorted, arranged and explored.',
@@ -138,5 +162,5 @@ const projectsByLocale: Record<'es' | 'en', PortfolioProject[]> = {
 };
 
 export function getPortfolioProjects(locale: string) {
-    return projectsByLocale[locale === 'es' ? 'es' : 'en'];
+    return [...projectsByLocale[locale === 'es' ? 'es' : 'en']].sort((a, b) => b.year.localeCompare(a.year));
 }

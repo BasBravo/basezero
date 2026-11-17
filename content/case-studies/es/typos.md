@@ -3,7 +3,7 @@ title: "typos: un estudio de tipografía vectorial en el navegador"
 description: "Cómo diseñé y construí typos, una herramienta creativa para convertir palabras en composiciones tipográficas editables y exportarlas como SVG vectorial."
 name: "typos"
 url: "https://typos.basezero.dev"
-year: "2026"
+year: "2025"
 role: "Producto, diseño y desarrollo"
 facets: ["Herramienta creativa", "Tipografía"]
 stack: ["Next.js", "React", "TypeScript", "opentype.js", "Paper.js", "Three.js", "Firebase", "Stripe"]

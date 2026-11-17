@@ -17,6 +17,12 @@
     "otherArticles": "Otros artículos",
     "noOtherArticles": "Nuevos artículos próximamente"
   },
+  "ProjectsIndex": {
+    "title": "Proyectos",
+    "skip": "Saltar a los proyectos",
+    "count": "{count, plural, one {# proyecto} other {# proyectos}}",
+    "metaTitle": "Proyectos — Basezero"
+  },
   "ArticlesIndex": {
     "metaTitle": "Artículos — Basezero",
     "metaDescription": "Todos los artículos de Bas Bravo: decisiones, métodos y aprendizajes sobre cómo convertir una idea en un producto útil sin añadir complejidad innecesaria.",
@@ -161,6 +167,7 @@
     "navWork": "Proyectos",
     "work": {
       "title": "Productos reales, construidos de principio a fin.",
+      "viewAll": "Ver todos los proyectos",
       "body": "Una selección de productos que he definido, diseñado, desarrollado y llevado a producción. Cada uno cuenta una forma distinta de convertir una idea en algo real."
     },
     "intro": {
@@ -476,6 +483,9 @@
     }
   },
   "CaseStudy": {
+    "screens": "Pantallas del proyecto",
+    "previousScreen": "Pantalla anterior",
+    "nextScreen": "Siguiente pantalla",
     "skip": "Saltar al caso de estudio",
     "backToWork": "Volver a los proyectos",
     "detailsLabel": "Ficha del proyecto",

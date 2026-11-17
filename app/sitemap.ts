@@ -75,5 +75,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         })),
     );
 
-    return [...landingPages, ...aboutPages, ...caseStudyPages, ...articleIndexPages, ...articlePages];
+    const projectIndexLanguages = { 'es-ES': `${siteUrl}/es/proyectos`, en: `${siteUrl}/en/projects`, 'x-default': `${siteUrl}/en/projects` };
+    const projectIndexPages: MetadataRoute.Sitemap = ['/es/proyectos', '/en/projects'].map(path => ({
+        url: `${siteUrl}${path}`,
+        changeFrequency: 'monthly',
+        priority: 0.8,
+        alternates: { languages: projectIndexLanguages },
+    }));
+
+    return [...landingPages, ...aboutPages, ...projectIndexPages, ...caseStudyPages, ...articleIndexPages, ...articlePages];
 }

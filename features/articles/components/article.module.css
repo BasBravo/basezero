@@ -470,6 +470,16 @@
     padding: clamp(6rem, 11vw, 11rem) var(--article-content-pad-x) clamp(9rem, 15vw, 15rem);
 }
 
+ .caseBody { padding: clamp(4rem, 7vw, 7rem) var(--article-content-pad-x); }
+.caseVisit { padding: 0 var(--article-content-pad-x); }
+.caseVisit a { display: inline-flex; align-items: center; gap: .6rem; color: var(--heading-ink); font-size: .8rem; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
+.caseVisit a:hover { text-decoration: underline; }
+.caseVisit svg { width: 1rem; height: 1rem; }
+@media (max-width: 800px) {
+    .caseBody { padding: 4rem var(--mobile-content-end) 4rem var(--mobile-edge-x); }
+    .caseVisit { padding: 0 var(--mobile-edge-x); }
+}
+
 .prose {
     width: 100%;
     max-width: var(--article-media-measure);
@@ -1138,3 +1148,4 @@
     .articleBreadcrumb,
     .articleScroll { transition: none; }
 }
+

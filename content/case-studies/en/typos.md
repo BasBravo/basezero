@@ -3,7 +3,7 @@ title: "typos: a vector type studio in the browser"
 description: "How I designed and built typos, a creative tool that turns words into editable typographic compositions and exports them as vector SVG."
 name: "typos"
 url: "https://typos.basezero.dev"
-year: "2026"
+year: "2025"
 role: "Product, design and development"
 facets: ["Creative tool", "Typography"]
 stack: ["Next.js", "React", "TypeScript", "opentype.js", "Paper.js", "Three.js", "Firebase", "Stripe"]

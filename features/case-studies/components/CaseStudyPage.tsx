@@ -1,9 +1,11 @@
+import { Icon } from '@/components/ui/icon';
 import { ArticleProse } from '@/features/articles/components/ArticleProse';
 import { ArticleTitleBreadcrumb } from '@/features/articles/components/ArticleTitleBreadcrumb';
 import styles from '@/features/articles/components/article.module.css';
 import { PortfolioScrollbar } from '@/features/portfolio/components/PortfolioScrollbar';
 import type { CaseStudy, CaseStudySummary } from '../types';
 import { CaseStudyEnd, CaseStudySidebar } from './CaseStudySidebar';
+import { CaseStudyCarousel, type CarouselCopy } from './CaseStudyCarousel';
 
 export type CaseStudyPageCopy = {
     skip: string;
@@ -32,7 +34,10 @@ export type CaseStudyPageCopy = {
     menuMe: string;
 };
 
-export function CaseStudyPage({ study, others, copy }: { study: CaseStudy; others: CaseStudySummary[]; copy: CaseStudyPageCopy }) {
+export function CaseStudyPage({ study, others, copy, carouselCopy }: { study: CaseStudy; others: CaseStudySummary[]; copy: CaseStudyPageCopy; carouselCopy: CarouselCopy }) {
+    const carouselImages = new Set(study.carousels.flatMap(carousel => carousel.slides.map(slide => slide.src)));
+    const content = study.content.replace(/^!\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)[ \t]*$/gm, (match, src: string) => carouselImages.has(src) ? '' : match);
+    const parts = content.split(/<!-- carousel:([\w-]+) -->/g);
     return (
         <div className={styles.articleShell}>
             <a href="#case-study-content" className={styles.skipLink}>{copy.skip}</a>
@@ -54,9 +59,23 @@ export function CaseStudyPage({ study, others, copy }: { study: CaseStudy; other
                         <p className={styles.articleDescription}>{study.description}</p>
                     </header>
 
-                    <div className={styles.articleBody}>
-                        <ArticleProse content={study.content} screenshots={study.images} sourcesLabel={copy.sourcesLabel} footnoteBack={copy.footnoteBack} />
-                    </div>
+                    {study.url ? (
+                        <div className={styles.caseVisit}>
+                            <a href={study.url} target="_blank" rel="noreferrer">{copy.visit}<Icon name="arrow_outward" /></a>
+                        </div>
+                    ) : null}
+
+                    {parts.map((part, index) => {
+                        if (index % 2 === 1) {
+                            const carousel = study.carousels.find(item => item.id === part);
+                            return carousel ? <CaseStudyCarousel key={`carousel-${part}`} carousel={carousel} copy={carouselCopy} frame={study.carouselFrame} /> : null;
+                        }
+                        return part.trim() ? (
+                            <div className={styles.caseBody} key={`body-${index}`}>
+                                <ArticleProse content={part} screenshots={study.images} sourcesLabel={copy.sourcesLabel} footnoteBack={copy.footnoteBack} />
+                            </div>
+                        ) : null;
+                    })}
                 </article>
 
                 <CaseStudyEnd study={study} others={others} copy={copy} />

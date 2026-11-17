@@ -42,6 +42,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         navWork: t('navWork'),
         workTitle: t('work.title'),
         workBody: t('work.body'),
+        projectsViewAll: t('work.viewAll'),
+        projectsHref: locale === 'es' ? '/es/proyectos' : '/en/projects',
         introTitle: t('intro.title'),
         introBody: t('intro.body'),
         introViewWork: t('intro.viewWork'),

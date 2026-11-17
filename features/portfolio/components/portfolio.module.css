@@ -632,12 +632,14 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
 }
 
 .project:not(:has(.projectDescription)) .projectMeta {
     grid-row: 2;
 }
+
+.projectYear { display: block; }
 
 .projectArrow,
 .articleArrow {

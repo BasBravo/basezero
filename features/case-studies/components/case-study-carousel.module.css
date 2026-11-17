@@ -1,0 +1,23 @@
+.carousel { margin: 0; min-width: 0; }
+.track { display: flex; gap: 20px; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; scroll-behavior: smooth; scroll-padding-inline: var(--article-content-pad-x); padding: 2rem var(--article-content-pad-x); scrollbar-width: thin; }
+.track:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.slide { flex: 0 0 min(90%, 680px); min-width: 0; display: grid; grid-template-columns: minmax(130px, 220px) minmax(0, 1fr); align-items: center; gap: clamp(1.5rem, 3vw, 3rem); margin: 0; padding: clamp(1.5rem, 3vw, 2.5rem) 0; color: var(--heading-ink); scroll-snap-align: start; }
+.phone { position: relative; width: 100%; aspect-ratio: 440 / 916; filter: drop-shadow(0 12px 18px #0002); }
+.screen { position: absolute; z-index: 1; overflow: hidden; top: 2.29%; right: 4.32%; bottom: 2.29%; left: 4.32%; border-radius: 12% / 5.5%; }
+.phone:not([data-framed]) .screen { inset: 0; border-radius: 1.25rem; }
+.screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.frame { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
+.slide figcaption h2 { margin: 0 0 1rem; font-size: clamp(2rem, 3vw, 3rem); font-weight: 700; line-height: 1; letter-spacing: -.035em; }
+.slide figcaption p { margin: 0; color: var(--ink-soft); font-size: 1.1rem; line-height: 1.5; }
+.controls { display: flex; justify-content: flex-end; gap: .65rem; padding-right: var(--article-content-pad-x); }
+.controls button { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--line); border-radius: 50%; background: var(--paper-deep); color: var(--ink); cursor: pointer; }
+.controls button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.controls svg { width: 1.1rem; height: 1.1rem; }
+@media (max-width: 800px) {
+    .track { scroll-padding-inline: var(--mobile-edge-x); padding-inline: var(--mobile-edge-x); }
+    .slide { flex-basis: min(84vw, 420px); grid-template-columns: 1fr; gap: 1.5rem; padding: 1.5rem 0; }
+    .phone { width: min(100%, 180px); justify-self: center; }
+    .slide figcaption h2 { font-size: 2rem; }
+    .controls { padding-right: var(--mobile-edge-x); }
+}
+@media (prefers-reduced-motion: reduce) { .track { scroll-behavior: auto; } }

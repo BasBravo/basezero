@@ -39,7 +39,7 @@ export function getCaseStudy(locale: string, slug: string): CaseStudy | null {
         title: required(data.title, 'title', file),
         description: required(data.description, 'description', file),
         name: required(data.name, 'name', file),
-        url: required(data.url, 'url', file),
+        url: typeof data.url === 'string' && data.url.trim() ? data.url : undefined,
         year: required(data.year, 'year', file),
         role: required(data.role, 'role', file),
         facets: list(data.facets, 'facets', file),
@@ -52,6 +52,8 @@ export function getCaseStudy(locale: string, slug: string): CaseStudy | null {
         content: body,
         wordCount: body.split(/\s+/u).filter(Boolean).length,
         images: imageSizesOf(body),
+        carousels: Array.isArray(data.carousels) ? data.carousels : [],
+        carouselFrame: typeof data.carouselFrame === 'string' ? data.carouselFrame : undefined,
     };
 }
 
@@ -60,11 +62,13 @@ export function getCaseStudySummaries(locale: string): CaseStudySummary[] {
     return getCaseStudySlugs(locale)
         .map(slug => getCaseStudy(locale, slug))
         .filter((study): study is CaseStudy => study !== null)
-        .map(({ content, wordCount, images, ...summary }) => {
+        .map(({ content, wordCount, images, carousels, carouselFrame, ...summary }) => {
             void content;
             void wordCount;
             void images;
+            void carousels;
+            void carouselFrame;
             return summary;
         })
-        .sort((first, second) => first.order - second.order);
+        .sort((first, second) => second.year.localeCompare(first.year) || first.order - second.order);
 }

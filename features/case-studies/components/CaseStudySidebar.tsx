@@ -44,10 +44,10 @@ function CaseStudyFacts({ study, copy }: Omit<CaseStudySidebarProps, 'others'>) 
                     </div>
                 </div>
             </dl>
-            <a className={styles.backLink} href={study.url} target="_blank" rel="noreferrer" style={{ marginTop: '1.25rem' }}>
+            {study.url ? <a className={styles.backLink} href={study.url} target="_blank" rel="noreferrer" style={{ marginTop: '1.25rem' }}>
                 <span>{copy.visit}</span>
                 <Icon name="arrow_outward" />
-            </a>
+            </a> : null}
         </section>
     );
 }

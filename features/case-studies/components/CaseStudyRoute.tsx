@@ -41,6 +41,7 @@ export async function CaseStudyRoute({ locale, slug }: { locale: CaseStudyLocale
             <CaseStudyPage
                 study={study}
                 others={others}
+                carouselCopy={{ label: t('screens'), previous: t('previousScreen'), next: t('nextScreen') }}
                 copy={{
                     skip: t('skip'),
                     homeLabel: articleT('homeLabel'),

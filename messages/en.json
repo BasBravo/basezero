@@ -17,6 +17,12 @@
     "otherArticles": "Other articles",
     "noOtherArticles": "More articles coming soon"
   },
+  "ProjectsIndex": {
+    "title": "Projects",
+    "skip": "Skip to projects",
+    "count": "{count, plural, one {# project} other {# projects}}",
+    "metaTitle": "Projects — Basezero"
+  },
   "ArticlesIndex": {
     "metaTitle": "Articles — Basezero",
     "metaDescription": "Every article by Bas Bravo: decisions, methods and lessons on turning an idea into a useful product without adding needless complexity.",
@@ -161,6 +167,7 @@
     "navWork": "Selected work",
     "work": {
       "title": "Real products, built from end to end.",
+      "viewAll": "View all projects",
       "body": "A selection of products I have shaped, designed, built and taken to production. Each one tells a different story of turning an idea into something real."
     },
     "intro": {
@@ -476,6 +483,9 @@
     }
   },
   "CaseStudy": {
+    "screens": "Project screens",
+    "previousScreen": "Previous screen",
+    "nextScreen": "Next screen",
     "skip": "Skip to the case study",
     "backToWork": "Back to projects",
     "detailsLabel": "Project details",
