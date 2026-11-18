@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Icon } from '@/components/ui/icon';
+import { projectMarks } from '@/content/project-marks';
 import { getAboutPath } from '@/features/about/lib/paths';
 import { ArticleThemeToggle } from '@/features/articles/components/ArticleThemeToggle';
 import styles from '@/features/articles/components/article.module.css';
@@ -134,6 +135,7 @@ export function CaseStudySidebar({ study, others, copy }: CaseStudySidebarProps)
 
             <div className={styles.mobileArticleIntro}>
                 <section className={styles.articleDetails}>
+                    {projectMarks[study.slug] ? <Image className={styles.mobileCaseStudyMark} src={projectMarks[study.slug]} alt="" width={80} height={80} priority /> : null}
                     <p className={styles.mobileArticleTitle} aria-hidden="true">{study.name}</p>
                     <p className={styles.sidebarDescription}>{study.description}</p>
                 </section>

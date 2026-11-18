@@ -1,6 +1,8 @@
 import { Icon } from '@/components/ui/icon';
+import { projectMarks } from '@/content/project-marks';
 import { ArticleProse } from '@/features/articles/components/ArticleProse';
 import { ArticleTitleBreadcrumb } from '@/features/articles/components/ArticleTitleBreadcrumb';
+import Image from 'next/image';
 import styles from '@/features/articles/components/article.module.css';
 import { PortfolioScrollbar } from '@/features/portfolio/components/PortfolioScrollbar';
 import type { CaseStudy, CaseStudySummary } from '../types';
@@ -55,6 +57,7 @@ export function CaseStudyPage({ study, others, copy, carouselCopy }: { study: Ca
             <main id="case-study-content" className={styles.articleMain}>
                 <article>
                     <header className={styles.articleHero}>
+                        {projectMarks[study.slug] ? <Image className={styles.caseStudyMark} src={projectMarks[study.slug]} alt="" width={96} height={96} priority /> : null}
                         <h1 id="case-study-title">{study.title}</h1>
                         <p className={styles.articleDescription}>{study.description}</p>
                     </header>

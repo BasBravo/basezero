@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import type { ComponentPropsWithoutRef } from 'react';
 import ReactMarkdown, { defaultUrlTransform, type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ArticleFigure, figureIdOf, type FigureCopy } from '../figures/ArticleFigure';
 import styles from './article.module.css';
+import { ZoomableMedia } from './ZoomableMedia';
 
 type ImageSizes = Record<string, { width: number; height: number }>;
 
@@ -68,24 +68,10 @@ function markdownComponentsOf(figures?: FigureCopy, screenshots?: ImageSizes): C
             // Interface screenshots are shown whole and in colour, at their real proportions; tall phone shots stay narrow.
             const shot = screenshots?.[src];
             if (shot) {
-                return (
-                    <span className={styles.proseImage} data-shot={shot.height > shot.width ? 'phone' : 'screen'}>
-                        <span className={styles.proseShotFrame}>
-                            <Image src={src} alt={alt} width={shot.width} height={shot.height} sizes="(max-width: 800px) 100vw, 70vw" />
-                        </span>
-                        {title ? <span className={styles.proseImageCaption}>{title}</span> : null}
-                    </span>
-                );
+                return <ZoomableMedia src={src} alt={alt} title={title} size={shot} />;
             }
 
-            return (
-                <span className={styles.proseImage}>
-                    <span className={styles.proseImageFrame}>
-                        <Image src={src} alt={alt} fill sizes="(max-width: 800px) 100vw, 70vw" />
-                    </span>
-                    {title ? <span className={styles.proseImageCaption}>{title}</span> : null}
-                </span>
-            );
+            return <ZoomableMedia src={src} alt={alt} title={title} />;
         },
     };
 }

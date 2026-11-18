@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Icon } from '@/components/ui/icon';
 import { getPortfolioProjects } from '@/content/portfolio-projects';
+import { projectMarks } from '@/content/project-marks';
 import { ArticlesIndexEnd, ArticlesIndexSidebar } from '@/features/articles/components/ArticlesIndexSidebar';
 import { ArticleTitleBreadcrumb } from '@/features/articles/components/ArticleTitleBreadcrumb';
 import type { ArticlesIndexCopy } from '@/features/articles/components/ArticlesIndexPage';
@@ -10,6 +12,7 @@ import listStyles from '@/features/articles/components/articles-index.module.css
 import { getCaseStudySlugs } from '@/features/case-studies/lib/case-studies';
 import { getCaseStudyPath } from '@/features/case-studies/lib/paths';
 import { PortfolioScrollbar } from './PortfolioScrollbar';
+import projectStyles from './projects-index.module.css';
 
 export async function ProjectsIndexRoute({ locale }: { locale: string }) {
     setRequestLocale(locale);
@@ -20,6 +23,8 @@ export async function ProjectsIndexRoute({ locale }: { locale: string }) {
     ]);
     const title = index('title');
     const projects = getPortfolioProjects(locale);
+    const markedProjects = projects.filter(project => projectMarks[project.id]);
+    const projectSlots = Array.from({ length: 40 }, (_, slot) => markedProjects[slot]);
     const studies = new Set(getCaseStudySlugs(locale));
     const count = index('count', { count: projects.length });
     const copy: ArticlesIndexCopy = {
@@ -40,7 +45,16 @@ export async function ProjectsIndexRoute({ locale }: { locale: string }) {
             <ArticleTitleBreadcrumb title={title} sectionLabel={copy.studio} sectionHref={`/${locale}`} targetId="projects-title" />
             <main id="projects-content" className={styles.articleMain}>
                 <section>
-                    <header className={styles.articleHero}>
+                    <header className={`${styles.articleHero} ${projectStyles.hero}`}>
+                        <div className={projectStyles.constellation} aria-label={copy.listLabel}>
+                            <div className={projectStyles.grid}>
+                                {projectSlots.map((project, slot) => project ? (
+                                    <Link className={projectStyles.mark} key={project.id} href={studies.has(project.id) ? getCaseStudyPath(locale, project.id) : project.url} aria-label={`${copy.read}: ${project.name}`}>
+                                        <Image src={projectMarks[project.id]!} alt="" width={180} height={180} />
+                                    </Link>
+                                ) : <span className={projectStyles.empty} key={`empty-${slot}`} aria-hidden="true" />)}
+                            </div>
+                        </div>
                         <h1 id="projects-title">{title}</h1>
                         <p className={styles.articleDescription}>{copy.lead}</p>
                     </header>

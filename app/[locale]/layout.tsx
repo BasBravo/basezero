@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { GoogleAnalytics } from '@/features/analytics/google-analytics';
 import { baseMetadata } from '@/features/seo/lib/metadata';
 import { htmlLanguage, siteUrl } from '@/features/seo/lib/site';
 import { jsonLd, siteGraph } from '@/features/seo/lib/structured-data';
@@ -32,6 +33,7 @@ export default async function LocaleLayout({
         <html lang={htmlLanguage[locale]} data-theme="dark" data-scroll-behavior="smooth" suppressHydrationWarning>
             <body>
                 <ThemeBootstrap />
+                <GoogleAnalytics />
                 <NextIntlClientProvider>
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(siteGraph(locale, t('meta.description'))) }} />
                     {children}
